@@ -1,0 +1,6 @@
+/node_modules
+/.angular
+.editorconfig
+karma.conf.js
+polyfills.ts
+.prettierignore

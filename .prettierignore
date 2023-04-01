@@ -1,0 +1,9 @@
+# Compiled output
+# Node
+/node_modules
+# IDEs and editors
+.idea/
+# Miscellaneous
+/.angular/cache
+# System files
+/package-lock.json
