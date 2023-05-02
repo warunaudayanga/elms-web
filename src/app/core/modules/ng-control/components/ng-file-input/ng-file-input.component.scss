@@ -1,0 +1,45 @@
+@import "../ng-form-control";
+
+.form-control {
+    padding: 3px;
+}
+.dashed {
+    border: 1px dashed $app-border-color;
+    border-radius: 3px;
+}
+.files {
+    font-size: 10px;
+    .preview {
+        height: 52px;
+        width: 70px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        &.svg {
+            background-size: 45%;
+        }
+    }
+    .file-icon {
+        height: 52px;
+        width: 37px;
+    }
+    .size {
+        width: 50px;
+        text-align: right;
+    }
+    .name {
+        width: calc(100% - 152px);
+        word-break: break-all;
+    }
+}
+.grabbing {
+    opacity: 0.7;
+    cursor: grabbing;
+}
+
+.ng-form-control,
+.files .list-group-item {
+    color: $app-text-color;
+    background-color: $app-light-color;
+    border-width: 1px;
+}

@@ -1,0 +1,44 @@
+@import "src/style/scss";
+
+:host {
+    display: block;
+    height: 100%;
+}
+
+.carousel-container {
+    display: flex;
+    justify-content: center;
+
+    app-carousel {
+        width: 600px;
+        margin-top: 40px;
+        color: $white;
+
+        app-slide {
+
+            .heading {
+                color: $white;
+                width: 440px;
+                font-size: $font-size-3xl;
+                font-weight: $font-bold;
+                padding-bottom: 32px;
+            }
+
+            .text {
+                color: $white;
+                font-size: $font-size-lg;
+                font-weight: $font-light;
+                padding-bottom: 50px;
+                padding-right: 75px;
+            }
+        }
+    }
+}
+
+
+
+::ng-deep app-auth-left app-carousel .carousel {
+    .controls .control {
+        background-color: $white !important;
+    }
+}

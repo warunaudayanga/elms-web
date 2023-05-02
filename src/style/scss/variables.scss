@@ -1,0 +1,119 @@
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black:    #000 !default;
+
+$blue:    #0d6efd !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #d63384 !default;
+$red:     #dc3545 !default;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$green:   #198754 !default;
+$teal:    #20c997 !default;
+$cyan:    #0dcaf0 !default;
+
+$primary:       $blue !default;
+$secondary:     $gray-600 !default;
+$disabled:      #dadada40 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-100 !default;
+$dark:          $gray-900 !default;
+
+$scroll-bar-size: 10px;
+
+$app-header: 100px;
+$app-footer: 45px;
+$app-side-menu: 280px;
+$app-layout-space: 24px;
+$app-card-radius: 10px;
+
+$app-content-header: 85px;
+$app-table-row-height: 50px;
+$app-pagination-padding: 15px;
+$app-pagination-item: 40px;
+
+// Light theme
+$app-primary-color: #399100;
+$app-secondary-color: #275e01;
+$app-ternary-color: #7CB342;
+$app-accent-color: #5dce17;
+
+$app-surface-color: #ffffff;
+$app-background-color: #F4F5FA;
+$app-border-color: #D0D0D0;
+
+$app-text-color: #222629;
+$app-sub-text-color: #737373;
+$app-text-invert-color: #F1F8E9;
+
+
+$app-body-color: #F0F2F5;
+$app-menu-color: #f0f0f0;
+$app-light-color: #ffffff;
+$app-hover-color: #ffffff;
+$app-text-secondary-color: #909090;
+$app-text-secondary-invert-color: #cbcbcb;
+$app-disabled-color: #909090;
+
+// Dark theme
+//$app-primary-color: #7CB342;
+//$app-secondary-color: #33691E;
+//$app-ternary-color: #7CB342;
+//$app-accent-color: #5dce17;
+//$app-body-color: #434343;//
+//$app-menu-color: #4f4f4f;//
+//$app-light-color: #222629;//
+//$app-text-color: #ffffff;//
+//$app-hover-color: #ffffff;
+//$app-text-secondary-color: #cbcbcb;//
+//$app-text-invert-color: #222629;//
+//$app-text-secondary-invert-color: #909090;//
+//$app-disabled-color: #909090;
+
+// Fonts weight
+$font-thin: 100;
+$font-light: 300;
+$font-normal: 400;
+$font-bold: 700;
+$font-bolder: 800;
+$font-black: 900;
+
+// Fonts size
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-2xl: 1.5rem;
+$font-size-3xl: 1.875rem;
+$font-size-4xl: 2.25rem;
+$font-size-5xl: 3rem;
+$font-size-6xl: 4rem;
+$font-size-7xl: 5rem;
+$font-size-8xl: 6rem;
+$font-size-9xl: 8rem;
+$font-size-10xl: 10rem;
+
+// Spacing
+//noinspection SassScssResolvedByNameOnly
+$spacer-1: $spacer * .25;
+//noinspection SassScssResolvedByNameOnly
+$spacer-2: $spacer * .5;
+//noinspection SassScssResolvedByNameOnly
+$spacer-3: $spacer;
+//noinspection SassScssResolvedByNameOnly
+$spacer-4: $spacer * 1.5;
+//noinspection SassScssResolvedByNameOnly
+$spacer-5: $spacer * 3;

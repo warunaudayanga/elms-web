@@ -1,0 +1,38 @@
+<div *ngIf="opened" class="chat-room app-card d-flex flex-column gap-3">
+    <div class="font-bold">{{name}} - Chat Room</div>
+    <div #chat class="chat flex-grow-1 rounded bordered">
+        <div *ngFor="let message of messages" class="message-container mb-3 d-flex"
+             [class.me]="message.senderId === app.user?.id">
+
+            <div class="message py-2 px-3">
+                <div *ngIf="message.senderId !== app.user?.id" class="name font-bold d-flex align-items-center gap-2"
+                     [ngStyle]="{ color: colors?.get(message.senderId!) }">
+                    <div>{{message.sender?.name}}</div>
+                    <div *ngIf="message.sender?.role === Role.TUTOR" class="teacher-tag"
+                          [ngStyle]="{ backgroundColor: colors?.get(message.senderId!) }">Teacher</div>
+                </div>
+                <div class="py-1">{{message.message}}</div>
+                <div class="datetime">{{message.createdAt | amTimeAgo}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls d-flex gap-2">
+        <ng-input class="flex-grow-1" ngTextarea noValidation size="sm" #message></ng-input>
+        <ng-button size="sm" styleClass="circle btn-app-primary" (onClick)="sendMessage(message)">
+            <i class="bi bi-send-fill"></i>
+        </ng-button>
+    </div>
+</div>
+<button *ngIf="opened"
+        class="chat-close d-flex align-items-center justify-content-center btn btn-app-dark"
+        (click)="opened = false">
+    <i class="bi bi-x font-xl"></i>
+</button>
+<button *ngIf="!opened"
+        class="chat-open d-flex align-items-center justify-content-center btn btn-app-primary shadow"
+        (click)="openChat()">
+    <i class="bi bi-chat-fill font-2xl"></i>
+    <div *ngIf="unreadCount" class="counter">{{unreadCount}}</div>
+</button>
+

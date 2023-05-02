@@ -1,0 +1,21 @@
+<form class="vh-100 d-flex flex-column justify-content-center" *ngIf="loginForm" [formGroup]="loginForm!"
+      (ngSubmit)="login()">
+    <div>
+        <h1 class="title font-bold mb-5">Login</h1>
+
+        <ng-input label="Username" size="lg" formControlName="username" icon="bi bi-person"></ng-input>
+        <ng-input ngPassword label="Password" size="lg" formControlName="password" icon="bi bi-lock"></ng-input>
+        <div class="text-right">
+            <a routerLink="/auth/forgot-password">Forgot Password?</a>
+        </div>
+        <ng-button type="submit" class="w-100 mt-3" styleClass="btn-app-primary" label="Login" size="lg"
+                   [spin]="loginLoading"
+                   loadingText="Logging in..."></ng-button>
+        <ng-button *ngIf="verificationBtn" class="w-100 mt-3" styleClass="btn-app-dark" label="Resend Verification"
+                   size="lg" [spin]="resendLoading"
+                   loadingText="Sending verification..." (onClick)="resendVerification()"></ng-button>
+        <div class="text-center mt-3">
+            <a routerLink="/auth/register">Not Registers Yet?</a>
+        </div>
+    </div>
+</form>

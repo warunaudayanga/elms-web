@@ -1,0 +1,8 @@
+@import "/src/style/scss";
+
+.side-menu-content {
+    height: 100%;
+    background-color: $app-surface-color;
+    border-top-right-radius: $app-card-radius;
+    padding: $app-layout-space calc($app-layout-space * 1.5);
+}

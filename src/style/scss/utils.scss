@@ -1,0 +1,80 @@
+.min-h-100 {
+    min-height: 100%;
+}
+.min-w-100 {
+    min-width: 100%;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.pt-layout {
+    padding-top: $app-layout-space;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.pr-layout {
+    padding-right: $app-layout-space;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.pb-layout {
+    padding-bottom: $app-layout-space;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.pl-layout {
+    padding-left: $app-layout-space;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.px-layout {
+    padding-left: $app-layout-space;
+    padding-right: $app-layout-space;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.py-layout {
+    padding-top: $app-layout-space;
+    padding-bottom: $app-layout-space;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.p-layout {
+    padding: $app-layout-space;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.mt-layout {
+    margin-top: $app-layout-space;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.mr-layout {
+    margin-right: $app-layout-space;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.mb-layout {
+    margin-bottom: $app-layout-space;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.ml-layout {
+    margin-left: $app-layout-space;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.mx-layout {
+    margin-left: $app-layout-space;
+    margin-right: $app-layout-space;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.my-layout {
+    margin-top: $app-layout-space;
+    margin-bottom: $app-layout-space;
+}
+
+//noinspection SassScssResolvedByNameOnly
+.m-layout {
+    margin: $app-layout-space;
+}

@@ -1,0 +1,48 @@
+@import "src/style/scss";
+
+.data-view-content {
+
+    &.fit {
+        position: relative;
+        height: 100%;
+
+        .data-list-container {
+            height: calc(100% - 32px - #{$app-layout-space});
+            margin-right: -15px;
+            padding-right: 15px;
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            &.no-paginator {
+                height: 100%;
+            }
+
+            .data-view-header {
+                z-index: 1;
+            }
+
+            .data-list {
+                gap: $app-layout-space;
+            }
+        }
+
+        ng-paginator {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            max-height: 32px;
+        }
+    }
+
+    ng-paginator {
+        max-height: 32px;
+    }
+
+    .spinner-container {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+}

@@ -1,0 +1,39 @@
+<div class="my-classes h-100 pb-layout">
+    <ng-data-view [items]="classes" [totalRecords]="totalRecords" [pageLimit]="10" [limit]="limit"
+                  (onPageChange)="paginate($event)" layout="grid" listStyleClass="justify-content-between"
+                  [fit]="true" [stickyHeader]="true" [loading]="loading" [error]="error" (onRefresh)="refresh($event)">
+
+        <!--suppress JSUnusedGlobalSymbols -->
+        <ng-template #header>
+            <div class="filters app-card shadow p-3 d-flex justify-content-between align-items-center gap-3">
+                <div class="d-flex justify-content-start align-items-center gap-3">
+                    <div>Grade</div>
+                    <ng-select-box noValidation [items]="grades" bindLabel="name" bindValue="id" size="sm"
+                                   [(ngModel)]="gradeId" (ngModelChange)="getMyClasses()"
+                                   placeholder="All"></ng-select-box>
+                    <div class="ms-3">Subject</div>
+                    <ng-select-box noValidation [items]="subjects" bindLabel="name" bindValue="id" size="sm"
+                                   [(ngModel)]="subjectId" (ngModelChange)="getMyClasses()"
+                                   placeholder="All"></ng-select-box>
+                    <div class="ms-3">Tutor</div>
+                    <ng-select-box *ngIf="!app.isTutor" noValidation [items]="tutors" bindLabel="name" bindValue="id"
+                                   size="sm"
+                                   [(ngModel)]="tutorId" (ngModelChange)="getMyClasses()"
+                                   placeholder="All"></ng-select-box>
+                </div>
+                <div *ngIf="app.isTutor" class="d-flex justify-content-end align-items-center">
+                    <button type="button" class="btn btn-app-primary" (click)="showCreateClassDialog()">
+                        <i class="bi bi-plus"></i> Request Class
+                    </button>
+                </div>
+            </div>
+        </ng-template>
+
+        <!--suppress JSUnusedGlobalSymbols -->
+        <ng-template let-classRoom let-i="index" #item>
+            <app-my-class-card [classRoom]="classRoom" (onAction)="joinOrStartMeeting(classRoom)" (onClick)="view(classRoom)"></app-my-class-card>
+        </ng-template>
+
+    </ng-data-view>
+
+</div>

@@ -1,0 +1,105 @@
+<ng-section class="h-100" styleClass="pb-5" [loading]="loading" [error]="error" (onRefresh)="getClass()">
+
+    <div *ngIf="isDeactivated" class="rounded p-3 deactivated mb-3">
+        This class room has been deactivated. Please contact a administrator if you think this was a mistake!.
+    </div>
+
+    <div *ngIf="isPending" class="rounded p-3 pending mb-3">
+        This class has not been activated yet. Please contact a administrator if the activation process is taking too long!.
+    </div>
+
+    <app-chat-room *ngIf="classRoom?.status === Status.ACTIVE && classRoom?.chatRoom" [chatRoom]="classRoom!.chatRoom!"
+                   [name]="classRoom!.name"></app-chat-room>
+
+    <ng-section class="mb-layout"
+                styleClass="app-card rounded p-layout {{classRoom?.changeRequest ? 'pending' : ''}}">
+        <div class="d-flex justify-content-between">
+            <div class="font-bold font-2xl d-flex gap-3">
+                <div
+                    class="text-app-primary">{{classRoom?.grade?.name}} {{classRoom?.subject?.name}} {{classRoom?.name}}</div>
+                <div class="sub-text">•</div>
+                <div class="text-app-primary">{{classRoom?.tutor?.name}}</div>
+
+            </div>
+            <div *ngIf="isActive" class="d-flex align-items-center justify-content-end gap-3">
+                <div class="font-bold font-lg">{{nextOccurrence}}</div>
+                <button *ngIf="app.isTutor" class="btn btn-app-primary"
+                        [disabled]="classRoom?.changeRequest"
+                        (click)="showUpdateClassDialog()">{{classRoom?.changeRequest ? 'Update Already Requested' : 'Request Class Update'}}
+                </button>
+            </div>
+        </div>
+        <div class="font-lg">{{classRoom?.description}}</div>
+    </ng-section>
+
+    <ng-section class="mb-layout"
+                styleClass="app-card rounded p-layout {{classRoom?.changeRequest ? 'pending' : ''}}">
+        <div class="d-flex justify-content-between mb-2">
+            <div class="heading">Class info</div>
+            <div class="d-flex align-items-start justify-content-end gap-3">
+                <button *ngIf="isActive && app.isTutor" class="btn btn-app-primary"
+                        [disabled]="classRoom?.schedule?.status === Status.PENDING || classRoom?.schedule?.changeRequest"
+                        (click)="showScheduleDialog()">
+                    {{classRoom?.schedule ? classRoom?.schedule?.status === Status.PENDING ? 'Schedule Set Requested' : classRoom?.schedule?.changeRequest ? 'Schedule Change Requested' : 'Request Schedule Change' : 'Set Schedule'}}
+                </button>
+            </div>
+        </div>
+        <div *ngIf="!app.isTutor && !classRoom?.isPaid" class="alert alert-warning">
+            Class fees for this month is not paid for this class. You won't be able to join the class until you pay the
+            fees.
+        </div>
+        <div class="d-flex justify-content-between align-items-end">
+            <div *ngIf="classRoom?.schedule">
+                <div class="rounded p-3"
+                     [class.pending]="classRoom?.schedule?.status === Status.PENDING || classRoom?.schedule?.changeRequest">
+                    <div class="font-3xl">{{classRoom?.schedule?.day | toTitleCase}}</div>
+                    <div *ngIf="classRoom?.schedule" class="price">{{classRoom?.schedule?.startTime | time:'hh:mm a'}}
+                        - {{classRoom?.schedule?.endTime | time:'hh:mm a'}}</div>
+                </div>
+                <div class="font-4xl mt-3 font-bold">LKR {{classRoom?.payment | number:'1.2-2'}}</div>
+            </div>
+            <div>
+                <ng-button *ngIf="isActive && classRoom?.schedule?.meetingId && (app.isTutor || classRoom?.isPaid)" size="sm"
+                           styleClass="btn-app-zoom"
+                           [spin]="meetingLoading" (onClick)="joinMeeting()">
+                    <i class="bi bi-camera-video-fill me-3"></i>{{app.isTutor ? 'Start' : 'Join'}} Meeting
+                </ng-button>
+                <ng-button *ngIf="isActive && !app.isTutor && !classRoom?.isPaid" styleClass="btn-app-primary" size="sm"
+                           (click)="pay()">
+                    <i class="bi bi-credit-card-fill me-3"></i>Pay
+                </ng-button>
+            </div>
+        </div>
+    </ng-section>
+
+    <ng-section *ngIf="isActive" class="mb-layout" styleClass="app-card rounded p-layout">
+        <div class="d-flex justify-content-between mb-layout">
+            <div class="heading">Assessments</div>
+            <div class="d-flex align-items-start justify-content-end gap-3">
+                <button *ngIf="app.isTutor" class="btn btn-app-primary" (click)="showAssessmentDialog()">
+                    <i class="bi bi-newspaper me-3"></i>Create Assessment
+                </button>
+            </div>
+        </div>
+
+        <div class="assessments">
+
+            <div class="bordered rounded p-3 mt-layout" *ngFor="let assessment of classRoom?.assessments">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="font-xl font-bold">{{assessment.name}}</div>
+                </div>
+                <div class="description sub-text mb-3">{{assessment.description}}</div>
+                <div class="d-flex align-items-center {{app.isTutor ? 'justify-content-between' : 'justify-content-end'}}">
+                    <div *ngIf="app.isTutor" class="font-bold font-lg rounded-5 bg-app-primary text-light px-2">{{assessment.submissions?.length}}/{{classRoom?.classStudents?.length}}</div>
+                    <ng-button *ngIf="!app.isTutor" styleClass="btn-app-dark" size="sm" [routerLink]="['/student/my-classes/assessment', assessment.id]">Start</ng-button>
+                    <ng-button *ngIf="app.isTutor" styleClass="btn-app-dark" size="sm" (onClick)="showAssessmentDialog(assessment)">
+                        <i class="bi bi-pen me-3"></i>Edit Questions
+                    </ng-button>
+                </div>
+            </div>
+
+        </div>
+
+    </ng-section>
+
+</ng-section>

@@ -1,0 +1,12 @@
+<div [className]="styleClass">
+    <ng-container *ngIf="!loading && !error && content">
+        <ng-container *ngTemplateOutlet="content.templateRef"></ng-container>
+    </ng-container>
+    <ng-container *ngIf="!loading && !error && !content">
+        <ng-content></ng-content>
+    </ng-container>
+</div>
+<div *ngIf="loading || error" class="h-100 d-flex align-items-center justify-content-center">
+    <ng-error *ngIf="!loading && error" (onRefresh)="refresh($event)"></ng-error>
+    <ng-spinner *ngIf="loading"></ng-spinner>
+</div>

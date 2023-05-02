@@ -1,0 +1,46 @@
+<!--suppress HtmlUnknownAttribute -->
+<label *ngIf="label" [attr.data-control]="formControlName" class="form-label">{{label}}</label>
+<!--    52px; 42px; 35px-->
+
+<div class="input-group ng-control has-validation" [class.disabled]="disabled">
+    <div class="form-control ng-form-control {{getInputClasses()}}" [class.is-invalid]="this.isInvalid()"
+         [class.grabbing]="grabbing">
+        <div class="droppable dashed d-flex flex-column align-items-center justify-content-center p-1"
+             [class.grabbing]="grabbing"
+             (dragover)="onDragOver($event)"
+             (dragleave)="onDragLeave($event)"
+             (drop)="onDrop($event)">
+            <div class="fw-bold mt-2">Drag & Drop file{{multiple || multiple === "" ? 's' : ''}}</div>
+            <div>or</div>
+            <button type="button" class="btn btn-app-light"
+                    [ngClass]="size === 'sm'? 'btn-sm': size === 'lg'? 'btn-lg': ''"
+                    [disabled]="disabled"
+                    (click)="fileInput.click()">
+                <i class="bi bi-file-earmark-arrow-up"></i>
+            </button>
+            <input #fileInput type="file" class="d-none" [attr.name]="formControlName" [accept]="accept"
+                   [multiple]="multiple || multiple === ''" (change)="onFilesSelect($event)">
+        </div>
+        <div class="files">
+            <div class="list-group list-group-flush">
+                <div class="list-group-item d-flex gap-2 align-items-center" *ngFor="let data of previewData">
+                    <div *ngIf="data.url" class="preview" [class.svg]="!data.url"
+                         style="{{'background-image: url(' + data.url + ')'}}"></div>
+                    <div *ngIf="!data.url" class="preview">
+                        <!--suppress HtmlUnknownAttribute -->
+                        <div class="file-icon" [attr.data-file]="getExt(data.file.name)"></div>
+                    </div>
+                    <div class="name">{{data.file.name}}</div>
+                    <div class="size">{{getFileSize(data.file.size)}}</div>
+                    <button type="button" class="btn btn-sm btn-danger" (click)="removeFile(data)">
+                        <i class="bi bi-x"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="description" class="form-text small">{{description}}</div>
+<div class="invalid-feedback">
+    <span *ngIf="ifError('required')">Please select a file.</span>
+</div>

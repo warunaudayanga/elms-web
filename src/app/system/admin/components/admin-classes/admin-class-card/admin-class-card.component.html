@@ -1,0 +1,85 @@
+<div class="class-card bordered rounded p-3 d-flex flex-column gap-3 mb-3" (click)="cardClick($event)">
+    <div class="d-flex align-items-center gap-4">
+        <div class="details flex-grow-1">
+            <div
+                class="font-bold font-lg">{{classRoom.grade?.name}} {{classRoom.subject?.name}} {{classRoom.name}}</div>
+            <div class="name d-flex gap-2">
+                <div>{{classRoom.tutor?.name}}</div>
+                <div>•</div>
+                <div>{{classRoom.tutor?.username}}</div>
+            </div>
+        </div>
+        <div class="price text-right font-bold font-xl">
+            <div>LKR {{classRoom.payment}}</div>
+        </div>
+        <div class="schedule text-center flex-none">
+            <ng-container *ngIf="classRoom.schedule && classRoom.schedule.status !== Status.PENDING">
+                <div class="font-xl">{{classRoom.schedule.day}}</div>
+                <div>{{classRoom.schedule.startTime | time:'hh:mm a'}}
+                    - {{classRoom.schedule.endTime | time:'hh:mm a'}}</div>
+            </ng-container>
+        </div>
+        <div class="controls d-flex justify-content-end gap-2">
+            <ng-button *ngIf="classRoom.status !== Status.ACTIVE" size="sm" label="Approve" styleClass="btn-app-primary"
+                       (onClick)="changeStatus(classRoom.id, Status.ACTIVE)"></ng-button>
+            <ng-button *ngIf="classRoom.status !== Status.INACTIVE" size="sm"
+                       [label]="classRoom.status === Status.PENDING ? 'Decline': 'Deactivate'" styleClass="btn-app-dark"
+                       (onClick)="changeStatus(classRoom.id, Status.INACTIVE)"></ng-button>
+        </div>
+    </div>
+
+    <div>
+        <ng-container *ngIf="classRoom.changeRequest">
+            <div class="font-bold font-xl mb-2">Class Update Request</div>
+            <div class="change-request bordered rounded p-3" [class.pending]="classRoom.status === Status.PENDING || classRoom.changeRequest">
+                <div class="d-flex align-items-center gap-4">
+                    <div class="details flex-grow-1">
+                        <div
+                            class="font-bold font-lg">{{classRoom.changeRequest.grade?.name}} {{classRoom.changeRequest.subject?.name}} {{classRoom.changeRequest.name}}</div>
+                    </div>
+                    <div class="price text-right font-bold font-xl">
+                        <div>LKR {{classRoom.payment}}</div>
+                    </div>
+                    <div class="schedule text-center flex-none">
+
+                    </div>
+                    <div class="controls d-flex justify-content-end gap-2">
+                        <ng-button size="sm" label="Approve" styleClass="btn-app-primary"
+                                   (onClick)="approveUpdate(classRoom.id, true)"></ng-button>
+                        <ng-button size="sm" label="Decline" styleClass="btn-app-dark"
+                                   (onClick)="approveUpdate(classRoom.id, false)"></ng-button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+    <div>
+        <ng-container *ngIf="classRoom.schedule?.status === Status.PENDING || classRoom.schedule?.changeRequest">
+            <div class="font-bold font-xl mb-2">Schedule Set Request</div>
+            <div class="change-request bordered rounded p-3">
+                <div class="d-flex align-items-center gap-4">
+                    <div class="font-bold font-lg flex-grow-1 d-flex gap-2">
+                        <ng-container *ngIf="classRoom.schedule?.status === Status.PENDING">
+                            <div>{{classRoom.schedule?.day}}</div>
+                            <div>•</div>
+                            <div>{{classRoom.schedule?.startTime | time:'hh:mm a'}} - {{classRoom.schedule?.endTime | time:'hh:mm a'}}</div>
+                        </ng-container>
+                        <ng-container *ngIf="classRoom.schedule?.status !== Status.PENDING && classRoom.schedule?.changeRequest">
+                            <div>{{classRoom.schedule?.changeRequest?.day}}</div>
+                            <div>•</div>
+                            <div>{{classRoom.schedule?.changeRequest?.startTime | time:'hh:mm a'}} - {{classRoom.schedule?.changeRequest?.endTime | time:'hh:mm a'}}</div>
+                        </ng-container>
+
+                    </div>
+                    <div class="controls d-flex justify-content-end gap-2">
+                        <ng-button size="sm" label="Approve" styleClass="btn-app-primary"
+                                   (onClick)="approveSchedule(classRoom.schedule!.id, true)"></ng-button>
+                        <ng-button size="sm" label="Decline" styleClass="btn-app-dark"
+                                   (onClick)="approveSchedule(classRoom.schedule!.id, false)"></ng-button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

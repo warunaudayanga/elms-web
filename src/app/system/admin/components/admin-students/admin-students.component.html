@@ -1,0 +1,22 @@
+<div class="classes app-card h-100 pb-layout">
+    <ng-data-view [items]="students" [totalRecords]="totalRecords" [pageLimit]="10"
+                  [limit]="limit" [loading]="loading" [stickyHeader]="true"
+                  [fit]="true" [error]="error" (onPageChange)="paginate($event)" (onRefresh)="refresh($event)">
+        <!--suppress JSUnusedGlobalSymbols -->
+        <ng-template #header>
+            <div class="header d-flex align-items-start justify-content-between pb-3">
+                <div class="">Students</div>
+                <div class="d-flex justify-content-end">
+
+                </div>
+            </div>
+        </ng-template>
+
+        <!--suppress JSUnusedGlobalSymbols -->
+        <ng-template let-student let-i="index" #item>
+            <app-admin-student-card [student]="student"
+                                  (onChangeStatus)="changeStatusPrompt($event)"></app-admin-student-card>
+        </ng-template>
+
+    </ng-data-view>
+</div>

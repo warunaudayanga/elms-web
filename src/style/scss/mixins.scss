@@ -1,0 +1,23 @@
+@mixin app-button($btn, $bg, $text) {
+    .btn-app-#{$btn} {
+        background-color: $bg;
+        color: $text;
+        &:hover, &:active, &:focus {
+            background-color: $bg !important;
+            color: $text !important;;
+            opacity: 0.9 !important;
+        }
+        &:disabled {
+            background-color: $bg !important;
+            color: $text !important;
+            opacity: 0.5 !important;
+        }
+        i {
+            color: $text !important;
+        }
+    }
+}
+
+@mixin ng-form-control-shadow($color) {
+    box-shadow: 0 0 0 0.25rem #{$color}8F !important;
+}

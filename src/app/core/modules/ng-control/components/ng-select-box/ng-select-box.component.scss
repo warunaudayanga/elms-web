@@ -1,0 +1,42 @@
+@import "../ng-form-control";
+
+ng-select ::ng-deep .ng-select-container  {
+    height: 100% !important;
+    border: none !important;
+    box-shadow: none !important;
+    min-height: revert !important;
+
+    .ng-value-container {
+        padding: 0 !important;;
+        color: $app-text-color !important;
+
+        .ng-input {
+            padding-left: 0 !important;
+            padding-right: 40px !important;
+            font-size: small;
+        }
+    }
+    .ng-arrow-wrapper {
+        padding: 0 !important;
+        width: 11px !important;
+    }
+    &:hover {
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
+
+.ng-select-disabled {
+    background-color: $app-border-color !important;
+
+    ::ng-deep .ng-select-container {
+        background-color: $app-border-color !important;
+    }
+}
+
+
+
+//ng-select.ng-invalid.ng-touched .ng-select-container {
+//    border: none !important;
+//    box-shadow: none !important;
+//}

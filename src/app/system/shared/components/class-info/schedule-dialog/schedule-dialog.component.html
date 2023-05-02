@@ -1,0 +1,17 @@
+<div class="custom-dialog">
+    <div class="dialog-header" mat-dialog-title>{{config.data?.schedule ? 'Update' : 'Create'}} Schedule</div>
+    <mat-dialog-content>
+        <form #form [formGroup]="scheduleForm!" (ngSubmit)="setSchedule()">
+            <ng-select-box label="Day" size="sm" formControlName="day" [items]="days" bindLabel="key"
+                           bindValue="value" [clearable]="false"></ng-select-box>
+            <ng-input label="Start Time" ngTimepicker size="sm" formControlName="startTime"></ng-input>
+            <ng-input label="End Time" ngTimepicker size="sm" formControlName="endTime"></ng-input>
+        </form>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <mat-dialog-actions>
+        <ng-button class="ms-auto" styleClass="btn-secondary" label="Cancel" size="sm" (onClick)="close()"></ng-button>
+        <ng-button styleClass="btn-app-primary" label="{{config.data?.schedule ? 'Update' : 'Create'}}" size="sm" [spin]="loading" loadingText="Please wait..."
+                   (onClick)="form.requestSubmit()"></ng-button>
+    </mat-dialog-actions>
+</div>

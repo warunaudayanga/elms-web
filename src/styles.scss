@@ -1,1 +1,405 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+//noinspection SassScssUnresolvedMixin
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+//noinspection CssInvalidFunction,SassScssUnresolvedVariable
+$sman-web-primary: mat.define-palette(mat.$indigo-palette);
+//noinspection CssInvalidFunction,SassScssUnresolvedVariable
+$sman-web-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+//noinspection CssInvalidFunction,SassScssUnresolvedVariable
+$sman-web-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+//noinspection CssInvalidFunction
+$sman-web-theme: mat.define-light-theme((
+    color: (
+        primary: $sman-web-primary,
+        accent: $sman-web-accent,
+        warn: $sman-web-warn,
+    )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+//noinspection SassScssUnresolvedMixin
+@include mat.all-component-themes($sman-web-theme);
+
 /* You can add global styles to this file, and also import other style files */
+/* Importing Bootstrap SCSS file. */
+@import "bootstrap/scss/bootstrap";
+@import "bootstrap-icons";
+
+///* Importing Datepicker SCSS file. */
+@import "ngx-bootstrap/datepicker/bs-datepicker.css";
+
+@import "ngx-toastr/toastr";
+@import "@ng-select/ng-select/themes/default.theme.css";
+@import "@drawbotics/file-icons/dist/style.css";
+
+@import "./assets/fonts/proxima-nova";
+
+@import "./style/scss";
+@import "./style/scss/utils";
+
+
+/* Common */
+::-webkit-scrollbar {
+    width: $scroll-bar-size !important;
+    height: $scroll-bar-size !important;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 $scroll-bar-size $scroll-bar-size #aaa !important;
+    border: solid 3px transparent !important;
+    border-radius: 5px !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: transparent !important;
+    box-shadow: inset 0 0 $scroll-bar-size $scroll-bar-size $app-primary-color !important;
+    border: solid 3px transparent !important;
+    border-radius: 5px !important;
+}
+
+/* HTML */
+html, body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    //background-color: $app-body-color;
+    height: 100%;
+    width: 100%;
+    color: $app-text-color;
+}
+
+#zmmtg-root {
+    display: none;
+}
+
+* {
+    font-family: proxima-nova !important;
+    box-sizing: border-box !important;
+}
+
+:focus {
+    outline: none !important;
+}
+
+.debug {
+    border: 1px dashed red;
+}
+
+.overflow-auto {
+    scroll-behavior: smooth !important;
+}
+
+/* Text Wrap */
+.nowrap {
+    white-space: nowrap;
+}
+
+/* Ellipsis */
+.ellipsis {
+    text-overflow: ellipsis;
+}
+
+.ellipsis-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ellipsis-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ellipsis-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ellipsis-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ellipsis-5 {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* App Color */
+.bg-app-primary {
+    background-color: $app-primary-color;
+}
+
+.bg-app-secondary {
+    background-color: $app-secondary-color;
+}
+
+.bg-app-gradient {
+    background: transparent linear-gradient(225deg, $app-primary-color 0, $app-secondary-color 100%) 0 0 no-repeat padding-box;
+}
+
+/* Dialog */
+.dialog-container {
+    .mat-dialog-container {
+        border-top: 5px solid;
+
+        .mat-dialog-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            padding: $app-layout-space 0;
+
+            button {
+                text-transform: uppercase !important;
+            }
+        }
+    }
+
+    &.primary {
+        .mat-dialog-container {
+            border-color: $app-primary-color;
+        }
+    }
+
+    &.success {
+        .mat-dialog-container {
+            border-color: $success;
+        }
+    }
+
+    &.info {
+        .mat-dialog-container {
+            border-color: $info;
+        }
+    }
+
+    &.warning {
+        .mat-dialog-container {
+            border-color: $warning;
+        }
+    }
+
+    &.error {
+        .mat-dialog-container {
+            border-color: $danger;
+        }
+    }
+}
+
+/* Text */
+.text-app-primary {
+    color: $app-primary-color;
+}
+
+.text-app-secondary {
+    color: $app-secondary-color;
+}
+
+.text-app-secondary {
+    color: $app-secondary-color;
+}
+.sub-text {
+    color: $app-sub-text-color;
+}
+
+/* Buttons */
+
+@include app-button("dark", $app-text-color, $app-text-invert-color);
+.btn-app-dark {}
+
+@include app-button("light", $app-light-color, $app-text-color);
+.btn-app-light {}
+
+@include app-button("primary", $app-primary-color, $app-hover-color);
+.btn-app-primary {}
+
+@include app-button("primary-invert", $app-text-invert-color, $app-primary-color);
+.btn-app-primary-invert {}
+
+@include app-button("secondary", $app-secondary-color, $app-hover-color);
+.btn-app-secondary {}
+
+@include app-button("secondary-invert", $app-text-invert-color, $app-primary-color);
+.btn-app-secondary-invert {}
+
+@include app-button("warning", $orange, $app-text-invert-color);
+.btn-app-warning {}
+
+@include app-button("danger", $danger, $app-text-invert-color);
+.btn-app-danger {}
+
+@include app-button("zoom", #0B5CFF, $app-text-invert-color);
+.btn-app-zoom{}
+
+.btn {
+    font-weight: bold;
+}
+
+.btn-warning:disabled {
+
+}
+
+.btn-warning,
+.btn-info {
+    &,
+    &:hover,
+    &:focus,
+    &:disabled {
+        color: white;
+    }
+}
+
+.form-text {
+    color: $app-text-color;
+}
+
+/* NG Select */
+.ng-option {
+    &.ng-option-selected {
+        background-color: $app-primary-color !important;
+        color: $app-text-invert-color !important;
+
+        .ng-option-label {
+            font-weight: normal !important;
+        }
+    }
+
+    &.ng-option-marked {
+        background-color: $app-secondary-color !important;
+        color: $app-text-invert-color !important;
+
+        .ng-option-label {
+            font-weight: normal !important;
+        }
+    }
+
+    .ng-option-label {
+        white-space: break-spaces;
+    }
+}
+
+.ng-value-container {
+    .ng-value {
+        white-space: normal !important;
+    }
+}
+
+.mat-slide-toggle.mat-checked {
+    .mat-slide-toggle-bar {
+        background-color: $app-accent-color;
+    }
+
+    .mat-slide-toggle-thumb {
+        background-color: $app-secondary-color;
+    }
+}
+
+/* Mat Datepicker */
+.mat-datepicker-dialog .mat-dialog-container {
+    padding: 0 !important;
+}
+
+.app-card {
+    display: block;
+    background-color: $app-surface-color;
+    border-radius: $app-card-radius;
+    padding: $app-layout-space;
+
+    .heading {
+        font-size: 25px;
+        font-weight: 800;
+        color: $app-primary-color;
+    }
+}
+
+.text-right {
+    text-align: right;
+}
+
+a {
+    text-decoration: none;
+}
+
+.flex-none {
+    flex: none;
+}
+
+.scroll-page {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+.rounded {
+    border-radius: $app-card-radius;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+.bordered {
+    border: 1px solid $app-border-color;
+}
+
+.pending {
+    border: 1px solid $warning !important;
+    background-color: #{$warning}20 !important;
+}
+
+
+.deactivated {
+    border: 1px solid $danger !important;
+    background-color: #{$danger}20 !important;
+}
+
+/* Bootstrap Fixes*/
+
+.input-group {
+    :not(.icon) + .ng-form-control:not(:first-child) {
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+    }
+    .ng-form-control:not(:last-child) {
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+    }
+    .input-group-text:first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+    .input-group-text:last-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+}

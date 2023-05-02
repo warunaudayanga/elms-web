@@ -1,0 +1,63 @@
+@import "src/style/scss";
+
+.layout {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    background-color: $app-background-color;
+
+    .header {
+        display: block;
+        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: $app-header;
+        z-index: 1000;
+    }
+
+    .side-menu {
+        display: block;
+        position: fixed;
+        top: $app-header;
+        left: 0;
+        width: $app-side-menu;
+        height: calc(100vh - #{$app-header});
+        padding-top: $app-layout-space;
+        z-index: 1000;
+    }
+
+    .content {
+        display: block;
+        position: fixed;
+        top: $app-header;
+        left: $app-side-menu;
+        width: 100vw;
+        height: calc(100vh - #{$app-header});
+        padding: $app-layout-space calc(#{$app-layout-space} * 1.5) 0 $app-layout-space;
+
+        &.has-side-menu {
+            width: calc(100% - #{$app-side-menu});
+        }
+
+        .page {
+            position: relative;
+            display: block;
+            height: 100%;
+            margin-right: -15px;
+            padding-right: 15px;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        &.has-footer .page {
+            min-height: calc(100% - #{$app-footer});
+        }
+
+        .footer {
+            display: block;
+            height: $app-footer;
+            padding-left: $app-layout-space;
+        }
+    }
+}

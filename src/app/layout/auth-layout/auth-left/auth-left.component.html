@@ -1,0 +1,12 @@
+<div class="h-100 bg-app-gradient p-4 px-5">
+    <img src="assets/images/svg/logo/logo-white.svg" alt="" width="200px">
+    <br>
+    <div class="carousel-container">
+        <app-carousel class="carousel" [activeIndex]="0" [showSideControls]="false">
+            <app-slide *ngFor="let slide of slides">
+                <div class="heading">{{slide.heading}}</div>
+                <div class="text">{{slide.text}}</div>
+            </app-slide>
+        </app-carousel>
+    </div>
+</div>`

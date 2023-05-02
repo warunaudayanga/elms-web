@@ -1,0 +1,10 @@
+<div class="layout">
+    <app-admin-header class="header"></app-admin-header>
+    <app-admin-side-menu class="side-menu"></app-admin-side-menu>
+    <div class="content" [class.has-side-menu]="showSidebar" [class.has-footer]="footerText">
+        <div class="page">
+            <router-outlet></router-outlet>
+        </div>
+<!--                <app-admin-footer class="footer" [footerText]="footerText"></app-admin-footer>-->
+    </div>
+</div>

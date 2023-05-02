@@ -1,0 +1,79 @@
+:host {
+    display: block;
+    min-height: 38px;
+    position: relative;
+}
+.tag-input {
+    position: relative;
+    min-height: 38px;
+    .chips {
+        min-height: 38px;
+        top: 0;
+        left: 0;
+        padding: 3px 3px 6px;
+        display: flex;
+        flex-wrap: wrap;
+        .chip {
+            z-index: 1;
+        }
+        button {
+            border: none;
+            background-color: transparent;
+            padding: 0;
+            margin-left: 5px;
+        }
+        .label {
+            min-height: 32px;
+            margin-left: 5px;
+        }
+    }
+    div.form-control {
+        height: 38px;
+        padding: 0;
+    }
+}
+
+@keyframes blink {
+    from, to {
+        color: transparent;
+    }
+    50% {
+        color: black;
+    }
+}
+
+@-moz-keyframes blink {
+    from, to {
+        color: transparent;
+    }
+    50% {
+        color: black;
+    }
+}
+
+@-webkit-keyframes blink {
+    from, to {
+        color: transparent;
+    }
+    50% {
+        color: black;
+    }
+}
+
+@-ms-keyframes blink {
+    from, to {
+        color: transparent;
+    }
+    50% {
+        color: black;
+    }
+}
+
+@-o-keyframes blink {
+    from, to {
+        color: transparent;
+    }
+    50% {
+        color: black;
+    }
+}
