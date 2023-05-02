@@ -8,11 +8,10 @@ const host = "http://localhost:8080";
 export const environment = {
     production: false,
     host,
-    apiUrl: `${host}/api`,
+    apiUrl: `${host}`,
     socketUrl: `${host}/socket`,
     stripe: {
-        publishableKey:
-            "pk_test_51N1asMFRe4gUczhbYtH4nwZYbq0xp54fsmg057vC5cFzerxJLAUu9KIngoXwnfLN7Cn78BVBuXVEwLj9r7gLs8ks00OLVOOkaO",
+        publishableKey: "pk_test_51N1asMFRe4gUczhbYtH4nwZYbq0xp54fsmg057vC5cFzerxJLAUu9KIngoXwnfLN7Cn78BVBuXVEwLj9r7gLs8ks00OLVOOkaO",
     },
     zoom: {
         lib: { url: "https://source.zoom.us/2.11.0/lib", dir: "/av" },
