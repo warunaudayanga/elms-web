@@ -28,4 +28,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           source: dist/*
-          target: /var/www/env/dev/elms/elms-web/dist
+          target: /var/www/env/dev/elms/elms-web
