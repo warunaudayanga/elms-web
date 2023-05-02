@@ -1,0 +1,23 @@
+.alert-dialog, .custom-dialog {
+    .mat-dialog-title {
+        .dialog-icon {
+            font-size: 30px;
+        }
+        .dialog-title {
+            font-size: 30px;
+            margin-left: 10px;
+        }
+    }
+    .mat-dialog-content {
+        margin: 30px 0 5px 0;
+        font-size: 16px;
+        .col-form-label {
+            white-space: nowrap;
+        }
+    }
+    .mat-dialog-actions {
+        button {
+            min-width: 80px
+        };
+    }
+}

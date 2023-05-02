@@ -1,0 +1,20 @@
+@import "/src/style/scss";
+
+.header-content {
+    height: 100%;
+    background-color: $app-surface-color;
+
+    .header-left {
+        width: $app-side-menu;
+        padding-left: 28px;
+        .logo {
+            height: 60px;
+        }
+    }
+    .header-center {
+        padding-right: $app-layout-space;
+    }
+    .header-right {
+
+    }
+}

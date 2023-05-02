@@ -1,0 +1,46 @@
+@import "src/style/scss";
+
+.stripe-payment {
+    height: 350px;
+    padding-bottom: 25px;
+
+    .payment-success {
+        height: 100%;
+        text-align: center;
+
+        i {
+            font-size: 75px;
+            color: $success;
+        }
+
+        h2 {
+            font-weight: $font-bold;
+            color: $success;
+        }
+
+        div {
+            color: $app-sub-text-color;
+        }
+
+        .transaction-id {
+            margin-top: 25px;
+            font-size: small;
+        }
+
+        .separator {
+            border-bottom: 2px dashed $app-sub-text-color;
+            margin: 25px 15px;
+        }
+
+        .amount {
+            font-size: $font-size-4xl;
+        }
+    }
+
+    .payment {
+        .amount {
+            font-size: $font-size-2xl;
+            margin-bottom: 25px;
+        }
+    }
+}

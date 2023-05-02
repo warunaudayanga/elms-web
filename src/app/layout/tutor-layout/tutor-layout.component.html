@@ -1,0 +1,10 @@
+<div class="layout">
+    <app-tutor-header class="header"></app-tutor-header>
+    <app-tutor-side-menu class="side-menu"></app-tutor-side-menu>
+    <div class="content" [class.has-side-menu]="showSidebar" [class.has-footer]="footerText">
+        <div class="page">
+            <router-outlet></router-outlet>
+        </div>
+        <!--        <app-tutor-footer class="footer" [footerText]="footerText"></app-tutor-footer>-->
+    </div>
+</div>

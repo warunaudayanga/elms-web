@@ -82,7 +82,7 @@ module.exports = {
         ],
         "consistent-return": "off",
         "consistent-this": "error",
-        "default-case": "error",
+        "default-case": "off",
         "default-case-last": "error",
         "default-param-last": "error",
         "dot-location": [
@@ -104,27 +104,15 @@ module.exports = {
           "error",
           "expression"
         ],
-        "function-paren-newline": [
-          "error",
-          "consistent"
-        ],
+        "function-paren-newline": "off",
         "generator-star-spacing": "error",
         "grouped-accessor-pairs": "error",
         "guard-for-in": "error",
         "id-denylist": "error",
         "id-length": "off",
         "id-match": "error",
-        "implicit-arrow-linebreak": [
-          "error",
-          "beside"
-        ],
-        "indent": [
-          "error",
-          4,
-          {
-            "SwitchCase": 1
-          }
-        ],
+        "implicit-arrow-linebreak": "off",
+        "indent": "off",
         "init-declarations": "off",
         "jsx-quotes": "error",
         "key-spacing": [
@@ -148,7 +136,7 @@ module.exports = {
         ],
         "lines-around-comment": "off",
         "lines-between-class-members": "error",
-        "max-classes-per-file": "error",
+        "max-classes-per-file": "off",
         "max-depth": "off",
         "max-len": "off",
         "max-lines": "off",
@@ -165,7 +153,7 @@ module.exports = {
         "no-await-in-loop": "error",
         "no-bitwise": "error",
         "no-caller": "error",
-        "no-confusing-arrow": "error",
+        "no-confusing-arrow": "off",
         "no-console": "error",
         "no-constructor-return": "error",
         "no-continue": "off",

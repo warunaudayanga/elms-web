@@ -1,0 +1,32 @@
+<div class="find-class h-100 pb-layout">
+
+    <ng-data-view [items]="classes" [totalRecords]="totalRecords" [pageLimit]="10" [limit]="limit"
+                   (onPageChange)="paginate($event)" layout="grid" listStyleClass="justify-content-between"
+                   [fit]="true" [stickyHeader]="true" [loading]="loading" [error]="error" (onRefresh)="refresh($event)">
+
+        <!--suppress JSUnusedGlobalSymbols -->
+        <ng-template #header>
+            <div class="filters app-card shadow p-3 d-flex justify-content-start align-items-center gap-3">
+                <div>Grade</div>
+                <ng-select-box noValidation [items]="grades" bindLabel="name" bindValue="id" size="sm"
+                               [(ngModel)]="gradeId" (ngModelChange)="getAllClasses()"
+                               placeholder="All"></ng-select-box>
+                <div class="ms-3">Subject</div>
+                <ng-select-box noValidation [items]="subjects" bindLabel="name" bindValue="id" size="sm"
+                               [(ngModel)]="subjectId" (ngModelChange)="getAllClasses()"
+                               placeholder="All"></ng-select-box>
+                <div class="ms-3">Tutor</div>
+                <ng-select-box noValidation [items]="tutors" bindLabel="name" bindValue="id" size="sm"
+                               [(ngModel)]="tutorId" (ngModelChange)="getAllClasses()"
+                               placeholder="All"></ng-select-box>
+            </div>
+        </ng-template>
+
+        <!--suppress JSUnusedGlobalSymbols -->
+        <ng-template let-classRoom let-i="index" #item>
+            <app-class-card [classRoom]="classRoom" (onAction)="joinClass(classRoom)"></app-class-card>
+        </ng-template>
+
+    </ng-data-view>
+
+</div>

@@ -1,0 +1,37 @@
+<div class="data-view-content" *ngIf="items" [class]="styleClass" [class.fit]="fit">
+    <div #scrollView class="data-list-container pb-layout" [class.no-paginator]="!paginator">
+
+        <div *ngIf="header" #headerDiv class="data-view-header top-0 mb-layout" [class.position-sticky]="stickyHeader">
+            <ng-container *ngTemplateOutlet="header"></ng-container>
+        </div>
+
+        <ng-container *ngIf="!loading && !error" >
+
+            <div *ngIf="layout === 'list'" class="data-list" [class]="listStyleClass">
+                <ng-template ngFor let-rowData let-i="index" [ngForOf]="items" [ngForTrackBy]="trackBy">
+                    <ng-container *ngTemplateOutlet="item; context: { $implicit: rowData, index: i }"></ng-container>
+                </ng-template>
+            </div>
+
+            <div *ngIf="layout === 'grid'" class="data-list d-flex flex-wrap align-content-start" [class]="listStyleClass">
+                <ng-template ngFor let-rowData let-i="index" [ngForOf]="items" [ngForTrackBy]="trackBy">
+                    <ng-container *ngTemplateOutlet="item; context: { $implicit: rowData, index: i }"></ng-container>
+                </ng-template>
+            </div>
+        </ng-container>
+
+
+        <div *ngIf="!loading && error" class="error-container" style="{{'height: calc(100% - ' + headerHeight + 'px)'}}">
+            <ng-error (onRefresh)="refresh($event)"></ng-error>
+        </div>
+
+
+        <div *ngIf="loading" class="spinner-container" style="{{'height: calc(100% - ' + headerHeight + 'px)'}}">
+            <ng-spinner ></ng-spinner>
+        </div>
+
+    </div>
+    <ng-paginator *ngIf="paginator" [totalRecords]="totalRecords" [pageLimit]="pageLimit" [limit]="limit"
+                   (onPageChange)="pageChange($event)" [loading]="loading || error"></ng-paginator>
+</div>
+

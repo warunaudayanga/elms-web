@@ -1,0 +1,84 @@
+@import "../ng-form-control";
+
+:host {
+    display: inline-block;
+}
+
+.ng-switch {
+    position: relative;
+    display: inline-block;
+    width: 45px;
+    height: 28px;
+    &.ng-switch-sm {
+        width: 36px;
+        height: 24px;
+        input:checked + .slider:before {
+            transform: translateX(16px);
+        }
+        .slider:before {
+            height: 18px;
+            width: 18px;
+            left: -3px;
+            top: -3px;
+        }
+    }
+    &.ng-switch-lg {
+        width: 52px;
+        height: 32px;
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        .slider:before {
+            height: 26px;
+            width: 26px;
+            left: -3px;
+            top: -3px;
+        }
+    }
+    input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+        &:checked + .slider {
+            background-color: $app-ternary-color;
+            &:before {
+                transform: translateX(20px);
+            }
+        }
+        &:disabled + .slider {
+            opacity: 0.8;
+            &:before {
+                background-color: $app-disabled-color;
+            }
+        }
+        &:focus + .slider,
+        &.focused + .slider {
+            border-color: $app-accent-color;
+            box-shadow: 0 0 0 0.25rem #{$app-accent-color}AF;
+        }
+    }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 6px;
+        left: 4px;
+        right: 4px;
+        bottom: 6px;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+        border-radius: 34px;
+        &:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: -3px;
+            top: -3px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: 0.15s ease-in-out;
+            border-radius: 50%;
+        }
+    }
+}

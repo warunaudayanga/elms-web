@@ -1,0 +1,10 @@
+<div class="name font-bold font-3xl text-app-primary">{{classRoom.subject?.name}} - {{classRoom.grade?.name}}</div>
+<div class="description">{{classRoom.description}}</div>
+<div class="tutor flex-none font-lg">By {{classRoom.tutor?.name}}</div>
+<div class="price flex-none font-xl font-bold text-app-secondary">LKR {{classRoom.payment | number:'1.2-2' }}</div>
+
+<div class="d-flex justify-content-end gap-3">
+    <ng-button label="Cancel" styleClass="btn-app-dark" size="sm" (onClick)="close()"></ng-button>
+    <ng-button label="Enroll" styleClass="btn-app-primary" loadingText="Enrolling..." size="sm" (onClick)="enroll()" [spin]="loading"></ng-button>
+</div>
+

@@ -1,0 +1,16 @@
+@import "src/style/scss";
+
+:host {
+    display: block;
+    height: 100%;
+}
+
+.filters {
+    ng-select-box {
+        width: 180px;
+    }
+}
+
+app-class-card {
+    width: calc(50% - #{$app-layout-space} / 2);
+}

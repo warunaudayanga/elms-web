@@ -1,0 +1,13 @@
+<div class="dropdown {{class}}"
+     (mouseenter)="opened = hoverable? true: opened"
+     (mouseleave)="opened = hoverable? false: opened">
+    <!--suppress TypeScriptValidateTypes -->
+    <div class="app-dropdown-toggle {{buttonClass}} {{class?.match('nav-item')? 'nav-link': 'btn'}}"
+         (click)="opened = !opened">
+        {{title}}
+    </div>
+    <ul *ngIf="opened" class="dropdown-menu d-block">
+        <div *ngFor="let item of items" class="dropdown-item"
+             (click)="item.action(); autoClose? opened = false: ''">{{item.label}}</div>
+    </ul>
+</div>

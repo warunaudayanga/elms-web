@@ -1,0 +1,22 @@
+<div class="quiz">
+    <div class="quiz-heading">{{quiz.heading}}</div>
+    <div class="quiz-title">{{quiz.question}}</div>
+    <div class="quiz-body pt-2">
+        <div class="quiz-choices" *ngIf="quiz.options">
+            <div class="form-check" *ngFor="let option of quiz.options; let i = index">
+                <input [type]="quiz.multiple ? 'checkbox' : 'radio'" class="form-check-input"
+                       #input
+                       [checked]="getChecked(option)"
+                       [id]="quiz.id + '_' + i"
+                       [value]="option"
+                       (change)="quiz.multiple ? onCheckChange(option, input.checked) : onRadioChange(input.value)"
+                       [attr.name]="quiz.id">
+                <label class="form-check-label" [for]="quiz.id + '_' + i">{{option}}</label>
+            </div>
+        </div>
+
+        <div *ngIf="!quiz.options" class="quiz-input">
+            <ng-input noValidation ngTextarea size="sm" [(ngModel)]="answer[0]"></ng-input>
+        </div>
+    </div>
+</div>

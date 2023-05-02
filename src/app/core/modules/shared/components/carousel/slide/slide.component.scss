@@ -1,0 +1,76 @@
+@import "src/style/scss";
+
+$transition-time: 0.5s;
+
+:host {
+    display: block;
+    position: absolute;
+    height: 100%;
+    left: 0;
+    opacity: 0;
+    transition: opacity $transition-time ease-in-out;
+
+    &.previous {
+        animation: slideOutLeft $transition-time ease-in-out forwards;
+    }
+
+    &.next {
+        animation: slideOutRight $transition-time ease-in-out forwards;
+    }
+
+    &.active {
+        opacity: 1;
+
+        &:not(.reverse) {
+            animation: slideInLeft $transition-time ease-in-out forwards;
+        }
+
+        &.reverse {
+            animation: slideInRight $transition-time ease-in-out forwards;
+        }
+    }
+}
+
+@keyframes slideInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutLeft {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+}
+
+@keyframes slideOutRight {
+    0% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}

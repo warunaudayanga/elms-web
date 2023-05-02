@@ -1,0 +1,26 @@
+<div class="class-card bordered rounded p-3 d-flex align-items-center gap-4 mb-3" (click)="cardClick($event)"
+     [class.pending]="tutor.status === Status.PENDING">
+    <div class="details flex-grow-1">
+        <div class="name font-bold font-lg">{{tutor.name}}</div>
+        <div class="username d-flex gap-2">
+            <div>{{tutor.username}}</div>
+            <div>•</div>
+            <div>{{tutor.email}}</div>
+        </div>
+    </div>
+    <!--    <div class="price text-right font-bold font-xl">-->
+    <!--        <div>LKR {{tutor.payment}}</div>-->
+    <!--    </div>-->
+    <!--    <div class="schedule text-center flex-none">-->
+    <!--        <div class="font-xl">{{tutor.schedule?.day}}</div>-->
+    <!--        <div>{{tutor.schedule?.startTime | time:'hh:mm a'}}-->
+    <!--            - {{tutor.schedule?.endTime | time:'hh:mm a'}}</div>-->
+    <!--    </div>-->
+    <div class="controls d-flex justify-content-end gap-2">
+        <ng-button size="sm" label="Edit" styleClass="btn-app-warning" (onClick)="onEdit.emit(tutor)"></ng-button>
+        <ng-button class="btn-status" *ngIf="tutor.status === Status.INACTIVE" size="sm" label="Activate"
+                   styleClass="btn-app-primary" (onClick)="changeStatus(tutor.id, Status.ACTIVE)"></ng-button>
+        <ng-button class="btn-status" *ngIf="tutor.status === Status.ACTIVE" size="sm" label="Deactivate"
+                   styleClass="btn-app-dark" (onClick)="changeStatus(tutor.id, Status.INACTIVE)"></ng-button>
+    </div>
+</div>

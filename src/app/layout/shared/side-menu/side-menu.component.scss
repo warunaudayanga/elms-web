@@ -1,0 +1,43 @@
+@import 'src/style/scss';
+
+.menu-item {
+    margin-bottom: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: $app-text-color;
+
+    .icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 8px;
+        background-color: $app-surface-color;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 3px 10px #{$app-border-color}50;
+        i {
+            font-size: $font-size-2xl;
+            color: $app-text-color;
+        }
+    }
+
+    span {
+        margin-left: $app-layout-space;
+        font-size: $font-size-lg;
+    }
+
+    &.active {
+        .icon {
+            background-color: $app-primary-color;
+            box-shadow: 0 3px 10px #{$app-primary-color}40;
+            i {
+                color: $app-text-invert-color;
+            }
+        }
+
+        span {
+            color: $app-primary-color;
+        }
+    }
+}

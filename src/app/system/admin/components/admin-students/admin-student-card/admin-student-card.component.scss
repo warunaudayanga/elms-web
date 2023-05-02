@@ -1,0 +1,13 @@
+@import "src/style/scss";
+
+.btn-status {
+    width: 105px;
+}
+
+.class-card {
+    cursor: pointer;
+
+    .username {
+        color: $app-sub-text-color
+    }
+}

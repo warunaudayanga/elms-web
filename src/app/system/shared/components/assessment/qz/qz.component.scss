@@ -1,0 +1,39 @@
+@import "src/style/scss";
+
+.quiz {
+    margin-bottom: $spacer-4;
+
+    .quiz-heading {
+        font-weight: $font-bold;
+        margin-bottom: $spacer-1;
+    }
+
+    .quiz-title {
+        font-weight: $font-bold;
+        margin-left: $spacer;
+        margin-bottom: $spacer-1;
+    }
+
+    .quiz-body {
+        margin-left: $spacer * 2;
+        .quiz-choices {
+            .form-check-label, .form-check-input {
+                cursor: pointer;
+            }
+        }
+        .quiz-input {
+
+        }
+    }
+
+    .form-check-input:checked {
+        background-color: $app-primary-color;
+        border-color: $app-primary-color;
+    }
+
+    .form-check-input:focus {
+        outline: 0;
+        border-color: $app-accent-color;
+        @include ng-form-control-shadow($app-accent-color);
+    }
+}
