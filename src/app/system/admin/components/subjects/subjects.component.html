@@ -1,0 +1,34 @@
+<div class="classes app-card h-100 pb-layout">
+    <ng-data-view [items]="subjects" [loading]="loading" [paginator]="false" [stickyHeader]="true"
+                  [fit]="true" [error]="error" (onRefresh)="getSubjects()">
+        <!--suppress JSUnusedGlobalSymbols -->
+        <ng-template #header>
+            <div class="header d-flex align-items-start justify-content-between pb-3">
+                <div class="">Subjects</div>
+                <div class="d-flex justify-content-end">
+                    <ng-button size="sm" styleClass="btn-app-primary" (onClick)="showSubjectDialog()">
+                        <i class="bi bi-plus"></i> Create Subject
+                    </ng-button>
+                </div>
+            </div>
+        </ng-template>
+
+        <!--suppress JSUnusedGlobalSymbols -->
+        <ng-template let-subject let-i="index" #item>
+            <div class="bordered rounded d-flex align-items-center justify-content-between p-3 mb-3">
+                <div>
+                    <div class="font-bold">{{subject.name}}</div>
+                    <div class="sub-text">{{subject.description}}</div>
+                </div>
+                <div class="d-flex justify-content-end gap-2">
+                    <ng-button size="sm" label="Edit" styleClass="btn-app-warning" (onClick)="showSubjectDialog(subject)"></ng-button>
+                    <ng-button class="btn-status" *ngIf="subject.status === Status.INACTIVE" size="sm" label="Activate"
+                               styleClass="btn-app-primary" (onClick)="changeStatus(subject.id, Status.ACTIVE)"></ng-button>
+                    <ng-button class="btn-status" *ngIf="subject.status === Status.ACTIVE" size="sm" label="Deactivate"
+                               styleClass="btn-app-dark" (onClick)="changeStatusPrompt(subject.id, Status.INACTIVE)"></ng-button>
+                </div>
+            </div>
+        </ng-template>
+
+    </ng-data-view>
+</div>
