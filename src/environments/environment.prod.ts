@@ -1,9 +1,9 @@
-const host = "http://localhost:8080";
+const host = "http://api.learn-online.live/";
 
 export const environment = {
     production: false,
     host,
-    apiUrl: `${host}/api`,
+    apiUrl: `${host}`,
     socketUrl: `${host}/socket`,
     stripe: {
         publishableKey:
