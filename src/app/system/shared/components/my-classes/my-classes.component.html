@@ -15,11 +15,13 @@
                     <ng-select-box noValidation [items]="subjects" bindLabel="name" bindValue="id" size="sm"
                                    [(ngModel)]="subjectId" (ngModelChange)="getMyClasses()"
                                    placeholder="All"></ng-select-box>
-                    <div class="ms-3">Tutor</div>
-                    <ng-select-box *ngIf="!app.isTutor" noValidation [items]="tutors" bindLabel="name" bindValue="id"
-                                   size="sm"
-                                   [(ngModel)]="tutorId" (ngModelChange)="getMyClasses()"
-                                   placeholder="All"></ng-select-box>
+                    <ng-container *ngIf="!app.isTutor" >
+                        <div class="ms-3">Tutor</div>
+                        <ng-select-box noValidation [items]="tutors" bindLabel="name" bindValue="id"
+                                       size="sm"
+                                       [(ngModel)]="tutorId" (ngModelChange)="getMyClasses()"
+                                       placeholder="All"></ng-select-box>
+                    </ng-container>
                 </div>
                 <div *ngIf="app.isTutor" class="d-flex justify-content-end align-items-center">
                     <button type="button" class="btn btn-app-primary" (click)="showCreateClassDialog()">
