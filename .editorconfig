@@ -13,6 +13,11 @@ trim_trailing_whitespace = true
 quote_type = double
 indent_size = 2
 
+[*.json]
+# noinspection EditorConfigKeyCorrectness
+quote_type = double
+indent_size = 2
+
 [*.yml]
 # noinspection EditorConfigKeyCorrectness
 indent_size = 1

@@ -170,7 +170,11 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
         const joinUrl = this.classRoom?.schedule?.joinUrl;
         if (meetingId && joinUrl) {
             this.meetingLoading = true;
-            await this.zoomService.joinMeeting(user!.name, meetingId, joinUrl);
+            if (this.app.isTutor) {
+                await this.zoomService.startMeeting(user!.name, meetingId, joinUrl);
+            } else {
+                await this.zoomService.joinMeeting(user!.name, meetingId, joinUrl);
+            }
             this.meetingLoading = false;
         }
     }
@@ -212,21 +216,18 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
     }
 
     showScheduleDialog(): void {
-        const res = this.dialogService.open<ClassSchedule, { classRoomId: number; schedule?: ClassSchedule }>(
-            ScheduleDialogComponent,
-            {
+        const res = this.dialogService.open<ClassSchedule, { classRoomId: number; schedule?: ClassSchedule }>(ScheduleDialogComponent, {
+            data: {
                 data: {
-                    data: {
-                        classRoomId: this.classRoomId!,
-                        schedule: this.classRoom!.schedule,
-                    },
+                    classRoomId: this.classRoomId!,
+                    schedule: this.classRoom!.schedule,
                 },
-                width: "400px",
-                disableClose: true,
-                panelClass: ["dialog-container", "primary"],
-                maxWidth: "400px",
             },
-        );
+            width: "400px",
+            disableClose: true,
+            panelClass: ["dialog-container", "primary"],
+            maxWidth: "400px",
+        });
         res.subscribe(schedule => {
             if (schedule) {
                 this.classRoom!.schedule = schedule;
@@ -236,22 +237,19 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
     }
 
     showAssessmentDialog(assessment?: Assessment): void {
-        const res = this.dialogService.open<Assessment, { classRoomId: number; assessment?: Assessment }>(
-            AssessmentDialogComponent,
-            {
+        const res = this.dialogService.open<Assessment, { classRoomId: number; assessment?: Assessment }>(AssessmentDialogComponent, {
+            data: {
                 data: {
-                    data: {
-                        classRoomId: this.classRoomId!,
-                        assessment,
-                    },
+                    classRoomId: this.classRoomId!,
+                    assessment,
                 },
-                width: "85vw",
-                minWidth: "85vw",
-                maxWidth: "500px",
-                disableClose: true,
-                panelClass: ["dialog-container", "primary"],
             },
-        );
+            width: "85vw",
+            minWidth: "85vw",
+            maxWidth: "500px",
+            disableClose: true,
+            panelClass: ["dialog-container", "primary"],
+        });
         res.subscribe(assessment => {
             if (assessment) {
                 if (this.classRoom?.assessments) {

@@ -28,7 +28,6 @@
         "@ngxs/storage-plugin": "^3.8.0",
         "@ngxs/store": "^3.8.0",
         "@stripe/stripe-js": "^1.52.1",
-        "@zoomus/websdk": "^2.11.0",
         "bootstrap": "^5.2.3",
         "bootstrap-icons": "^1.10.4",
         "moment": "^2.29.4",

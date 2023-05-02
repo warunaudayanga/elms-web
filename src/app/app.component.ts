@@ -15,12 +15,7 @@ export class AppComponent {
 
     meetingStatusSub: Subscription;
 
-    constructor(
-        public app: AppService,
-        private store: Store,
-        private socketService: SocketService,
-        private readonly zoomService: ZoomService,
-    ) {
+    constructor(public app: AppService, private store: Store, private socketService: SocketService, private readonly zoomService: ZoomService) {
         this.app.loggedInListener.subscribe(loggedIn => {
             if (loggedIn) {
                 this.socketService.connect();
