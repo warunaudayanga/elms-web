@@ -26,6 +26,16 @@ export class AdminSideMenuComponent {
             routerLink: "/admin/students",
         },
         {
+            label: "Grades",
+            icon: "bi bi-123",
+            routerLink: "/admin/grades",
+        },
+        {
+            label: "Subjects",
+            icon: "bi bi-book-half",
+            routerLink: "/admin/subjects",
+        },
+        {
             label: "Logout",
             icon: "bi bi-power",
             action: (): void => {
