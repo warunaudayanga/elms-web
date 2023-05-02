@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - develop
-      - feature/*
 
   workflow_dispatch:
 
@@ -19,7 +18,7 @@ jobs:
           node-version: '16'
 
       - run: npm install --legacy-peer-deps
-      - run: npm run build
+      - run: npm run build:dev
 
       - name: Delete old directory
         uses: garygrossgarten/github-action-ssh@release
