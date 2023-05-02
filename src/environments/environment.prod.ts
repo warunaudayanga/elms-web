@@ -1,4 +1,4 @@
-const host = "http://api.learn-online.live";
+const host = "https://api.learn-online.live";
 
 export const environment = {
     production: false,
