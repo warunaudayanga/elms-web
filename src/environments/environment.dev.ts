@@ -1,13 +1,12 @@
-const host = "https://dev.api.learn-online.live";
+const host = "https://dev.learn-online.live";
 
 export const environment = {
     production: false,
     host,
-    apiUrl: `${host}`,
+    apiUrl: `${host}/api`,
     socketUrl: `${host}/socket`,
     stripe: {
-        publishableKey:
-            "pk_test_51N1asMFRe4gUczhbYtH4nwZYbq0xp54fsmg057vC5cFzerxJLAUu9KIngoXwnfLN7Cn78BVBuXVEwLj9r7gLs8ks00OLVOOkaO",
+        publishableKey: "pk_test_51N1asMFRe4gUczhbYtH4nwZYbq0xp54fsmg057vC5cFzerxJLAUu9KIngoXwnfLN7Cn78BVBuXVEwLj9r7gLs8ks00OLVOOkaO",
     },
     zoom: {
         lib: { url: "https://source.zoom.us/2.11.0/lib", dir: "/av" },
