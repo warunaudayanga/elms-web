@@ -19,7 +19,7 @@ jobs:
           node-version: '16'
 
       - run: npm install --legacy-peer-deps
-      - run: npm run build:dev  --if-present
+      - run: npm run build
 
       - name: Copy source to development environment
         uses: appleboy/scp-action@master
