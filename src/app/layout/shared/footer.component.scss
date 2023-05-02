@@ -1,0 +1,7 @@
+@import "/src/style/scss";
+
+:host {
+    display: block;
+    width: 100%;
+    height: $app-footer;
+}

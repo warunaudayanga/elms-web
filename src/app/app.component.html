@@ -1,0 +1,12 @@
+<!--<div id="app" (window:resize)="onResize()">-->
+<!--    <ng-container *ngIf="app.mdDown">-->
+<!--        Mobile-->
+<!--    </ng-container>-->
+<!--    <ng-container *ngIf="app.mdUp">-->
+<!--        <app-main></app-main>-->
+<!--    </ng-container>-->
+<!--</div>-->
+<app-zoom-web-view [hidden]="!status"></app-zoom-web-view>
+<div id="app" (window:resize)="onResize()">
+    <router-outlet></router-outlet>
+</div>

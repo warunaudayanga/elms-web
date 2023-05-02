@@ -1,0 +1,35 @@
+<div class="custom-dialog">
+    <div class="dialog-header" mat-dialog-title>{{config.data?.assessment ? 'Update' : 'Create'}} Assessment</div>
+    <mat-dialog-content #content class="pb-4">
+        <ng-section>
+            <form class="px-5" #form [formGroup]="assessmentForm!" (ngSubmit)="saveAssessment()">
+
+                <div class="d-flex flex-column justify-content-center align-items-center mb-4">
+                    <div class="info d-flex justify-content-center align-items-center gap-3 mb-3">
+                        <ng-input class="name" label="Assessment Name" size="sm" formControlName="name"
+                                  (valueChange)="saveDraft()"></ng-input>
+                        <ng-input class="marks" label="Pass Marks" ngNumber size="sm" [min]="0"
+                                  formControlName="passMarks" (valueChange)="saveDraft()"></ng-input>
+                    </div>
+                    <ng-input class="description" label="Description" ngTextarea size="sm"
+                              formControlName="description" (valueChange)="saveDraft()"></ng-input>
+                </div>
+
+                <quiz-editor *ngFor="let quizDraft of questions; let i = index" [(quizDraft)]="questions[i]" [index]="i"
+                             (onRemove)="removeQuiz(quizDraft)" (quizDraftChange)="quizChange()"></quiz-editor>
+
+                <ng-button size="sm" styleClass="btn-app-primary" (onClick)="addQuiz()">
+                    <i class="bi bi-plus"></i> Add Question
+                </ng-button>
+
+            </form>
+        </ng-section>
+    </mat-dialog-content>
+    <mat-divider class="mt-3"></mat-divider>
+    <mat-dialog-actions>
+        <ng-button class="ms-auto" styleClass="btn-secondary" label="Cancel" size="sm" (onClick)="close()"></ng-button>
+        <ng-button styleClass="btn-app-primary" label="{{config.data?.assessment ? 'Update' : 'Create'}}" size="sm"
+                   [spin]="loading" loadingText="Please wait..."
+                   (onClick)="form.requestSubmit()"></ng-button>
+    </mat-dialog-actions>
+</div>

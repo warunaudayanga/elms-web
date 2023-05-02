@@ -1,0 +1,16 @@
+@import "src/style/scss";
+
+:host {
+    display: block;
+    height: 170px;
+}
+
+.class-card {
+    background-color: $app-surface-color;
+    border-radius: $app-card-radius;
+    padding: $app-layout-space;
+
+    .name {
+        white-space: nowrap;
+    }
+}

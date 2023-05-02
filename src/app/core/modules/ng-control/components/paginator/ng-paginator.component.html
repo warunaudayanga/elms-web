@@ -1,0 +1,5 @@
+<div class="paginator d-flex justify-content-center gap-2">
+  <div class="btn-paginator" [class.disabled]="loading"><i class="bi bi-chevron-left" (click)="selectPage(page - 1)"></i></div>
+  <div class="btn-paginator page" [class.disabled]="loading" *ngFor="let p of visiblePages" [class.active]="page - 1 === p" (click)="selectPage(p + 1)">{{p + 1}}</div>
+  <div class="btn-paginator" [class.disabled]="loading"><i class="bi bi-chevron-right" (click)="selectPage(page + 1)"></i></div>
+</div>

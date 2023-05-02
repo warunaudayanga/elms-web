@@ -1,0 +1,7 @@
+<!--suppress HtmlUnknownAttribute -->
+<!--<label *ngIf="label" [attr.data-control]="formControlName" class="form-label">{{label}}</label>-->
+<label class="ng-switch ng-form-control ng-control" [class.disabled]="disabled"
+       [ngClass]="size === 'sm'? 'ng-switch-sm': size === 'lg'? 'ng-switch-lg': ''">
+    <input type="checkbox" [class]="getInputClasses()" [checked]="value" [disabled]="disabled">
+    <span class="slider" [class.disabled]="disabled"></span>
+</label>

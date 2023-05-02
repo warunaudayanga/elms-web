@@ -1,0 +1,31 @@
+<!--suppress HtmlUnknownAttribute -->
+<label *ngIf="label" [attr.data-control]="formControlName" class="form-label font-bold">{{label}}</label>
+<div class="input-group ng-control has-validation" [class.disabled]="disabled"
+     [ngClass]="size === 'sm'? 'ng-control-sm': size === 'lg'? 'ng-control-lg': ''">
+    <ng-select
+        class="form-control ng-form-control {{getInputClasses()}} d-flex align-items-center"
+        spellcheck="false"
+        appendTo="body"
+        [items]="items"
+        [bindLabel]="bindLabel"
+        [bindValue]="bindValue"
+        [class.is-invalid]="this.isInvalid()"
+        [name]="formControlName"
+        [attr.name]="formControlName"
+        [readonly]="!!readonly"
+        [(ngModel)]="value"
+        (ngModelChange)="changeValue($event)"
+        [clearable]="clearable"
+        [searchable]="searchable "
+        [multiple]="multiple   "
+        [placeholder]="placeholder"
+        [disabled]="disabled"
+        >
+    </ng-select>
+</div>
+<div *ngIf="description && noValidation === undefined" class="form-text">{{description}}</div>
+<div *ngIf="noValidation === undefined" class="invalid-feedback">
+    <span *ngIf="ifError('required')">Please enter {{label?.toLowerCase() ?? getName()}}.</span>
+    <span *ngIf="ifError('email')">Invalid e-mail address.</span>
+    <span *ngIf="ifError('matched')">{{label ?? getName() | toFirstCases}} does not match.</span>
+</div>

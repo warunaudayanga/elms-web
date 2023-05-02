@@ -1,0 +1,10 @@
+<div class="menu-item"
+     *ngFor="let item of items; let i = index"
+     [routerLink]="item.routerLink"
+     [class.active]="activeIndex === i"
+     (click)="onClick($event, i, item)">
+    <div class="icon">
+        <i class="icon" [ngClass]="item.icon"></i>
+    </div>
+    <span class="ml-3">{{item.label}}</span>
+</div>

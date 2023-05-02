@@ -1,0 +1,79 @@
+<!--suppress HtmlUnknownAttribute -->
+<label *ngIf="label" [attr.data-control]="formControlName" class="form-label font-bold">{{label}}</label>
+<div class="input-group ng-control has-validation {{styleClass}}"
+     [class.disabled]="disabled"
+     [ngClass]="size === 'sm'? 'ng-control-sm': size === 'lg'? 'ng-control-lg': ''">
+    <i class="icon" *ngIf="icon" [class]="icon"></i>
+    <span *ngIf="!icon && rightText" class="input-group-text">{{rightText}}</span>
+    <input
+        *ngIf="ngDatepicker === undefined && ngTimepicker === undefined && ngTextarea === undefined"
+        #input
+        [type]="getType()"
+        maxlength="255"
+        class="form-control ng-form-control {{getInputClasses()}}"
+        spellcheck="false"
+        [class.text-right]="ngNumber !== undefined"
+        [class.is-invalid]="this.isInvalid()"
+        [class.has-icon]="icon"
+        [autocomplete]="noAutoComplete !== undefined ? 'new-password': ''"
+        [name]="formControlName"
+        [attr.name]="formControlName"
+        [readonly]="readonly"
+        [(ngModel)]="value"
+        [disabled]="disabled"
+        [max]="max"
+        [min]="min"
+        (ngModelChange)="changeValue($event)">
+
+    <input
+        *ngIf="ngDatepicker !== undefined"
+        bsDatepicker
+        type="text"
+        class="form-control ng-form-control {{getInputClasses()}}"
+        spellcheck="false"
+        [class.is-invalid]="this.isInvalid()"
+        [class.has-icon]="icon"
+        [name]="formControlName"
+        [attr.name]="formControlName"
+        [readonly]="readonly"
+        [ngModel]="value"
+        [disabled]="disabled"
+        (ngModelChange)="changeValue($event)">
+
+    <!--suppress JSUnusedGlobalSymbols -->
+    <textarea
+        *ngIf="ngTextarea !== undefined"
+        #input
+        rows="1"
+        class="form-control ng-form-control {{getInputClasses()}}"
+        [class.is-invalid]="this.isInvalid()"
+        [class.has-icon]="icon"
+        [name]="formControlName"
+        [attr.name]="formControlName"
+        [readonly]="readonly"
+        [(ngModel)]="value"
+        [disabled]="disabled"
+        (ngModelChange)="changeValue($event); autoResizeTextArea()">
+    </textarea>
+
+    <!--suppress JSUnusedGlobalSymbols -->
+    <timepicker
+        *ngIf="ngTimepicker !== undefined"
+        #input
+        class="form-control ng-form-control {{getInputClasses()}}"
+        [mousewheel]="true"
+        [arrowkeys]="true"
+        [class.is-invalid]="this.isInvalid()"
+        [class.has-icon]="icon"
+        [attr.name]="formControlName"
+        [ngModel]="value"
+        [disabled]="disabled"
+        (ngModelChange)="changeValue($event)"></timepicker>
+
+</div>
+<div *ngIf="description" class="form-text">{{description}}</div>
+<div *ngIf="noValidation === undefined" class="invalid-feedback">
+    <span *ngIf="ifError('required')">Please enter {{label?.toLowerCase() ?? getName()}}.</span>
+    <span *ngIf="ifError('email')">Invalid e-mail address.</span>
+    <span *ngIf="ifError('matched')">{{label ?? getName() | toFirstCases}} does not match.</span>
+</div>

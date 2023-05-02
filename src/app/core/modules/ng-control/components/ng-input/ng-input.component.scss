@@ -1,0 +1,37 @@
+@import "../ng-form-control";
+
+.ng-control {
+    position: relative;
+    .icon {
+        position: absolute;
+        top: 50%;
+        left: 20px;
+        transform: translateY(-50%);
+        z-index: 100;
+        font-size: $font-size-xl;
+    }
+    &.ng-control-sm {
+        .icon {
+            font-size: $font-size-lg;
+        }
+    }
+    &.ng-control-lg {
+        .icon {
+            font-size: $font-size-2xl;
+        }
+    }
+}
+
+.ng-form-control {
+    background-color: $app-light-color;
+    border-width: 1px;
+    border-radius: 0.5rem !important;
+    &.has-icon {
+        padding-left: 55px;
+    }
+}
+
+textarea {
+    resize: none;
+    max-height: 134px;
+}

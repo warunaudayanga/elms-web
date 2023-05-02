@@ -1,0 +1,8 @@
+<div class="zoom-web-view-container" [class.maximized]="maximized">
+    <i *ngIf="maximized && showButtons" class="bi bi-dash d-flex align-items-center justify-content-center minimize" (click)="minimize()"></i>
+    <div *ngIf="!maximized" class="d-flex justify-content-between align-items-center px-3 h-100">
+        <div class="font-lg">Meeting in progress</div>
+        <i class="bi bi-arrow-up-right-square-fill d-flex align-items-center justify-content-center maximize" (click)="maximize()"></i>
+    </div>
+    <div class="zoom-web-view" id="zmmtg-web-view"></div>
+</div>

@@ -1,0 +1,8 @@
+<button [class]="styleClass" (click)="onClick.emit($event)" class="btn ng-control" [type]="type"
+        [ngClass]="size === 'sm'? 'ng-control-sm': size === 'lg'? 'ng-control-lg': ''" [disabled]="disabled">
+    <div class="button-text" *ngIf="!spin">{{label}}<ng-content></ng-content></div>
+    <div *ngIf="spin" class="spinner-wrapper d-flex gap-3">
+        <ng-spinner [size]="spinSize" [width]="spinWidth" [invert]="!spinInvert"></ng-spinner>
+        <div>{{loadingText}}</div>
+    </div>
+</button>

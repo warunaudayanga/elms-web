@@ -1,0 +1,17 @@
+@import "src/style/scss";
+
+svg {
+    min-height: 85px;
+
+    .primary-color {
+        fill: $app-primary-color;
+    }
+
+    .secondary-color {
+        fill: $app-sub-text-color;
+    }
+}
+
+.content {
+    min-height: 115px;
+}

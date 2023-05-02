@@ -1,0 +1,26 @@
+@import '../ng-form-control';
+
+:host {
+    display: block;
+}
+
+button {
+    width: 100%;
+
+    .button-text {
+        width: 100%;
+        text-align: center;
+    }
+
+    .spinner-wrapper {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .circle {
+
+    }
+}

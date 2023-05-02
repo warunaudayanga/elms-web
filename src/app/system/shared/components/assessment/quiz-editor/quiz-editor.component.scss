@@ -1,0 +1,31 @@
+@import "src/style/scss";
+
+.quiz {
+    position: relative;
+}
+
+.choices {
+    max-width: 400px;
+}
+
+.choice-label {
+    width: 70px;
+    flex: 0 0 70px;
+}
+
+.btn-space {
+    width: 16px;
+}
+
+.btn-remove-quiz {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.btn-close:focus {
+    box-shadow: none !important;
+}
+.form-check, .form-check-input, .form-check-label {
+    cursor: pointer;
+}

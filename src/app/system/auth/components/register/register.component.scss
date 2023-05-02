@@ -1,0 +1,12 @@
+@import "src/style/scss";
+
+form {
+    max-width: 350px;
+    margin: auto;
+    .info {
+        text-align: justify;
+    }
+    .but-set button {
+        width: 120px;
+    }
+}

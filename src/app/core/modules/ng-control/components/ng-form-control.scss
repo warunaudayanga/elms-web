@@ -1,0 +1,77 @@
+@import "src/style/scss";
+
+.ng-control {
+    .ng-form-control, &.btn {
+        min-height: 48px;
+    }
+
+    .ng-form-control {
+        border-color: $app-border-color !important;
+        color: $app-text-color !important;
+        font-weight: $font-light;
+
+        &:focus,
+        &.focused,
+        &.grabbing {
+            border-color: $app-accent-color;
+            @include ng-form-control-shadow($app-accent-color);
+        }
+    }
+
+    &.ng-control-sm .ng-form-control, &.ng-control-sm.btn {
+        min-height: 38px !important;
+    }
+
+    &.ng-control-lg .ng-form-control, &.ng-control-lg.btn {
+        min-height: 54px !important;
+    }
+
+
+    &.circle {
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &.btn {
+            width: 48px;
+            height: 48px;
+        }
+        &.ng-control-sm.btn {
+            width: 38px;
+            height: 38px;
+        }
+        &.ng-control-lg.btn {
+            width: 54px;
+            height: 54px;
+        }
+    }
+
+    &.disabled .ng-form-control {
+        background-color: $app-border-color !important;
+    }
+
+    .icon {
+        color: $app-text-color !important;
+    }
+
+}
+
+.invalid-feedback {
+    display: block;
+    height: 30px;
+    text-align: center;
+    padding-top: 3px;
+}
+
+.was-validated .ng-control .ng-form-control:invalid, .ng-control .ng-form-control.is-invalid {
+    border-color: $danger !important;
+}
+
+.was-validated .ng-control .ng-form-control:invalid:focus, .ng-control .ng-form-control.is-invalid:focus {
+    @include ng-form-control-shadow($danger);
+}
+
+.was-validated .ng-control .ng-form-control:valid, .ng-control .ng-form-control.is-valid,
+.was-validated .ng-control .ng-form-control:invalid, .ng-control .ng-form-control.is-invalid {
+    border-width: 1px;
+}

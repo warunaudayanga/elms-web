@@ -1,0 +1,24 @@
+<div class="carousel" [class.has-side-controls]="showSideControls">
+  <div class="slide-list-wrapper">
+    <div class="slides">
+      <ng-content></ng-content>
+    </div>
+  </div>
+
+  <ng-container *ngIf="showSideControls">
+    <div class="prev" [class.active]="activeIndex > 0" (click)="prev()">
+        <i class="bi bi-chevron-left"></i>
+    </div>
+
+    <div class="next" [class.active]="activeIndex < slides.length - 1" (click)="next()">
+      <i class="bi bi-chevron-right"></i>
+    </div>
+  </ng-container>
+
+  <div class="controls"
+       [ngClass]="controlSide === 'center'? 'justify-content-center' : controlSide === 'right'? 'justify-content-end' : 'justify-content-start'">
+    <!--suppress JSUnusedGlobalSymbols -->
+    <div class="control" *ngFor="let slide of slides; let i = index" (click)="setActive(i)"
+         [class.active]="activeIndex === i"></div>
+  </div>
+</div>

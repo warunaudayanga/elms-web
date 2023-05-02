@@ -1,0 +1,23 @@
+@import "src/style/scss";
+
+.class-card {
+    min-height: 90px;
+    cursor: pointer;
+
+    .name {
+        color: $app-sub-text-color
+    }
+
+    .schedule {
+        width: 150px;
+    }
+
+    .controls {
+        width: 200px;
+    }
+
+    .change-request {
+        border-color: $warning;
+        background-color: #{$warning}20;
+    }
+}

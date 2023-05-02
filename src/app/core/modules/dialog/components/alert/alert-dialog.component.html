@@ -1,0 +1,18 @@
+<div class="alert-dialog" data-dialog>
+    <div mat-dialog-title>
+        <i class="dialog-icon {{style.icon}} text-{{style.colorClass}}"></i>
+        <span class="dialog-title">{{alertData.title}}</span>
+    </div>
+    <mat-dialog-content>
+        <p>{{alertData.message}}</p>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <mat-dialog-actions>
+        <button type="button" class="btn btn-{{alertData.confirm? 'secondary' : style.colorClass}} text-light"
+                (click)="close()" data-key="Escape">{{alertData.confirm
+            ? alertData.buttons?.cancel ? alertData.buttons?.cancel?.toUpperCase() : "NO"
+            : alertData.buttons?.ok ? alertData.buttons?.ok?.toUpperCase() : "OK" }}</button>
+        <button *ngIf="alertData.confirm" type="button" class="btn btn-{{style.colorClass}} text-light"
+                (click)="confirm()" data-key="Escape">{{alertData.buttons?.ok ? alertData.buttons?.ok?.toUpperCase() : 'OK'}}</button>
+    </mat-dialog-actions>
+</div>

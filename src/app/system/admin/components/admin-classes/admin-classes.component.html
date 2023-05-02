@@ -1,0 +1,16 @@
+<div class="classes app-card h-100 pb-layout">
+    <ng-data-view [items]="classes" [pageLimit]="10" [paginator]="false" [loading]="loading" [stickyHeader]="true"
+                  [fit]="true" [error]="error" (onRefresh)="refresh()">
+        <!--suppress JSUnusedGlobalSymbols -->
+        <ng-template #header>
+            <div class="header">Classes</div>
+        </ng-template>
+
+        <!--suppress JSUnusedGlobalSymbols -->
+        <ng-template let-classRoom let-i="index" #item>
+            <app-admin-class-card [classRoom]="classRoom"
+                                  (onChangeStatus)="changeStatusPrompt($event)"></app-admin-class-card>
+        </ng-template>
+
+    </ng-data-view>
+</div>

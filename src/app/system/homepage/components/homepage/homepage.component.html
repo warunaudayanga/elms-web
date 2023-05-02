@@ -1,0 +1,28 @@
+<div #container class="container-fluid h-100 overflow-auto" (scroll)="onScroll(container)">
+    <div class="row h-100 homepage">
+        <div class="col-12 col-md-6 h-100 left">
+            <div class="home-image h-100"></div>
+        </div>
+        <div class="col-12 col-md-6 h-100 p-0 right">
+            <div class="w-100 d-flex justify-content-end gap-3 p-3 home-buttons">
+                <button *ngIf="!showMore" class="btn btn-lg btn-app-primary-invert btn-app-more"
+                        (click)="scroll(container)">More
+                </button>
+                <button class="btn btn-lg {{showMore ? 'btn-app-dark' : 'btn-app-light'}} btn-app-register" routerLink="/auth/register">Apply</button>
+                <button class="btn btn-lg {{showMore ? 'btn-app-primary' : 'btn-app-dark'}} btn-app-login"
+                        routerLink="/auth/login">Login
+                </button>
+            </div>
+            <h1 class="text-center h-100 p-3 d-flex align-items-center px-md-5">
+                <span>“ In learning you will teach, and in teaching you will learn. ”</span>
+            </h1>
+        </div>
+    </div>
+    <div #more class="container-fluid p-3 h-100">
+        <div class="h-100" *ngIf="showMore">
+            <ul class="nav">
+                <ng-dropdown class="nav-item" title="Courses" [items]="items" [hoverable]="true"></ng-dropdown>
+            </ul>
+        </div>
+    </div>
+</div>

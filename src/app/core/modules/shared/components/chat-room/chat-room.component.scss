@@ -1,0 +1,96 @@
+@import "src/style/scss";
+
+.chat-room {
+    position: fixed;
+    top: calc(#{$app-header} + #{$app-layout-space});
+    left: calc(#{$app-side-menu} + #{$app-layout-space});;
+    width: calc(100vw - #{$app-side-menu} - #{$app-layout-space} * 2 + 3px);
+    height: calc(100vh - #{$app-header} - #{$app-layout-space});
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.chat-open {
+    position: fixed;
+    right: calc(#{$app-layout-space} + 20px);
+    bottom: $app-layout-space;
+    border-radius: 50%;
+
+    .counter {
+        position: absolute;
+        top: -7px;
+        right: -7px;
+        height: 23px;
+        width: 23px;
+        background-color: $danger;
+        color: $app-text-invert-color;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 12px;
+        padding-top: 3px;
+    }
+}
+
+.chat-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    height: 25px;
+    width: 25px;
+
+    i {
+        height: 28px;
+    }
+}
+
+.chat {
+    padding: $app-layout-space $app-layout-space calc(#{$app-layout-space} * 2);
+    background-color: $app-background-color;
+    overflow-y: auto;
+
+    .message-container {
+        .message {
+            background-color: $app-surface-color;
+            color: $app-text-color;
+            border-radius: 15px;
+            max-width: 60%;
+
+            .name {
+                color: $app-primary-color;
+
+                .teacher-tag {
+                    color: $app-text-invert-color;
+                    border-radius: 5px;
+                    font-size: 12px;
+                    padding: 0 5px;
+                }
+            }
+
+            .datetime {
+                text-align: right;
+                font-size: 0.8rem;
+                color: $app-text-secondary-color;
+            }
+        }
+
+        &.me {
+            justify-content: flex-end;
+
+            .message {
+                background-color: $app-primary-color;
+                color: $app-text-invert-color;
+
+                .datetime {
+                    color: $app-background-color;
+                }
+            }
+        }
+    }
+}
+
+.controls {
+    position: absolute;
+    bottom: calc(#{$app-layout-space} + 10px);
+    left: calc(#{$app-layout-space} + 10px);;
+    right: calc(#{$app-layout-space} + 10px + 5px);;
+}
