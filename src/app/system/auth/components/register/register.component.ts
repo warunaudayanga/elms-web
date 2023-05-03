@@ -23,12 +23,7 @@ export class RegisterComponent implements OnInit {
 
     loading: boolean = false;
 
-    constructor(
-        private readonly app: AppService,
-        private fb: FormBuilder,
-        private authService: AuthService,
-        private areaService: CommonService,
-    ) {}
+    constructor(private readonly app: AppService, private fb: FormBuilder, private authService: AuthService, private areaService: CommonService) {}
 
     ngOnInit(): void {
         this.getAreas();
@@ -54,23 +49,23 @@ export class RegisterComponent implements OnInit {
                 validators: matched("password", "confirm"),
             },
         );
-        this.registerForm.patchValue({
-            firstName: "John",
-            lastName: "Doe",
-            username: "johndoe@example.com",
-            password: "myPassword",
-            confirm: "myPassword",
-            email: "johndoe@example.com",
-            dob: "1990-01-01",
-            phone: "1234567890",
-            areaId: 17,
-            address: "123 Main Street",
-            guardianRelationship: GuardianRelationship.Father,
-            guardianName: "Jane Doe",
-            guardianPhone: "0987654321",
-            guardianAddress: "456 Oak Avenue",
-            school: "ABC School",
-        });
+        // this.registerForm.patchValue({
+        //     firstName: "John",
+        //     lastName: "Doe",
+        //     username: "johndoe@example.com",
+        //     password: "myPassword",
+        //     confirm: "myPassword",
+        //     email: "johndoe@example.com",
+        //     dob: "1990-01-01",
+        //     phone: "1234567890",
+        //     areaId: 17,
+        //     address: "123 Main Street",
+        //     guardianRelationship: GuardianRelationship.Father,
+        //     guardianName: "Jane Doe",
+        //     guardianPhone: "0987654321",
+        //     guardianAddress: "456 Oak Avenue",
+        //     school: "ABC School",
+        // });
     }
 
     getAreas(): void {

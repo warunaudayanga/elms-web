@@ -1,0 +1,35 @@
+<div class="verify h-100 d-flex flex-column align-items-center justify-content-center text-center">
+
+    <ng-spinner *ngIf="loading"></ng-spinner>
+
+    <ng-container *ngIf="verified">
+        <i class="bi bi-check-circle-fill font-8xl text-app-primary"></i>
+        <h2 class="font-bold mb-4">Your account has been verified Successfully</h2>
+        <ng-button label="Login" styleClass="btn-app-primary" routerLink="/"></ng-button>
+    </ng-container>
+
+    <ng-container *ngIf="error">
+        <i class="bi bi-exclamation-diamond-fill font-8xl text-danger"></i>
+        <h2 class="font-bold mb-4">This verification link is invalid</h2>
+        <ng-button class="mb-3" label="Resend Verification Email" styleClass="btn-app-dark"
+                   (onClick)="showResendVerificationPrompt()"></ng-button>
+        <ng-button label="Login" styleClass="btn-app-primary" routerLink="/"></ng-button>
+    </ng-container>
+
+    <ng-container *ngIf="resendVerificationPrompt">
+        <h2 class="mb-5 font-bold">Resend Verification Email</h2>
+        <form class="w-100" [formGroup]="resendForm!" (ngSubmit)="resendVerificationEmail()">
+            <ng-input class="mb-4" ngEmail label="E-mail" formControlName="email"></ng-input>
+            <ng-button type="submit" label="Resend Verification Email" styleClass="btn-app-dark" [spin]="resendLoading"
+                       loadingText="Sending email..." class="mb-3"></ng-button>
+            <ng-button type="submit" label="Login" styleClass="btn-app-primary" routerLink="/"></ng-button>
+        </form>
+    </ng-container>
+
+    <ng-container *ngIf="emailSent" class="text-center">
+        <i class="bi bi-check-circle-fill font-8xl text-app-primary"></i>
+        <h2 class="mb-5 font-bold">Verification Email Sent</h2>
+        <ng-button type="submit" label="Login" styleClass="btn-app-primary" routerLink="/"></ng-button>
+    </ng-container>
+
+</div>

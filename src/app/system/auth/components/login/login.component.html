@@ -13,7 +13,7 @@
                    loadingText="Logging in..."></ng-button>
         <ng-button *ngIf="verificationBtn" class="w-100 mt-3" styleClass="btn-app-dark" label="Resend Verification"
                    size="lg" [spin]="resendLoading"
-                   loadingText="Sending verification..." (onClick)="resendVerification()"></ng-button>
+                   loadingText="Sending verification..." routerLink="/auth/verify/resend"></ng-button>
         <div class="text-center mt-3">
             <a routerLink="/auth/register">Not Registers Yet?</a>
         </div>

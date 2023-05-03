@@ -24,6 +24,18 @@ export class StudentService {
         return this.http.post<ClassStudent>(`${this.url}/enroll`, { classRoomId });
     }
 
+    findClasses(entityFilters: PagedEntityFilters<ClassRoom>): Observable<PaginatedResponse<ClassRoom>> {
+        const { keyword, filters, sort, pagination } = entityFilters as PagedEntityFilters<ClassRoom>;
+        const params = EntityService.generateParams({
+            keyword,
+            ...filters,
+            ...pagination,
+            sort: EntityService.generateSort(sort),
+        });
+        return this.http.get<PaginatedResponse<ClassRoom>>(`${this.url}/find-classes`, { params });
+    }
+
+    // noinspection JSUnusedGlobalSymbols
     getMyClasses(entityFilters: PagedEntityFilters<ClassRoom>): Observable<PaginatedResponse<ClassRoom>> {
         const { keyword, filters, sort, pagination } = entityFilters as PagedEntityFilters<ClassRoom>;
         const params = EntityService.generateParams({

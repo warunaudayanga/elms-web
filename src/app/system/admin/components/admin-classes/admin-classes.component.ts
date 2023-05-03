@@ -26,10 +26,10 @@ export class AdminClassesComponent implements OnInit {
         private readonly socketService: SocketService,
     ) {
         this.socketService
-            .onMessage([AppEvent.CLASS_CREATED, AppEvent.CLASS_UPDATED, AppEvent.SCHEDULE_UPDATED])
+            .onMessage<ClassRoom | ClassSchedule>([AppEvent.CLASS_REQUESTED, AppEvent.CLASS_UPDATED, AppEvent.SCHEDULE_UPDATED])
             ?.subscribe(res => {
                 switch (res.event) {
-                    case AppEvent.CLASS_CREATED:
+                    case AppEvent.CLASS_REQUESTED:
                         this.classes.push(res.data as ClassRoom);
                         break;
                     case AppEvent.CLASS_UPDATED:
@@ -117,12 +117,9 @@ export class AdminClassesComponent implements OnInit {
     changeStatusPrompt({ id, status }: { id: number; status: Status }): void {
         if (status === Status.INACTIVE) {
             const action = this.classes!.find(c => c.id === id)!.status === Status.PENDING ? "Decline" : "Deactivate";
-            const confirmation = this.dialogService.confirm(
-                `Are you sure you want to ${action.toLowerCase()} this class?`,
-                {
-                    ok: action,
-                },
-            );
+            const confirmation = this.dialogService.confirm(`Are you sure you want to ${action.toLowerCase()} this class?`, {
+                ok: action,
+            });
             confirmation.subscribe(confirm => {
                 if (confirm) {
                     this.changeStatus(id, status);

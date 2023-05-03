@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { DialogConfig } from "../../../../../core/modules/dialog/interfaces";
@@ -14,18 +14,21 @@ import { QuizState } from "../../../../../core/store/quiz/quiz.state";
 import { AssessmentDto } from "../../../dtos/assessment.dto";
 import { HttpError } from "../../../../../core/interfaces";
 import { draftToQuiz, quizToDraft } from "../../../utils/quiz.utils";
+import { AssessmentDraft } from "../../../interfaces/quiz.interfaces";
 
 @Component({
     selector: "app-assessment-dialog",
     templateUrl: "./assessment-dialog.component.html",
     styleUrls: ["./assessment-dialog.component.scss"],
 })
-export class AssessmentDialogComponent {
+export class AssessmentDialogComponent implements AfterViewInit {
     @ViewChild("content", { read: ElementRef }) contentRef!: ElementRef<HTMLDivElement>;
 
     assessmentForm: FormGroup;
 
-    questions: QuizDraft[] = [];
+    questions?: QuizDraft[];
+
+    quizDrafts?: QuizDraft[];
 
     loading: boolean = false;
 
@@ -43,25 +46,32 @@ export class AssessmentDialogComponent {
             description: [""],
             passMarks: [null],
         });
+        const assessmentDraft = this.store.selectSnapshot(QuizState.getAssessmentDraft)(this.config.data!.classRoomId);
         if (this.config.data?.assessment) {
             this.assessmentForm.patchValue({
                 name: this.config.data.assessment.name,
                 description: this.config.data.assessment.description,
                 passMarks: this.config.data.assessment.passMarks,
             });
-            this.questions = this.config.data.assessment.quizzes?.map(quizToDraft) ?? [];
+            this.quizDrafts = this.config?.data?.assessment?.quizzes?.map(quizToDraft);
+        } else if (assessmentDraft) {
+            this.assessmentForm.patchValue({
+                name: assessmentDraft.name,
+                description: assessmentDraft.description,
+                passMarks: assessmentDraft.passMarks,
+            });
+            this.quizDrafts = assessmentDraft.drafts;
         } else {
-            const assessmentDrafts = this.store.selectSnapshot(QuizState.getAssessmentDraft)(
-                this.config.data!.classRoomId,
-            );
-            if (assessmentDrafts) {
-                this.assessmentForm.patchValue({
-                    name: assessmentDrafts.name,
-                    description: assessmentDrafts.description,
-                    passMarks: assessmentDrafts.passMarks,
-                });
-                if (assessmentDrafts.drafts) this.questions = assessmentDrafts.drafts;
-            }
+            this.questions = [];
+        }
+    }
+
+    ngAfterViewInit(): void {
+        if (this.quizDrafts) {
+            setTimeout(() => {
+                this.questions = [...this.quizDrafts!];
+                this.quizDrafts = undefined;
+            }, 100);
         }
     }
 
@@ -77,7 +87,7 @@ export class AssessmentDialogComponent {
         const assessmentDto: AssessmentDto = {
             name: this.assessmentForm.value.name,
             description: this.assessmentForm.value.description,
-            quizzes: this.questions.map(draftToQuiz),
+            quizzes: this.questions?.map(draftToQuiz),
             // answers: this.assessmentForm.value.answers, // TODO;
             passMarks: Number(this.assessmentForm.value.passMarks),
         };
@@ -100,19 +110,17 @@ export class AssessmentDialogComponent {
     protected readonly Array = Array;
 
     removeQuiz(quiz: QuizDraft): void {
-        this.dialogService
-            .confirm("Are you sure you want to remove this question?", { ok: "Remove" })
-            .subscribe(confirmation => {
-                if (confirmation) {
-                    this.questions = this.questions.filter(q => q !== quiz);
-                    this.saveDraft();
-                }
-            });
+        this.dialogService.confirm("Are you sure you want to remove this question?", { ok: "Remove" }).subscribe(confirmation => {
+            if (confirmation) {
+                this.questions = this.questions?.filter(q => q !== quiz);
+                this.saveDraft();
+            }
+        });
     }
 
     addQuiz(): void {
         this.questions = [
-            ...this.questions,
+            ...(this.questions ?? []),
             {
                 id: uuid(),
                 question: "",
@@ -136,7 +144,7 @@ export class AssessmentDialogComponent {
                 name: this.assessmentForm.value.name,
                 description: this.assessmentForm.value.description,
                 passMarks: Number(this.assessmentForm.value.passMarks),
-                drafts: [...this.questions],
+                drafts: [...(this.questions ?? [])],
             }),
         );
     }

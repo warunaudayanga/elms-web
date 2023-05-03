@@ -8,11 +8,7 @@ import { toFirstCase } from "../../../utils";
     selector: "[formGroup]",
 })
 export class FormDirective {
-    constructor(
-        private readonly element: ElementRef,
-        private readonly fgDirective: FormGroupDirective,
-        private readonly app: AppService,
-    ) {}
+    constructor(private readonly element: ElementRef, private readonly fgDirective: FormGroupDirective, private readonly app: AppService) {}
 
     // noinspection JSUnusedLocalSymbols
     @HostListener("submit", ["$event"])
@@ -27,9 +23,7 @@ export class FormDirective {
             });
             const controlList = this.getInvalidControls(this.fgDirective.form);
             controlList.forEach((controlData, i) => {
-                const controlElement: HTMLInputElement = this.element.nativeElement.querySelector(
-                    "[name='" + controlData.key + "']",
-                );
+                const controlElement: HTMLInputElement = this.element.nativeElement.querySelector("[name='" + controlData.key + "']");
                 if (controlElement) {
                     controlElement.classList.add("is-invalid");
                     if (!i) {
@@ -51,28 +45,18 @@ export class FormDirective {
                         if (errors["required"]) {
                             this.app.toast.error(`${toFirstCase(label)} cannot be empty!`);
                         } else if (errors["minlength"]) {
-                            this.app.toast.error(
-                                `${toFirstCase(label)} must be at least ${
-                                    errors["minlength"].requiredLength
-                                } characters long!`,
-                            );
+                            this.app.toast.error(`${toFirstCase(label)} must be at least ${errors["minlength"].requiredLength} characters long!`);
                         } else if (errors["maxlength"]) {
-                            this.app.toast.error(
-                                `${toFirstCase(label)} cannot exceed ${errors["maxlength"].requiredLength} characters!`,
-                            );
+                            this.app.toast.error(`${toFirstCase(label)} cannot exceed ${errors["maxlength"].requiredLength} characters!`);
                         } else if (errors["email"]) {
                             this.app.toast.error(`'${value}' is not a valid email address!`);
                         } else if (errors["pattern"]) {
                             const matchWith = controlElement.getAttribute("data-match") || "";
-                            this.app.toast.error(
-                                `${toFirstCase(label)} does not match ${matchWith ? "with " : ""}${matchWith}!`,
-                            );
+                            this.app.toast.error(`${toFirstCase(label)} does not match ${matchWith ? "with " : ""}${matchWith}!`);
                         } else if (errors["matched"]) {
                             this.app.toast.error(`${toFirstCase(label)} does not match!`);
                         } else if (errors["tagInputMin"]) {
-                            this.app.toast.error(
-                                `Option '${label}' need to have more than ${errors["tagInputMin"]} choices!`,
-                            );
+                            this.app.toast.error(`Option '${label}' need to have more than ${errors["tagInputMin"]} choices!`);
                         }
                     }
                 }
