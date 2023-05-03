@@ -7,12 +7,7 @@ import { HttpClient } from "@angular/common/http";
 import { Store } from "@ngxs/store";
 import { firstValueFrom, Observable, Subject, take } from "rxjs";
 import { ZoomMeetingRole } from "../../../system/student/enums/zoom-meeting-role.enum";
-import {
-    PaginatedZoomResponse,
-    StartZoomMeetingOptions,
-    ZakTokenResponse,
-    ZoomMeeting,
-} from "../../modules/zoom/interfaces/zoom.interfaces";
+import { PaginatedZoomResponse, StartZoomMeetingOptions, ZakTokenResponse, ZoomMeeting } from "../../modules/zoom/interfaces/zoom.interfaces";
 import { AppService } from "../../../app.service";
 import { AuthState } from "../../store";
 import { Role } from "../../entity";
@@ -34,12 +29,7 @@ export class ZoomService {
 
     startMeetingListener: Subject<StartZoomMeetingOptions> = new Subject<StartZoomMeetingOptions>();
 
-    constructor(
-        private http: HttpClient,
-        private app: AppService,
-        private store: Store,
-        private dialogService: DialogService,
-    ) {}
+    constructor(private http: HttpClient, private app: AppService, private store: Store, private dialogService: DialogService) {}
 
     promptAuthorization(): void {
         const res = this.dialogService.confirm(
@@ -91,9 +81,7 @@ export class ZoomService {
     }
 
     generateSignature(meetingNumber: number, role: ZoomMeetingRole): Observable<{ signature: string }> {
-        return this.http
-            .post<{ signature: string }>(`${ZOOM_URL}/generate-signature`, { meetingNumber, role })
-            .pipe(take(1));
+        return this.http.post<{ signature: string }>(`${ZOOM_URL}/generate-signature`, { meetingNumber, role }).pipe(take(1));
     }
 
     authorize(): void {

@@ -90,9 +90,7 @@ export class NgFileInputComponent extends NgFormControl<File[] | File> implement
         }
         if (this.multiple || this.multiple === "") {
             for await (const file of files) {
-                const exist = (this.value as File[] | undefined)?.find(
-                    f => f.name === file.name && f.size === file.size && f.type === file.type,
-                );
+                const exist = (this.value as File[] | undefined)?.find(f => f.name === file.name && f.size === file.size && f.type === file.type);
                 if (!exist) {
                     const previewData: PreviewData = {
                         id: this.previewData?.length ?? 0,
@@ -138,9 +136,7 @@ export class NgFileInputComponent extends NgFormControl<File[] | File> implement
     removeFile(pd: PreviewData): void {
         this.previewData = this.previewData?.filter(p => p.id !== pd.id);
         if (isArray(this.value)) {
-            this.value = this.value.filter(
-                f => f.name !== pd.file.name && f.size !== pd.file.size && f.type !== pd.file.type,
-            );
+            this.value = this.value.filter(f => f.name !== pd.file.name && f.size !== pd.file.size && f.type !== pd.file.type);
         } else {
             this.value = null;
         }

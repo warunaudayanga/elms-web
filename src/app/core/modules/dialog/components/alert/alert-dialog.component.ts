@@ -13,10 +13,7 @@ export class AlertDialogComponent {
 
     public style: { icon: string; colorClass: string };
 
-    constructor(
-        @Inject(MAT_DIALOG_DATA) public alertData: AlertData,
-        private readonly dialogRef: MatDialogRef<boolean>,
-    ) {
+    constructor(@Inject(MAT_DIALOG_DATA) public alertData: AlertData, private readonly dialogRef: MatDialogRef<boolean>) {
         this.style = getIconAndColor(alertData);
     }
 

@@ -1,14 +1,4 @@
-import {
-    AfterContentInit,
-    Component,
-    ContentChildren,
-    EventEmitter,
-    Input,
-    OnChanges,
-    Output,
-    QueryList,
-    SimpleChanges,
-} from "@angular/core";
+import { AfterContentInit, Component, ContentChildren, EventEmitter, Input, OnChanges, Output, QueryList, SimpleChanges } from "@angular/core";
 import { QzComponent } from "../qz/qz.component";
 import { Quiz, QuizAnswer } from "../../../interfaces/quiz.interfaces";
 

@@ -28,11 +28,7 @@ export class DialogService {
         return dialogRef.afterClosed();
     }
 
-    public confirm(
-        message: string,
-        buttons?: DialogButtons,
-        level: DialogLevel = DialogLevel.WARNING,
-    ): Observable<boolean> {
+    public confirm(message: string, buttons?: DialogButtons, level: DialogLevel = DialogLevel.WARNING): Observable<boolean> {
         return this.alert({ title: "Confirm", message, level, confirm: true, buttons });
     }
 
@@ -47,10 +43,7 @@ export class DialogService {
         return dialogRef.afterClosed();
     }
 
-    public open<R, D = any, T = any>(
-        component: ComponentType<T>,
-        config?: MatDialogConfig<DialogConfig<D>>,
-    ): Observable<R | undefined> {
+    public open<R, D = any, T = any>(component: ComponentType<T>, config?: MatDialogConfig<DialogConfig<D>>): Observable<R | undefined> {
         let matDialogRef = this.dialog.open(component, config);
         return matDialogRef.afterClosed();
     }

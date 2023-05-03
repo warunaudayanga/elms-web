@@ -50,10 +50,7 @@ export class TutorService {
     }
 
     createAssessment(classRoomId: number, assessment: AssessmentDto): Observable<Assessment> {
-        return this.http.post<Assessment>(
-            `${this.url}/${Endpoint.CLASSES}/${classRoomId}/${Endpoint.ASSESSMENT}`,
-            assessment,
-        );
+        return this.http.post<Assessment>(`${this.url}/${Endpoint.CLASSES}/${classRoomId}/${Endpoint.ASSESSMENT}`, assessment);
     }
 
     updateAssessment(id: number, assessment: Partial<AssessmentDto>): Observable<Assessment> {

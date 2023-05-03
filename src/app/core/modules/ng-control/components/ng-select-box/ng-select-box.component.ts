@@ -1,16 +1,4 @@
-import {
-    Component,
-    EventEmitter,
-    forwardRef,
-    Host,
-    Input,
-    OnChanges,
-    OnInit,
-    Optional,
-    Output,
-    SimpleChanges,
-    SkipSelf,
-} from "@angular/core";
+import { Component, EventEmitter, forwardRef, Host, Input, OnChanges, OnInit, Optional, Output, SimpleChanges, SkipSelf } from "@angular/core";
 import { NgFormControl } from "../../abstract-form-controll";
 import { AbstractControl, ControlContainer, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors } from "@angular/forms";
 

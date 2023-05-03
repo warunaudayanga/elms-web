@@ -25,11 +25,7 @@ export class AdminStudentsComponent implements OnInit {
 
     totalRecords: number = 0;
 
-    constructor(
-        private readonly app: AppService,
-        private dialogService: DialogService,
-        private readonly userService: UserService,
-    ) {}
+    constructor(private readonly app: AppService, private dialogService: DialogService, private readonly userService: UserService) {}
 
     ngOnInit(): void {
         this.getStudents();

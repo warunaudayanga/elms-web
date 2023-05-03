@@ -42,9 +42,7 @@ export class SocketService {
         }
     }
 
-    onEvent<R = any, ErrEnum = any>(
-        event: SocketEvent,
-    ): Observable<WSMessageResponse<R> | WSErrorResponse<ErrEnum>> | null {
+    onEvent<R = any, ErrEnum = any>(event: SocketEvent): Observable<WSMessageResponse<R> | WSErrorResponse<ErrEnum>> | null {
         if (!this.socket) {
             return null;
         }
@@ -60,9 +58,7 @@ export class SocketService {
     onMessage<R = any>(eventOrEvents: AppEvent | AppEvent[]): Observable<R | MultiEventResponse> | null {
         return (
             this.onEvent<R | MultiEventResponse>(SocketEvent.MESSAGE)?.pipe(
-                filter(res =>
-                    Array.isArray(eventOrEvents) ? eventOrEvents.includes(res?.event) : eventOrEvents === res?.event,
-                ),
+                filter(res => (Array.isArray(eventOrEvents) ? eventOrEvents.includes(res?.event) : eventOrEvents === res?.event)),
                 map(res =>
                     Array.isArray(eventOrEvents)
                         ? { event: (res as WSMessageResponse<R>).event, data: (res as WSMessageResponse<R>).data }
@@ -73,10 +69,7 @@ export class SocketService {
     }
 
     onError<ErrEnum = any>(): Observable<ErrorResponse<ErrEnum>> | null {
-        return (
-            this.onEvent<ErrEnum>(SocketEvent.ERROR)?.pipe(map(err => (err as WSErrorResponse<ErrEnum>).response)) ??
-            null
-        );
+        return this.onEvent<ErrEnum>(SocketEvent.ERROR)?.pipe(map(err => (err as WSErrorResponse<ErrEnum>).response)) ?? null;
     }
 
     sendMessage<D = any>(event: AppEvent, data: D): string {
@@ -88,31 +81,25 @@ export class SocketService {
 
     async sendMessageAsync<D = any, R = any, ErrEnum = any>(event: AppEvent, data: D): Promise<R> {
         const subs: Subscription[] = [];
-        const res = await new Promise(
-            (resolve: (value: R) => void, reject: (reason?: ErrorResponse<ErrEnum>) => void): void => {
-                const rid = uuid();
-                this.queue.push(rid);
-                const wsMessage: WSMessage<D> = { event, data, rid };
-                this.socket.emit(SocketEvent.MESSAGE, wsMessage);
-                const success = fromEvent<WSMessageResponse<R>>(this.socket, SocketEvent.MESSAGE).subscribe(
-                    response => {
-                        if (response.rid === rid) {
-                            this.queue = this.queue.filter(qRid => qRid !== rid);
-                            resolve(response.data);
-                        }
-                    },
-                );
-                const error = fromEvent<WSErrorResponse<ErrEnum>>(this.socket, SocketEvent.ERROR).subscribe(
-                    response => {
-                        if (response.rid === rid) {
-                            this.queue = this.queue.filter(qRid => qRid !== rid);
-                            reject(response.response);
-                        }
-                    },
-                );
-                subs.push(success, error);
-            },
-        );
+        const res = await new Promise((resolve: (value: R) => void, reject: (reason?: ErrorResponse<ErrEnum>) => void): void => {
+            const rid = uuid();
+            this.queue.push(rid);
+            const wsMessage: WSMessage<D> = { event, data, rid };
+            this.socket.emit(SocketEvent.MESSAGE, wsMessage);
+            const success = fromEvent<WSMessageResponse<R>>(this.socket, SocketEvent.MESSAGE).subscribe(response => {
+                if (response.rid === rid) {
+                    this.queue = this.queue.filter(qRid => qRid !== rid);
+                    resolve(response.data);
+                }
+            });
+            const error = fromEvent<WSErrorResponse<ErrEnum>>(this.socket, SocketEvent.ERROR).subscribe(response => {
+                if (response.rid === rid) {
+                    this.queue = this.queue.filter(qRid => qRid !== rid);
+                    reject(response.response);
+                }
+            });
+            subs.push(success, error);
+        });
         subs.forEach(sub => sub.unsubscribe());
         return res;
     }

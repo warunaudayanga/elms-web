@@ -25,12 +25,7 @@ interface AuthStateModel {
 })
 @Injectable()
 export class AuthState {
-    constructor(
-        private app: AppService,
-        private authService: AuthService,
-        private store: Store,
-        private ngZone: NgZone,
-    ) {}
+    constructor(private app: AppService, private authService: AuthService, private store: Store, private ngZone: NgZone) {}
 
     @Selector()
     static loggedIn(state: AuthStateModel): boolean {

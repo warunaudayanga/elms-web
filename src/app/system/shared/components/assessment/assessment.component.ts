@@ -50,8 +50,7 @@ export class AssessmentComponent implements OnInit {
                 if (assessment.answers) {
                     this.answers = assessment.answers;
                 } else {
-                    this.answers =
-                        this.store.selectSnapshot(QuizState.getQuizAnswerList)(this.assessmentId!)?.answers ?? [];
+                    this.answers = this.store.selectSnapshot(QuizState.getQuizAnswerList)(this.assessmentId!)?.answers ?? [];
                 }
             },
             error: (err: HttpError) => {

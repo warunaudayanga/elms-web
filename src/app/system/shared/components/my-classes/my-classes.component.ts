@@ -67,11 +67,7 @@ export class MyClassesComponent implements OnInit, OnDestroy {
         private dialogService: DialogService,
     ) {
         this.eventSub = this.socketService
-            .onMessage<ClassRoom | ClassSchedule>([
-                AppEvent.CLASS_CREATED,
-                AppEvent.CLASS_UPDATED,
-                AppEvent.SCHEDULE_UPDATED,
-            ])
+            .onMessage<ClassRoom | ClassSchedule>([AppEvent.CLASS_CREATED, AppEvent.CLASS_UPDATED, AppEvent.SCHEDULE_UPDATED])
             ?.subscribe(res => {
                 switch (res.event) {
                     case AppEvent.CLASS_CREATED:

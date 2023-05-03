@@ -54,11 +54,7 @@ export class HomepageComponent {
             }, 10);
         }
 
-        if (
-            this.scrolledState === "bottom" &&
-            container.scrollTop >= this.app.height - 10 &&
-            container.scrollTop < this.app.height
-        ) {
+        if (this.scrolledState === "bottom" && container.scrollTop >= this.app.height - 10 && container.scrollTop < this.app.height) {
             this.scrolledState = "scrolling";
             container.scrollTo(0, 0);
         }
