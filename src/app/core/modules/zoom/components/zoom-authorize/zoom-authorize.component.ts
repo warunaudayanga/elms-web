@@ -49,8 +49,6 @@ export class ZoomAuthorizeComponent implements OnInit, OnDestroy {
                     this.app.error(err.error?.message ?? "Something went wrong!");
                 },
             });
-        } else if (!this.zoomAuthorized) {
-            this.app.error("Zoom is not authorized, Please authorize zoom");
         }
     }
 

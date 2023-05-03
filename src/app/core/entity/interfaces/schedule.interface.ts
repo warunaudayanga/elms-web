@@ -14,4 +14,5 @@ export interface ClassSchedule extends BaseEntity {
     classRoom?: ClassRoom;
     scheduleHistory?: ClassScheduleHistory[];
     meeting?: ZoomMeeting;
+    needZooAuthentication?: boolean;
 }

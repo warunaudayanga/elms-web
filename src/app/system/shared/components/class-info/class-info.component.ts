@@ -140,6 +140,16 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
                 this.interval = setInterval(() => {
                     this.setNextOccurrence();
                 }, 1000);
+                if (classRoom.schedule?.needZooAuthentication) {
+                    const confirmation = this.dialogService.confirm(
+                        "Zoom need to be authorized in order to manage some features of your classrooms. Do you want to authorize now?",
+                    );
+                    confirmation.subscribe(res => {
+                        if (res) {
+                            this.zoomService.authorize();
+                        }
+                    });
+                }
             },
             error: (err: HttpError<ZoomErrors>) => {
                 this.loading = false;

@@ -9,6 +9,10 @@ import { dateToHms, enumToKeyValue, hmsToDate } from "../../../../../core/utils"
 import { KeyValue } from "../../../../../core/interfaces/util.interfaces";
 import { HttpError } from "../../../../../core/interfaces";
 import { ScheduleDto } from "../../../../tutor/dtos/schedule.dto";
+import { ZoomErrors } from "../../../../student/enums/zoom.error.responses.enum";
+import { SetAuthorized } from "../../../../../core/store/zoom/zoom.action";
+import { Store } from "@ngxs/store";
+import { ZoomService } from "../../../../../core/services/elms/zoom.service";
 
 @Component({
     selector: "app-schedule-dialog",
@@ -26,8 +30,10 @@ export class ScheduleDialogComponent {
         @Inject(MAT_DIALOG_DATA) public config: DialogConfig<{ classRoomId: number; schedule?: ClassSchedule }>,
         private readonly dialogRef: MatDialogRef<ScheduleDialogComponent, ClassSchedule>,
         private readonly app: AppService,
+        private readonly store: Store,
         private readonly fb: FormBuilder,
         private readonly tutorService: TutorService,
+        private readonly zoomService: ZoomService,
     ) {
         this.scheduleForm = this.fb.group({
             day: [null, Validators.required],
@@ -63,6 +69,13 @@ export class ScheduleDialogComponent {
                 this.dialogRef.close(schedule);
             },
             error: (err: HttpError) => {
+                this.loading = false;
+                if (err.error?.code === ZoomErrors.ZOOM_401_UNAUTHORIZED) {
+                    this.store.dispatch(new SetAuthorized(false));
+                    this.zoomService.promptAuthorization();
+                    this.close();
+                    return;
+                }
                 this.loading = false;
                 this.app.error(err.error?.message ?? "Error occurred!");
             },
