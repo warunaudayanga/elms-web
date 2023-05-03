@@ -17,7 +17,7 @@ export const environment = {
         lib: { url: "https://source.zoom.us/2.11.0/lib", dir: "/av" },
         authorizeUrl: "https://zoom.us/oauth/authorize",
         responseType: "code",
-        clientId: "5Fupa4dS2mM5hCBQ4OQA",
+        clientId: "gRSu8vb2R2GTqIBdEd8qyA",
     },
 };
 
