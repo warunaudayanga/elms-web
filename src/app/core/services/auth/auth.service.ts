@@ -45,7 +45,11 @@ export class AuthService {
         return this.authenticationErrorListener.asObservable();
     }
 
-    resendVerification(username: string): Observable<Object> {
-        return this.http.post(`${AUTH_URL}/resend-verification`, { username });
+    resendVerification(email: string): Observable<SuccessResponse> {
+        return this.http.post<SuccessResponse>(`${AUTH_URL}/resend-verification`, { email });
+    }
+
+    verifyAccount(token: string): Observable<SuccessResponse> {
+        return this.http.post<SuccessResponse>(`${AUTH_URL}/verify-account`, { token });
     }
 }

@@ -17,6 +17,7 @@ import { DataViewRefreshEvent } from "../../../../core/modules/shared/interfaces
 import { SocketService } from "../../../../core/services/socket.service";
 import { AppEvent } from "../../../../core/enums/app-event.enum";
 import { replaceItem } from "../../../../core/utils/array.utils";
+import { StudentService } from "../../../../core/services/elms/student.service";
 
 @Component({
     selector: "app-find-class",
@@ -55,20 +56,17 @@ export class FindClassComponent implements OnInit, OnDestroy {
     eventSub?: Subscription;
 
     constructor(
-        private app: AppService,
-        private socketService: SocketService,
-        private classRoomService: ClassRoomService,
-        private gradeService: GradeService,
-        private subjectService: ClassSubjectService,
-        private userService: UserService,
-        private dialogService: DialogService,
+        private readonly app: AppService,
+        private readonly socketService: SocketService,
+        private readonly classRoomService: ClassRoomService,
+        private readonly studentService: StudentService,
+        private readonly gradeService: GradeService,
+        private readonly subjectService: ClassSubjectService,
+        private readonly userService: UserService,
+        private readonly dialogService: DialogService,
     ) {
         this.eventSub = this.socketService
-            .onMessage<ClassRoom | ClassSchedule>([
-                AppEvent.CLASS_CREATED,
-                AppEvent.CLASS_UPDATED,
-                AppEvent.SCHEDULE_UPDATED,
-            ])
+            .onMessage<ClassRoom | ClassSchedule>([AppEvent.CLASS_CREATED, AppEvent.CLASS_UPDATED, AppEvent.SCHEDULE_UPDATED])
             ?.subscribe(res => {
                 switch (res.event) {
                     case AppEvent.CLASS_CREATED:
@@ -125,7 +123,7 @@ export class FindClassComponent implements OnInit, OnDestroy {
                 limit: this.limit,
             },
         };
-        this.classRoomService.getAll(entityFilters).subscribe({
+        this.studentService.findClasses(entityFilters).subscribe({
             next: classes => {
                 this.loading = false;
                 this.error = false;

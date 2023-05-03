@@ -94,7 +94,9 @@ export class NgInputComponent extends NgFormControl<Date | string> implements On
     }
 
     ngAfterViewInit(): void {
-        setTimeout(() => this.autoResizeTextArea());
+        if (this.ngTextarea !== undefined) {
+            setTimeout(() => this.autoResizeTextArea());
+        }
     }
 
     // noinspection JSUnusedLocalSymbols

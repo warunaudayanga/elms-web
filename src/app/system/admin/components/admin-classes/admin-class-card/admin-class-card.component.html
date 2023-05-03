@@ -27,29 +27,28 @@
                        (onClick)="changeStatus(classRoom.id, Status.INACTIVE)"></ng-button>
         </div>
     </div>
+    <div>{{classRoom.description}}</div>
 
     <div>
         <ng-container *ngIf="classRoom.changeRequest">
             <div class="font-bold font-xl mb-2">Class Update Request</div>
-            <div class="change-request bordered rounded p-3" [class.pending]="classRoom.status === Status.PENDING || classRoom.changeRequest">
+            <div class="change-request bordered rounded p-3 pending">
                 <div class="d-flex align-items-center gap-4">
-                    <div class="details flex-grow-1">
+                    <div *ngIf="classRoom.changeRequest?.name !== classRoom.name" class="details flex-grow-1">
                         <div
-                            class="font-bold font-lg">{{classRoom.changeRequest.grade?.name}} {{classRoom.changeRequest.subject?.name}} {{classRoom.changeRequest.name}}</div>
+                            class="font-bold font-lg">{{classRoom.grade?.name}} {{classRoom.subject?.name}} {{classRoom.changeRequest.name}}</div>
                     </div>
-                    <div class="price text-right font-bold font-xl">
+                    <div *ngIf="Number(classRoom.changeRequest?.payment) !== Number(classRoom.payment)" class="price text-right font-bold font-xl">
                         <div>LKR {{classRoom.payment}}</div>
                     </div>
-                    <div class="schedule text-center flex-none">
-
-                    </div>
-                    <div class="controls d-flex justify-content-end gap-2">
+                    <div class="controls d-flex justify-content-end gap-2 ms-auto">
                         <ng-button size="sm" label="Approve" styleClass="btn-app-primary"
                                    (onClick)="approveUpdate(classRoom.id, true)"></ng-button>
                         <ng-button size="sm" label="Decline" styleClass="btn-app-dark"
                                    (onClick)="approveUpdate(classRoom.id, false)"></ng-button>
                     </div>
                 </div>
+                <div *ngIf="classRoom.changeRequest.description !== classRoom.description" class="mt-3">{{classRoom.changeRequest.description}}</div>
             </div>
         </ng-container>
     </div>
