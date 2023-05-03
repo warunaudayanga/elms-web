@@ -14,7 +14,6 @@ import { QuizState } from "../../../../../core/store/quiz/quiz.state";
 import { AssessmentDto } from "../../../dtos/assessment.dto";
 import { HttpError } from "../../../../../core/interfaces";
 import { draftToQuiz, quizToDraft } from "../../../utils/quiz.utils";
-import { AssessmentDraft } from "../../../interfaces/quiz.interfaces";
 
 @Component({
     selector: "app-assessment-dialog",
