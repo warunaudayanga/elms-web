@@ -146,7 +146,7 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
                     );
                     confirmation.subscribe(res => {
                         if (res) {
-                            this.zoomService.authorize();
+                            this.zoomService.authorizeView();
                         }
                     });
                 }

@@ -18,7 +18,7 @@ import configuration from "../../config/configuration";
     providedIn: "root",
 })
 export class TutorService {
-    private url = `${configuration().apiUrl}/${Endpoint.TUTOR}`;
+    private url: string = `${configuration().apiUrl}/${Endpoint.TUTOR}`;
 
     constructor(private http: HttpClient) {}
 

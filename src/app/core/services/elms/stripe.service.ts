@@ -5,15 +5,15 @@ import { Observable } from "rxjs";
 import { PaymentIntent } from "@stripe/stripe-js";
 import configuration from "../../config/configuration";
 
-const STRIPE_URL = `${configuration().apiUrl}/${Endpoint.STRIPE}`;
-
 @Injectable({
     providedIn: "root",
 })
 export class StripeHttpService {
+    private url: string = `${configuration().apiUrl}/${Endpoint.STRIPE}`;
+
     constructor(private http: HttpClient) {}
 
     createPaymentIntent(amount: number, metadata: object): Observable<PaymentIntent> {
-        return this.http.post<PaymentIntent>(`${STRIPE_URL}/create-payment-intent`, { amount, metadata });
+        return this.http.post<PaymentIntent>(`${this.url}/create-payment-intent`, { amount, metadata });
     }
 }

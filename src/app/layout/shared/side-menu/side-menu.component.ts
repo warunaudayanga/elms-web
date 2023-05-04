@@ -14,7 +14,7 @@ export class SideMenuComponent implements AfterContentInit {
 
     @Output() activeIndexChange: EventEmitter<number> = new EventEmitter<number>();
 
-    url: string = "";
+    private url: string = "";
 
     constructor(private router: Router) {
         this.router.events.subscribe(event => {

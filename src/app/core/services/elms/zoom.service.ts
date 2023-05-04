@@ -17,12 +17,12 @@ import { ZoomErrors } from "../../../system/student/enums/zoom.error.responses.e
 import { HttpError } from "../../interfaces";
 import configuration from "../../config/configuration";
 
-const ZOOM_URL = `${configuration().apiUrl}/${Endpoint.ZOOM}`;
-
 @Injectable({
     providedIn: "root",
 })
 export class ZoomService {
+    private url: string = `${configuration().apiUrl}/${Endpoint.ZOOM}`;
+
     static meetingStatus: boolean = false;
 
     meetingStatusListener: Subject<boolean> = new Subject<boolean>();
@@ -81,7 +81,7 @@ export class ZoomService {
     }
 
     generateSignature(meetingNumber: number, role: ZoomMeetingRole): Observable<{ signature: string }> {
-        return this.http.post<{ signature: string }>(`${ZOOM_URL}/generate-signature`, { meetingNumber, role }).pipe(take(1));
+        return this.http.post<{ signature: string }>(`${this.url}/generate-signature`, { meetingNumber, role }).pipe(take(1));
     }
 
     authorize(): void {
@@ -96,27 +96,27 @@ export class ZoomService {
 
     generateToken(code: string): Observable<boolean> {
         const redirectUri = `${window.location.origin}${window.location.pathname}`;
-        return this.http.post<boolean>(`${ZOOM_URL}/generate-token`, { code, redirectUri }).pipe(take(1));
+        return this.http.post<boolean>(`${this.url}/generate-token`, { code, redirectUri }).pipe(take(1));
     }
 
     getUser(): any {
-        return this.http.post(`${ZOOM_URL}/user`, {}).pipe(take(1));
+        return this.http.post(`${this.url}/user`, {}).pipe(take(1));
     }
 
     getUserZakToken(): Observable<ZakTokenResponse> {
-        return this.http.post<ZakTokenResponse>(`${ZOOM_URL}/get-zak-token`, {}).pipe(take(1));
+        return this.http.post<ZakTokenResponse>(`${this.url}/get-zak-token`, {}).pipe(take(1));
     }
 
     createMeeting(id: number): any {
-        return this.http.post(`${ZOOM_URL}/create-meeting`, { classId: id }).pipe(take(1));
+        return this.http.post(`${this.url}/create-meeting`, { classId: id }).pipe(take(1));
     }
 
     getMeeting(id: number): Observable<ZoomMeeting> {
-        return this.http.get<ZoomMeeting>(`${ZOOM_URL}/meeting/${id}`).pipe(take(1));
+        return this.http.get<ZoomMeeting>(`${this.url}/meeting/${id}`).pipe(take(1));
     }
 
     getMeetings(): Observable<PaginatedZoomResponse<ZoomMeeting>> {
-        return this.http.get<PaginatedZoomResponse<ZoomMeeting>>(`${ZOOM_URL}/meeting/`).pipe(take(1));
+        return this.http.get<PaginatedZoomResponse<ZoomMeeting>>(`${this.url}/meeting/`).pipe(take(1));
     }
 
     async startMeeting(name: string, meetingId: number, joinUrl: string): Promise<void> {

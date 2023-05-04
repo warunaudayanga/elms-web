@@ -16,7 +16,7 @@ import configuration from "../../config/configuration";
     providedIn: "root",
 })
 export class StudentService {
-    private url = `${configuration().apiUrl}/${Endpoint.STUDENT}`;
+    private url: string = `${configuration().apiUrl}/${Endpoint.STUDENT}`;
 
     constructor(private http: HttpClient) {}
 

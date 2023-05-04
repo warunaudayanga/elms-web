@@ -8,10 +8,8 @@ import { PaginatedResponse } from "../../interfaces/pagination.interfaces";
 import { Status } from "../enums/status.enum";
 import configuration from "../../config/configuration";
 
-const BASE_URL = `${configuration().apiUrl}`;
-
 export abstract class EntityService<T> implements IEntityService<T> {
-    protected url: string = `${BASE_URL}/${this.endpoint}`;
+    protected url: string = `${configuration().apiUrl}/${this.endpoint}`;
 
     protected constructor(protected http: HttpClient, protected endpoint: string) {}
 
