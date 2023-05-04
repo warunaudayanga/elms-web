@@ -44,3 +44,11 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           source: dist/*
           target: /var/www/env/dev/elms/elms-web
+
+      - name: Copy env.json if exists
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+         host: ${{ secrets.HOST }}
+         username: ${{ secrets.USERNAME }}
+         password: ${{ secrets.PASSWORD }}
+         command: cp /var/www/env/dev/elms/elms-env.json /var/www/env/dev/elms/elms-web/env.json
