@@ -51,4 +51,4 @@ jobs:
       host: ${{ secrets.HOST }}
       username: ${{ secrets.USERNAME }}
       password: ${{ secrets.PASSWORD }}
-      command: cp /var/www/env/prod/elms/elms-env.json /var/www/env/prod/elms/elms-web/env.json
+      command: cp /var/www/env/prod/elms/elms-env.json /var/www/env/prod/elms/elms-web/dist/env.json
