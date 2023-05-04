@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { environment } from "../../../../environments/environment";
 import { Endpoint } from "../../enums";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { PaymentIntent } from "@stripe/stripe-js";
+import configuration from "../../config/configuration";
 
-const STRIPE_URL = `${environment.apiUrl}/${Endpoint.STRIPE}`;
+const STRIPE_URL = `${configuration().apiUrl}/${Endpoint.STRIPE}`;
 
 @Injectable({
     providedIn: "root",

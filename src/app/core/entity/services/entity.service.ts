@@ -3,12 +3,12 @@ import { Observable, take } from "rxjs";
 import { EntityFilters, PagedEntityFilters } from "../interfaces/entity.interfaces";
 import { SortFields } from "../types/entity.types";
 import { deleteEmptyFields } from "../utils/entity.utils";
-import { environment } from "../../../../environments/environment";
 import { IEntityService } from "../interfaces/entity-service.interface";
 import { PaginatedResponse } from "../../interfaces/pagination.interfaces";
 import { Status } from "../enums/status.enum";
+import configuration from "../../config/configuration";
 
-const BASE_URL = `${environment.apiUrl}`;
+const BASE_URL = `${configuration().apiUrl}`;
 
 export abstract class EntityService<T> implements IEntityService<T> {
     protected url: string = `${BASE_URL}/${this.endpoint}`;

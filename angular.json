@@ -79,6 +79,11 @@
               "outputHashing": "all"
             },
             "development": {
+              "assets": [
+                "src/favicon.ico",
+                "src/assets",
+                "src/env.json"
+              ],
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,

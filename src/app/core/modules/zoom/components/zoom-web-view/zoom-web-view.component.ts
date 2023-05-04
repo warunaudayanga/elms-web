@@ -4,8 +4,8 @@ import { ZoomService } from "../../../../services/elms/zoom.service";
 import { Subscription } from "rxjs";
 import { AppService } from "../../../../../app.service";
 import { HttpError } from "../../../../interfaces";
-import { environment } from "../../../../../../environments/environment";
 import { StartZoomMeetingOptions } from "../../interfaces/zoom.interfaces";
+import configuration from "../../../../config/configuration";
 
 @Component({
     selector: "app-zoom-web-view",
@@ -32,7 +32,7 @@ export class ZoomWebViewComponent implements OnInit, OnDestroy {
 
         clearInterval(this.timeout);
 
-        await ZoomMtg.setZoomJSLib(environment.zoom.lib.url, environment.zoom.lib.dir);
+        await ZoomMtg.setZoomJSLib(configuration().zoom.lib.url, configuration().zoom.lib.dir);
         // loads WebAssembly assets
         await ZoomMtg.preLoadWasm();
         await ZoomMtg.prepareWebSDK();
@@ -59,7 +59,7 @@ export class ZoomWebViewComponent implements OnInit, OnDestroy {
 
                     ZoomMtg.join({
                         signature: options.signature,
-                        sdkKey: environment.zoom.clientId,
+                        sdkKey: configuration().zoom.clientId,
                         meetingNumber: String(options.meetingId),
                         passWord: password,
                         userName: options.username,

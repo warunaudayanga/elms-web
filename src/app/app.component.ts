@@ -4,6 +4,7 @@ import { ZoomService } from "./core/services/elms/zoom.service";
 import { Subscription } from "rxjs";
 import { Store } from "@ngxs/store";
 import { SocketService } from "./core/services/socket.service";
+import { ConfigService } from "./core/services/config.service";
 
 @Component({
     selector: "app-root",
@@ -15,7 +16,13 @@ export class AppComponent {
 
     meetingStatusSub: Subscription;
 
-    constructor(public app: AppService, private store: Store, private socketService: SocketService, private readonly zoomService: ZoomService) {
+    constructor(
+        public readonly app: AppService,
+        private readonly configService: ConfigService,
+        private readonly store: Store,
+        private readonly socketService: SocketService,
+        private readonly zoomService: ZoomService,
+    ) {
         this.app.loggedInListener.subscribe(loggedIn => {
             if (loggedIn) {
                 this.socketService.connect();

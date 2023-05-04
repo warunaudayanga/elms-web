@@ -1,7 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { Injectable } from "@angular/core";
-import { environment } from "../../../../environments/environment";
 import { Endpoint } from "../../enums";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
@@ -13,12 +12,13 @@ import { ClassDto } from "../../../system/tutor/dtos/class.dto";
 import { ScheduleDto } from "../../../system/tutor/dtos/schedule.dto";
 import { AssessmentDto } from "../../../system/shared/dtos/assessment.dto";
 import { Assessment } from "../../entity/interfaces/assessment.interface";
+import configuration from "../../config/configuration";
 
 @Injectable({
     providedIn: "root",
 })
 export class TutorService {
-    private url = `${environment.apiUrl}/${Endpoint.TUTOR}`;
+    private url = `${configuration().apiUrl}/${Endpoint.TUTOR}`;
 
     constructor(private http: HttpClient) {}
 

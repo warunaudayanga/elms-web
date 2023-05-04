@@ -1,7 +1,6 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { Injectable } from "@angular/core";
-import { environment } from "../../../../environments/environment";
 import { Endpoint } from "../../enums";
 import { HttpClient } from "@angular/common/http";
 import { Store } from "@ngxs/store";
@@ -16,8 +15,9 @@ import { DialogLevel } from "../../modules/dialog/enums";
 import { DialogService } from "../../modules/dialog";
 import { ZoomErrors } from "../../../system/student/enums/zoom.error.responses.enum";
 import { HttpError } from "../../interfaces";
+import configuration from "../../config/configuration";
 
-const ZOOM_URL = `${environment.apiUrl}/${Endpoint.ZOOM}`;
+const ZOOM_URL = `${configuration().apiUrl}/${Endpoint.ZOOM}`;
 
 @Injectable({
     providedIn: "root",
@@ -86,7 +86,7 @@ export class ZoomService {
 
     authorize(): void {
         if (window.location.href.match(/\/(student|tutor)\/my-classes\//)) {
-            const { authorizeUrl, responseType, clientId } = environment.zoom;
+            const { authorizeUrl, responseType, clientId } = configuration().zoom;
             const redirectUri = `${window.location.origin}${window.location.pathname}`;
             window.location.href = `${authorizeUrl}?response_type=${responseType}&client_id=${clientId}&redirect_uri=${redirectUri}`;
         } else {

@@ -2,13 +2,13 @@
 import { Injectable } from "@angular/core";
 import { io, Socket } from "socket.io-client";
 import { filter, fromEvent, map, Observable, Subscription } from "rxjs";
-import { environment } from "../../../environments/environment";
 import { MultiEventResponse, WSErrorResponse, WSMessage, WSMessageResponse } from "../interfaces/socket.interfaces";
 import { v4 as uuid } from "uuid";
 import { AppEvent } from "../enums/app-event.enum";
 import { ErrorResponse } from "../interfaces";
 import { AppService } from "../../app.service";
 import { SocketEvent } from "../enums/socket-event";
+import configuration from "../config/configuration";
 
 @Injectable({
     providedIn: "root",
@@ -22,7 +22,7 @@ export class SocketService {
 
     connect(): void {
         if (!this.socket?.connected) {
-            this.socket = io(environment.socketUrl, { transports: ["websocket"] });
+            this.socket = io(configuration().socketUrl, { transports: ["websocket"] });
 
             // eslint-disable-next-line no-console
             this.onEvent(SocketEvent.CONNECT)?.subscribe(() => console.log("connected:", this.socket.connected));

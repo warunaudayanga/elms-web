@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable, take } from "rxjs";
 import { Area } from "../../entity";
 import { Endpoint } from "../../enums";
+import configuration from "../../config/configuration";
 
-const COMMON_URL = `${environment.apiUrl}/${Endpoint.COMMON}`;
+const COMMON_URL = `${configuration().apiUrl}/${Endpoint.COMMON}`;
 const AREA_URL = `${COMMON_URL}/area`;
 
 @Injectable({

@@ -2,15 +2,15 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable, Subject, take, tap } from "rxjs";
 import { LoginDto } from "../../../system/auth/dto";
-import { environment } from "../../../../environments/environment";
 import { User } from "../../entity";
 import { SuccessResponse } from "../../interfaces";
 import { Store } from "@ngxs/store";
 import { SetLoggedUser } from "../../store";
 import { AuthError } from "../../../system/auth/enums";
 import { Endpoint } from "../../enums";
+import configuration from "../../config/configuration";
 
-const AUTH_URL = `${environment.apiUrl}/${Endpoint.AUTH}`;
+const AUTH_URL = `${configuration().apiUrl}/${Endpoint.AUTH}`;
 
 @Injectable({
     providedIn: "root",
