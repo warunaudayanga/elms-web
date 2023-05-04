@@ -2,9 +2,9 @@ import { ConfigService } from "../services/config.service";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export default () => ({
-    host: ConfigService?.env?.host || "http://localhost:8080",
-    apiUrl: `${ConfigService?.env?.host || "http://localhost:8080"}/api`,
-    socketUrl: `${ConfigService?.env?.host || "http://localhost:8080"}/socket`,
+    host: ConfigService?.env?.host || "",
+    apiUrl: `${ConfigService?.env?.host || ""}/api`,
+    socketUrl: `${ConfigService?.env?.host || ""}/socket`,
     stripe: {
         publishableKey: ConfigService?.env?.stripe?.publishableKey || "",
     },
