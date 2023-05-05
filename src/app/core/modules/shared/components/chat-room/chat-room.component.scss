@@ -1,6 +1,7 @@
 @import "src/style/scss";
 
 .chat-room {
+    z-index: 1;
     position: fixed;
     top: calc(#{$app-header} + #{$app-layout-space});
     left: calc(#{$app-side-menu} + #{$app-layout-space});;
