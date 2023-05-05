@@ -13,6 +13,12 @@
                     </div>
                     <ng-input class="description" label="Description" ngTextarea size="sm"
                               formControlName="description" (valueChange)="saveDraft()"></ng-input>
+                    <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                        <ng-date ngDateTimePicker class="date" label="Start" size="sm" formControlName="startTime"
+                                  (valueChange)="saveDraft()" [defaultTime]="defaultStart"></ng-date>
+                        <ng-date ngDateTimePicker class="date" label="End" size="sm" formControlName="endTime"
+                                    (valueChange)="saveDraft()" [defaultTime]="defaultEnd"></ng-date>
+                    </div>
                 </div>
 
                 <div *ngIf="this.quizDrafts">

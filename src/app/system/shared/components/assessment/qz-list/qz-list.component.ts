@@ -13,6 +13,8 @@ export class QzListComponent implements OnChanges, AfterContentInit {
 
     @Input() answers: QuizAnswer[] = [];
 
+    @Input() assess: boolean = false;
+
     @Output() answersChange: EventEmitter<QuizAnswer[]> = new EventEmitter<QuizAnswer[]>();
 
     @ContentChildren(QzComponent) qzComponents?: QueryList<QzComponent>;
@@ -32,11 +34,7 @@ export class QzListComponent implements OnChanges, AfterContentInit {
                 if (qz.answer?.length === 0) {
                     qz.answer = [];
                 }
-                if (!this.answers.find(ans => ans.id === qz.id)) {
-                    this.answers.push({ id: qz.id, answer: qz.answer ?? [] });
-                }
             });
-            this.answersChange.emit(this.answers);
         }
     }
 
@@ -61,8 +59,7 @@ export class QzListComponent implements OnChanges, AfterContentInit {
         this.answersChange.emit(this.answers);
     }
 
-    getAnswer(id: string): string[] {
-        const qAns = this.answers.find(ans => ans.id === id);
-        return qAns?.answer ?? this.items?.find(qz => qz.id === id)?.answer ?? [];
+    getAnswer(quiz: Quiz): string[] {
+        return this.answers.find(ans => ans.id === quiz.id)?.answer ?? [];
     }
 }

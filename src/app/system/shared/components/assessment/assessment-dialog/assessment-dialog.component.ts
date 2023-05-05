@@ -14,6 +14,7 @@ import { QuizState } from "../../../../../core/store/quiz/quiz.state";
 import { AssessmentDto } from "../../../dtos/assessment.dto";
 import { HttpError } from "../../../../../core/interfaces";
 import { draftToQuiz, quizToDraft } from "../../../utils/quiz.utils";
+import moment from "moment";
 
 @Component({
     selector: "app-assessment-dialog",
@@ -31,6 +32,12 @@ export class AssessmentDialogComponent implements AfterViewInit {
 
     loading: boolean = false;
 
+    defaultStart: Date = moment("00:00", "HH:mm").toDate();
+
+    defaultEnd: Date = moment("23:59", "HH:mm").toDate();
+
+    Array = Array;
+
     constructor(
         @Inject(MAT_DIALOG_DATA) public config: DialogConfig<{ classRoomId: number; assessment?: Assessment }>,
         private readonly dialogRef: MatDialogRef<AssessmentDialogComponent, Assessment>,
@@ -44,6 +51,8 @@ export class AssessmentDialogComponent implements AfterViewInit {
             name: ["", Validators.required],
             description: [""],
             passMarks: [null],
+            startTime: [null, Validators.required],
+            endTime: [null, Validators.required],
         });
         const assessmentDraft = this.store.selectSnapshot(QuizState.getAssessmentDraft)(this.config.data!.classRoomId);
         if (this.config.data?.assessment) {
@@ -51,6 +60,8 @@ export class AssessmentDialogComponent implements AfterViewInit {
                 name: this.config.data.assessment.name,
                 description: this.config.data.assessment.description,
                 passMarks: this.config.data.assessment.passMarks,
+                startTime: this.config.data.assessment.startTime ? new Date(this.config.data.assessment.startTime) : null,
+                endTime: this.config.data.assessment.endTime ? new Date(this.config.data.assessment.endTime) : null,
             });
             this.quizDrafts = this.config?.data?.assessment?.quizzes?.map(quizToDraft);
         } else if (assessmentDraft) {
@@ -58,6 +69,8 @@ export class AssessmentDialogComponent implements AfterViewInit {
                 name: assessmentDraft.name,
                 description: assessmentDraft.description,
                 passMarks: assessmentDraft.passMarks,
+                startTime: assessmentDraft.startTime ? new Date(assessmentDraft.startTime) : null,
+                endTime: assessmentDraft.endTime ? new Date(assessmentDraft.endTime) : null,
             });
             this.quizDrafts = assessmentDraft.drafts;
         } else {
@@ -89,6 +102,8 @@ export class AssessmentDialogComponent implements AfterViewInit {
             quizzes: this.questions?.map(draftToQuiz),
             // answers: this.assessmentForm.value.answers, // TODO;
             passMarks: Number(this.assessmentForm.value.passMarks),
+            startTime: this.assessmentForm.value.startTime.toISOString(),
+            endTime: this.assessmentForm.value.endTime.toISOString(),
         };
         (this.config.data?.assessment
             ? this.tutorService.updateAssessment(this.config.data.assessment.id, assessmentDto)
@@ -105,8 +120,6 @@ export class AssessmentDialogComponent implements AfterViewInit {
             },
         });
     }
-
-    protected readonly Array = Array;
 
     removeQuiz(quiz: QuizDraft): void {
         this.dialogService.confirm("Are you sure you want to remove this question?", { ok: "Remove" }).subscribe(confirmation => {
@@ -125,7 +138,10 @@ export class AssessmentDialogComponent implements AfterViewInit {
                 question: "",
                 choice: true,
                 multiple: false,
-                options: [{ value: "" }, { value: "" }],
+                options: [
+                    { id: uuid(), value: "" },
+                    { id: uuid(), value: "" },
+                ],
             },
         ];
         this.saveDraft();
@@ -137,15 +153,19 @@ export class AssessmentDialogComponent implements AfterViewInit {
     }
 
     saveDraft(): void {
-        this.store.dispatch(
-            new SaveAssessmentDrafts({
-                classRoomId: this.config.data!.classRoomId,
-                name: this.assessmentForm.value.name,
-                description: this.assessmentForm.value.description,
-                passMarks: Number(this.assessmentForm.value.passMarks),
-                drafts: [...(this.questions ?? [])],
-            }),
-        );
+        if (!this.config.data?.assessment) {
+            this.store.dispatch(
+                new SaveAssessmentDrafts({
+                    classRoomId: this.config.data!.classRoomId,
+                    name: this.assessmentForm.value.name,
+                    description: this.assessmentForm.value.description,
+                    passMarks: Number(this.assessmentForm.value.passMarks),
+                    startTime: this.assessmentForm.value.startTime ? moment(this.assessmentForm.value.startTime).toISOString() : undefined,
+                    endTime: this.assessmentForm.value.endTime ? moment(this.assessmentForm.value.endTime).toISOString() : undefined,
+                    drafts: [...(this.questions ?? [])],
+                }),
+            );
+        }
     }
 
     scrollToBottom(): void {

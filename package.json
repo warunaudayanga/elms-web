@@ -31,7 +31,7 @@
         "bootstrap": "^5.2.3",
         "bootstrap-icons": "^1.10.4",
         "moment": "^2.29.4",
-        "ngx-bootstrap": "^9.0.0",
+        "ngx-bootstrap": "^8.0.0",
         "ngx-cookie-service": "^15.0.0",
         "ngx-moment": "^6.0.2",
         "ngx-stripe": "^14.4.2",

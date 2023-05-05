@@ -70,6 +70,7 @@ export abstract class NgFormControl<T> implements ControlValueAccessor, Validato
     }
 
     changeValue(value: T | null): void {
+        this.value = value;
         this.control?.markAsTouched();
         this.control?.markAsDirty();
         this.onChanged?.(value);

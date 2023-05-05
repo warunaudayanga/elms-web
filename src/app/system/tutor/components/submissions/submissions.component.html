@@ -1,0 +1,39 @@
+<div class="classes app-card h-100 pb-layout">
+    <ng-data-view [items]="assessment?.submissions ?? []" [loading]="loading" [stickyHeader]="true" [fit]="true"
+                  [error]="error" (onRefresh)="getAssessment()">
+        <!--suppress JSUnusedGlobalSymbols -->
+        <ng-template #header>
+            <div class="header d-flex align-items-start justify-content-between pb-3">
+                <div>Submissions</div>
+                <ng-button size="sm" styleClass="btn-app-dark" [routerLink]="['/tutor/my-classes', assessment?.classRoomId!]">
+                    Back
+                </ng-button>
+            </div>
+        </ng-template>
+
+        <!--suppress JSUnusedGlobalSymbols -->
+        <ng-template let-submission let-i="index" #item>
+            <div class="class-card bordered rounded p-3 d-flex align-items-center gap-4 mb-3">
+                <div class="details flex-grow-1">
+                    <!--suppress TypeScriptUnresolvedReference -->
+                    <div class="name font-bold font-lg">{{submission.student!.name}}</div>
+                    <div class="username d-flex gap-2">
+                        <!--suppress TypeScriptUnresolvedReference -->
+                        <div>{{submission.student?.email}}</div>
+                    </div>
+                </div>
+                <div class="controls d-flex justify-content-end gap-2 align-items-center">
+                    <div class="font-bold">Marks: </div>
+                    <div
+                        class="me-4 font-lg font-bold {{assessment!.passMarks ? getMarks(submission) >= assessment!.passMarks! ? 'passed' : 'failed' : ''}}">
+                        {{getMarks(submission)}}/{{assessment?.quizzes?.length ?? 0}}
+                        {{assessment!.passMarks ? getMarks(submission) >= assessment!.passMarks! ? ' (Passed)' : ' (Failed)' : ''}}
+                    </div>
+                    <ng-button class="btn-status" size="sm" label="View" styleClass="btn-app-dark"
+                               (onClick)="view(submission)"></ng-button>
+                </div>
+            </div>
+        </ng-template>
+
+    </ng-data-view>
+</div>

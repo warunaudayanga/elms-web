@@ -6,7 +6,7 @@ import { StudentService } from "../../../../core/services/elms/student.service";
 import { HttpError } from "../../../../core/interfaces";
 import { ClassRoom, ClassSchedule, Role, Status } from "../../../../core/entity";
 import moment from "moment";
-import { nextOccurringDateTime } from "../../../../core/utils";
+import { isBefore, isAfter, nextOccurringDateTime, isBetween } from "../../../../core/utils";
 import { ZoomService } from "../../../../core/services/elms/zoom.service";
 import { Store } from "@ngxs/store";
 import { ZoomErrors } from "../../../student/enums/zoom.error.responses.enum";
@@ -55,6 +55,14 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
     protected readonly Status = Status;
 
     protected readonly Array = Array;
+
+    protected readonly Number = Number;
+
+    protected readonly isBefore = isBefore;
+
+    protected readonly isAfter = isAfter;
+
+    protected readonly isBetween = isBetween;
 
     constructor(
         public app: AppService,
@@ -181,7 +189,7 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
         if (meetingId && joinUrl) {
             this.meetingLoading = true;
             if (this.app.isTutor) {
-                await this.zoomService.startMeeting(user!.name, meetingId, joinUrl);
+                await this.zoomService.startMeeting(this.classRoomId!, user!.name, meetingId, joinUrl);
             } else {
                 await this.zoomService.joinMeeting(user!.name, meetingId, joinUrl);
             }
@@ -276,5 +284,11 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
         this.socketSub?.unsubscribe();
     }
 
-    protected readonly Number = Number;
+    getMarks(assessment: Assessment): number {
+        return (
+            assessment.submission?.answers?.filter(ans =>
+                assessment?.quizzes?.find(q => q.id === ans.id)?.answer?.every(qAns => ans.answer?.includes(qAns)),
+            ).length ?? 0
+        );
+    }
 }

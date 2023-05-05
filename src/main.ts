@@ -1,8 +1,10 @@
-import { enableProdMode, Injector } from "@angular/core";
+import { enableProdMode, Injector, NgModuleRef } from "@angular/core";
 import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
 
 import { AppModule } from "./app/app.module";
 import { environment } from "./environments/environment";
+import { HttpClient, HttpXhrBackend } from "@angular/common/http";
+import { ConfigService } from "./app/core/services/config.service";
 
 if (environment.production) {
     enableProdMode();
@@ -10,8 +12,21 @@ if (environment.production) {
 
 export let applicationInjector: Injector;
 
-platformBrowserDynamic()
-    .bootstrapModule(AppModule)
+// eslint-disable-next-line func-style
+async function bootstrap(): Promise<NgModuleRef<AppModule>> {
+    // Load environment data before the application starts
+    const http = new HttpClient(new HttpXhrBackend({ build: (): XMLHttpRequest => new XMLHttpRequest() }));
+    const configService = new ConfigService(http);
+    await configService.loadEnvironment();
+    return platformBrowserDynamic([
+        {
+            provide: "config",
+            useValue: configService.config,
+        },
+    ]).bootstrapModule(AppModule);
+}
+
+bootstrap()
     .then(componentRef => {
         applicationInjector = componentRef.injector;
     })
@@ -35,3 +50,13 @@ platformBrowserDynamic()
 // 14. Handle when change requests are declined
 // 15. Create mixins
 // 16. Virtual scrolling
+
+// Notification Events
+// 01. New class request
+// 02. Class request accepted
+// 03. Class request declined
+// 04. Assessment created
+// 04. Assessment started
+// 05. Student joined
+// 06. Class started
+// 07. Class cancellation

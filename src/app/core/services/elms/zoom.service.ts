@@ -6,7 +6,13 @@ import { HttpClient } from "@angular/common/http";
 import { Store } from "@ngxs/store";
 import { firstValueFrom, Observable, Subject, take } from "rxjs";
 import { ZoomMeetingRole } from "../../../system/student/enums/zoom-meeting-role.enum";
-import { PaginatedZoomResponse, StartZoomMeetingOptions, ZakTokenResponse, ZoomMeeting } from "../../modules/zoom/interfaces/zoom.interfaces";
+import {
+    JoinZoomMeetingOptions,
+    PaginatedZoomResponse,
+    StartZoomMeetingOptions,
+    ZakTokenResponse,
+    ZoomMeeting,
+} from "../../modules/zoom/interfaces/zoom.interfaces";
 import { AppService } from "../../../app.service";
 import { AuthState } from "../../store";
 import { Role } from "../../entity";
@@ -119,7 +125,7 @@ export class ZoomService {
         return this.http.get<PaginatedZoomResponse<ZoomMeeting>>(`${this.url}/meeting/`).pipe(take(1));
     }
 
-    async startMeeting(name: string, meetingId: number, joinUrl: string): Promise<void> {
+    async startMeeting(classRoomId: number, name: string, meetingId: number, joinUrl: string): Promise<void> {
         try {
             if (!ZoomService.meetingStatus) {
                 const signatureRes = await firstValueFrom(this.generateSignature(meetingId, ZoomMeetingRole.HOST));
@@ -130,6 +136,7 @@ export class ZoomService {
                     return;
                 }
                 const options: StartZoomMeetingOptions = {
+                    classRoomId,
                     leaveUrl: window.location.href,
                     signature: signatureRes.signature,
                     zak: zakTokenRes.token,
@@ -154,7 +161,7 @@ export class ZoomService {
                 this.app.error("No signature found");
                 return;
             }
-            const options: StartZoomMeetingOptions = {
+            const options: JoinZoomMeetingOptions = {
                 leaveUrl: window.location.href,
                 signature: signatureRes.signature,
                 meetingId,

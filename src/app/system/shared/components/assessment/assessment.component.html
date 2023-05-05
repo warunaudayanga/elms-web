@@ -2,20 +2,50 @@
 
     <div class="heading position-sticky top-0 bg-white py-3 d-flex justify-content-between align-items-start">
         <div class="">Semester 1 Examination</div>
-        <ng-button size="sm" styleClass="btn-app-dark" [routerLink]="['/student/my-classes', assessment!.classRoomId]">Back</ng-button>
+        <ng-button size="sm" styleClass="btn-app-dark" [routerLink]="['/student/my-classes', assessment?.classRoomId!]">
+            Back
+        </ng-button>
     </div>
 
-    <qz-list *ngIf="assessment?.quizzes && !assessment?.submission" [items]="assessment!.quizzes!" [(answers)]="answers" (answersChange)="saveAnswers()"></qz-list>
+    <div *ngIf="assessment && isBefore(assessment.startTime)">
+        <div class="font-xl">This assessment has not been started yet!</div>
+    </div>
 
-    <div *ngIf="assessment?.submission">
-        <div class="font-xl">You have already submitted this assessment</div>
-        <div class="d-flex justify-content-center">
-            <ng-button class="mt-5" size="lg" styleClass="btn-app-primary font-xl" (onClick)="showUnSubmitConfirmation()">Unsubmit</ng-button>
+    <div *ngIf="assessment && isAfter(assessment.endTime)" class="mb-5">
+        <div class="font-xl">This assessment has been ended!</div>
+
+        <div class="font-bold mt-3">
+            Marks: <span
+            class="me-4 font-lg font-bold {{assessment.passMarks ? getMarks(assessment) >= assessment.passMarks! ? 'passed' : 'failed' : ''}}">
+            {{getMarks(assessment)}}/{{assessment.quizzes?.length ?? 0}}
+            {{assessment.passMarks ? getMarks(assessment) >= assessment.passMarks! ? ' (Passed)' : ' (Failed)' : ''}}
+        </span>
         </div>
     </div>
 
-    <div class="d-flex justify-content-center" *ngIf="assessment?.quizzes && !assessment?.submission">
-        <ng-button class="mt-5" size="lg" styleClass="btn-app-primary font-xl" (onClick)="showSubmitConfirmation()">Submit</ng-button>
-    </div>
+    <qz-list *ngIf="assessment && isAfter(assessment.startTime) && assessment.quizzes && (!assessment.submission || isAfter(assessment.endTime))" [items]="quizzes" [(answers)]="answers"
+             (answersChange)="saveAnswers()" [assess]="isAfter(assessment.endTime)"></qz-list>
+
+    <ng-container *ngIf="assessment && isBetween(assessment.startTime, assessment.endTime)">
+        <ng-container *ngIf="assessment.quizzes && !assessment.submission">
+            <div class="d-flex justify-content-center">
+                <ng-button class="mt-5" size="lg" styleClass="btn-app-primary font-xl"
+                           (onClick)="showSubmitConfirmation()">
+                    Submit
+                </ng-button>
+            </div>
+        </ng-container>
+
+        <div *ngIf="assessment.submission">
+            <div class="font-xl">You have submitted this assessment</div>
+            <div class="d-flex justify-content-center">
+                <ng-button *ngIf="assessment && isBetween(assessment.startTime, assessment.endTime)" class="mt-5"
+                           size="lg" styleClass="btn-app-primary font-xl"
+                           (onClick)="showUnSubmitConfirmation()">Unsubmit
+                </ng-button>
+            </div>
+        </div>
+    </ng-container>
+
 
 </ng-section>

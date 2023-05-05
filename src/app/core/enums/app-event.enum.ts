@@ -14,4 +14,7 @@ export enum AppEvent {
     CLASS_DELETED = "class.deleted",
     ASSESSMENT_CREATED = "assessment.created",
     ASSESSMENT_UPDATED = "assessment.updated",
+    NOTIFICATION_CREATED = "notification.created",
+    NOTIFICATION_READ = "notification.read",
+    NOTIFICATION_DELETE = "notification.delete",
 }

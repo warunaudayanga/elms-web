@@ -2,6 +2,7 @@ import { BaseEntity } from "./base-entity.interface";
 import { Area, GuardianRelationship, Role } from "../index";
 import { Tutor } from "./tutor.interface";
 import { ClassStudent } from "./class-student.interface";
+import { Notification } from "./notification.interface";
 
 export interface User extends BaseEntity {
     username: string;
@@ -25,4 +26,5 @@ export interface User extends BaseEntity {
     area?: Area;
     tutor?: Tutor;
     classStudents?: ClassStudent[];
+    notifications?: Notification[];
 }

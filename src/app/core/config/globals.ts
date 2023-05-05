@@ -2,7 +2,7 @@
 
 import { v4 as uuid } from "uuid";
 import { Quiz } from "../../system/shared/interfaces/quiz.interfaces";
-import { QuizDraft } from "../../system/shared/types/quiz.types";
+import { quizToDraft } from "../../system/shared/utils/quiz.utils";
 
 export class Globals {
     static SAMPLE_QUIZ_LIST: Quiz[] = [
@@ -15,6 +15,7 @@ export class Globals {
         {
             id: uuid(),
             question: "In the TV show New Girl, which actress plays Jessica Day?",
+            options: ["Zooey Deschanel", "Zoe Saldana", "Zoe Kravitz", "Zoe Kazan"],
             answer: ["Zooey Deschanel"],
         },
         {
@@ -22,7 +23,6 @@ export class Globals {
             question: "Which of the following is the largest organ in the human body?",
             options: ["Liver", "Skin", "Heart", "Brain"],
             answer: ["Skin"],
-            multiple: true,
         },
         {
             id: uuid(),
@@ -35,7 +35,6 @@ export class Globals {
             question: "What is the name of the smallest planet in our solar system?",
             options: ["Jupiter", "Mars", "Mercury", "Venus"],
             answer: ["Mercury"],
-            multiple: true,
         },
         {
             id: uuid(),
@@ -309,7 +308,5 @@ export class Globals {
         },
     ];
 
-    static SAMPLE_QUIZ_DRAFT_LIST = Globals.SAMPLE_QUIZ_LIST.map(
-        (q): QuizDraft => ({ ...q, choice: Boolean(q.options), options: q.options?.map(o => ({ value: o })) ?? [] }),
-    );
+    static SAMPLE_QUIZ_DRAFT_LIST = Globals.SAMPLE_QUIZ_LIST.map(quizToDraft);
 }

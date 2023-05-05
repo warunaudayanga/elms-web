@@ -7,7 +7,6 @@ import { markDirty } from "../../../../core/modules/ng-control/utils/form-group.
 import { Login } from "../../../../core/store";
 import { Subscription } from "rxjs";
 import { AuthError } from "../../enums";
-import { HttpError } from "../../../../core/interfaces";
 
 @Component({
     selector: "app-login",
@@ -48,19 +47,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
         this.loginLoading = true;
         this.store.dispatch(new Login(this.loginForm!.value));
-    }
-
-    resendVerification(): void {
-        this.resendLoading = true;
-        this.authService.resendVerification(this.loginForm!.value.username).subscribe({
-            next: () => {
-                this.resendLoading = false;
-                this.app.success("Verification email has been sent");
-            },
-            error: (err: HttpError) => {
-                this.app.error(err.error?.message ?? "Something went wrong");
-            },
-        });
     }
 
     ngOnDestroy(): void {

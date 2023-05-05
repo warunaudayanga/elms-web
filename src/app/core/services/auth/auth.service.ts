@@ -33,6 +33,15 @@ export class AuthService {
         );
     }
 
+    me(): Observable<User> {
+        return this.http.get<User>(`${this.url}/me`).pipe(
+            take(1),
+            tap(user => {
+                this.store.dispatch(new SetLoggedUser(user));
+            }),
+        );
+    }
+
     logout(): Observable<SuccessResponse> {
         return this.http.post<SuccessResponse>(`${this.url}/logout`, {}).pipe(take(1));
     }

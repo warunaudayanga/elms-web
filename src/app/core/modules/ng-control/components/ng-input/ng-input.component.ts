@@ -72,6 +72,8 @@ export class NgInputComponent extends NgFormControl<Date | string> implements On
 
     @Input() ngTimepicker: "" | undefined;
 
+    @Input() ngDateTimePicker: "" | undefined;
+
     @Input() noAutoComplete: "" | undefined;
 
     @Input() noValidation: "" | undefined;

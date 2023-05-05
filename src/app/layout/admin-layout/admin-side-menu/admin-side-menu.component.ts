@@ -1,7 +1,5 @@
 import { Component } from "@angular/core";
-import { MenuItem } from "../../../core/interfaces/menu.interface";
-import { Store } from "@ngxs/store";
-import { Logout } from "../../../core/store";
+import { MenuItem } from "../../../core/interfaces";
 
 @Component({
     selector: "app-admin-side-menu",
@@ -35,14 +33,5 @@ export class AdminSideMenuComponent {
             icon: "bi bi-book-half",
             routerLink: "/admin/subjects",
         },
-        {
-            label: "Logout",
-            icon: "bi bi-power",
-            action: (): void => {
-                this.store.dispatch(new Logout());
-            },
-        },
     ];
-
-    constructor(private store: Store) {}
 }

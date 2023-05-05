@@ -6,6 +6,7 @@ import { AppService } from "../../../../../app.service";
 import { HttpError } from "../../../../interfaces";
 import { StartZoomMeetingOptions } from "../../interfaces/zoom.interfaces";
 import configuration from "../../../../config/configuration";
+import { TutorService } from "../../../../services/elms/tutor.service";
 
 @Component({
     selector: "app-zoom-web-view",
@@ -21,7 +22,7 @@ export class ZoomWebViewComponent implements OnInit, OnDestroy {
 
     timeout?: NodeJS.Timer;
 
-    constructor(private readonly app: AppService, private readonly zoomService: ZoomService) {}
+    constructor(private readonly app: AppService, private readonly zoomService: ZoomService, private tutorService: TutorService) {}
 
     async ngOnInit(): Promise<void> {
         await new Promise(resolve => {
@@ -64,11 +65,30 @@ export class ZoomWebViewComponent implements OnInit, OnDestroy {
                         passWord: password,
                         userName: options.username,
                         zak: options.zak,
-                        success: () => {
+                        success: (success: any) => {
+                            console.log("success 2: ", success);
                             this.showButtons = true;
+
+                            if (options.classRoomId) {
+                                this.tutorService.notifyMeetingStarted(options.classRoomId).subscribe({
+                                    next: () => {
+                                        this.app.success("Successfully notified students!");
+                                    },
+                                    error: (err: any) => {
+                                        this.app.error(err.error?.message ?? "Failed to notify students!");
+                                    },
+                                });
+                            }
+                            // {
+                            //     "method": "join",
+                            //     "status": true,
+                            //     "errorCode": 0,
+                            //     "errorMessage": null,
+                            //     "result": null
+                            // }
                         },
                         error: (error: any) => {
-                            console.log("error 1: ", error);
+                            console.log("error 2: ", error);
                         },
                     });
                 },

@@ -1,5 +1,5 @@
 import { AfterContentInit, Component, EventEmitter, Input, Output } from "@angular/core";
-import { MenuItem } from "../../../core/interfaces/menu.interface";
+import { MenuItem } from "../../../core/interfaces";
 import { NavigationEnd, Router } from "@angular/router";
 
 @Component({

@@ -3,11 +3,11 @@
 import { Injectable } from "@angular/core";
 import { Endpoint } from "../../enums";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Observable, take } from "rxjs";
 import { PagedEntityFilters } from "../../entity/interfaces/entity.interfaces";
 import { ClassRoom, ClassSchedule } from "../../entity";
 import { EntityService } from "../../entity/services/entity.service";
-import { PaginatedResponse } from "../../interfaces/pagination.interfaces";
+import { PaginatedResponse, SuccessResponse } from "../../interfaces";
 import { ClassDto } from "../../../system/tutor/dtos/class.dto";
 import { ScheduleDto } from "../../../system/tutor/dtos/schedule.dto";
 import { AssessmentDto } from "../../../system/shared/dtos/assessment.dto";
@@ -55,5 +55,13 @@ export class TutorService {
 
     updateAssessment(id: number, assessment: Partial<AssessmentDto>): Observable<Assessment> {
         return this.http.patch<Assessment>(`${this.url}/${Endpoint.CLASSES}/${Endpoint.ASSESSMENT}/${id}`, assessment);
+    }
+
+    getAssessment(id: number): Observable<Assessment> {
+        return this.http.get<Assessment>(`${this.url}/${Endpoint.CLASSES}/${Endpoint.ASSESSMENT}/${id}`);
+    }
+
+    notifyMeetingStarted(classRoomId: number): Observable<SuccessResponse> {
+        return this.http.post<SuccessResponse>(`${this.url}/notify-meeting-started`, { classRoomId }).pipe(take(1));
     }
 }

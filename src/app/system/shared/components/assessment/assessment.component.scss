@@ -1,1 +1,15 @@
+@import "src/style/scss";
+
+.heading {
+    background-color: $app-surface-color;
+    z-index: 1;
+}
+
+.passed {
+    color: $success
+}
+
+.failed {
+    color: $danger
+}
 

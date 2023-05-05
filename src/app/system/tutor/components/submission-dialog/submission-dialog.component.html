@@ -1,0 +1,10 @@
+<div class="custom-dialog">
+    <div class="dialog-header" mat-dialog-title>Submission</div>
+    <mat-dialog-content>
+        <qz-list *ngIf="config.data?.quizzes" [items]="config.data!.quizzes" [answers]="config.data?.submission?.answers ?? []" [assess]="true"></qz-list>
+    </mat-dialog-content>
+    <mat-divider></mat-divider>
+    <mat-dialog-actions>
+        <ng-button styleClass="btn-app-primary" label="Close" size="sm" (onClick)="close()"></ng-button>
+    </mat-dialog-actions>
+</div>

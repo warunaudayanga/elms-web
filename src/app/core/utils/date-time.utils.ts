@@ -83,3 +83,15 @@ export const dateToYmd = (date: Date): string => {
 export const isThisMonth = (date: string): boolean => {
     return moment(date, "YYYY-MM-DD").isSame(moment(), "month");
 };
+
+export const isBefore = (date: Date | string): boolean => {
+    return moment().isBefore(moment(date));
+};
+
+export const isAfter = (date: Date | string): boolean => {
+    return moment().isAfter(moment(date));
+};
+
+export const isBetween = (start: Date | string, end: Date | string): boolean => {
+    return moment().isBetween(moment(start), moment(end));
+};

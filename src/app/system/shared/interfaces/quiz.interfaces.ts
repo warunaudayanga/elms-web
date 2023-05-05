@@ -24,5 +24,7 @@ export interface AssessmentDraft {
     name?: string;
     description?: string;
     passMarks?: number;
+    startTime?: string;
+    endTime?: string;
     drafts?: QuizDraft[];
 }

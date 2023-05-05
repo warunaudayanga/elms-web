@@ -2,12 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { AuthService } from "../../../../core/services";
 import { AppService } from "../../../../app.service";
-import { HttpError } from "../../../../core/interfaces";
+import { HttpError, KeyValue } from "../../../../core/interfaces";
 import { matched } from "../../../../core/validators/validators";
 import { Area, GuardianRelationship } from "../../../../core/entity";
 import { CommonService } from "../../../../core/services/elms/common.service";
 import { enumToKeyValue, toTitleCase } from "../../../../core/utils";
-import { KeyValue } from "../../../../core/interfaces/util.interfaces";
 
 @Component({
     selector: "app-register",
@@ -85,7 +84,9 @@ export class RegisterComponent implements OnInit {
             this.authService.register(this.registerForm!.value).subscribe({
                 next: () => {
                     this.loading = false;
-                    this.app.success("Student registered successfully.");
+                    this.app.success(
+                        "Student registered successfully. A verification email has been sent to your email address. Please verify your email address to login.",
+                    );
                     this.app.load("/"); // TODO: a dialog would be better
                 },
                 error: (err: HttpError) => {

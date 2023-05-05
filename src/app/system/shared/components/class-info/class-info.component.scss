@@ -1,0 +1,9 @@
+@import "src/style/scss";
+
+.passed {
+    color: $success
+}
+
+.failed {
+    color: $danger
+}

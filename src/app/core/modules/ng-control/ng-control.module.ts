@@ -21,6 +21,7 @@ import { NgErrorComponent } from "./components/ng-error/ng-error.component";
 import { NgSectionContentDirective } from "./directives/ng-section/ng-section-content.directive";
 import { TimepickerModule } from "ngx-bootstrap/timepicker";
 import { NgPaginatorComponent } from "./components/paginator/ng-paginator.component";
+import { NgDateComponent } from "./components/ng-date/ng-date.component";
 
 @NgModule({
     declarations: [
@@ -40,6 +41,7 @@ import { NgPaginatorComponent } from "./components/paginator/ng-paginator.compon
         NgErrorComponent,
         NgErrorComponent,
         NgPaginatorComponent,
+        NgDateComponent,
     ],
     imports: [
         CommonModule,
@@ -68,6 +70,7 @@ import { NgPaginatorComponent } from "./components/paginator/ng-paginator.compon
         NgErrorComponent,
         NgErrorComponent,
         NgPaginatorComponent,
+        NgDateComponent,
     ],
 })
 export class NgControlModule {}

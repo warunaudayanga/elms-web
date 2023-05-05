@@ -113,20 +113,60 @@
             <div class="bordered rounded p-3 mt-layout" *ngFor="let assessment of classRoom?.assessments">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <div class="font-xl font-bold">{{assessment.name}}</div>
+                    <div class="font-bold">
+                        {{assessment?.startTime | date:'MMM dd, YYYY / hh:mm a'}}
+                        - {{assessment?.endTime | date:'MMM dd, YYYY / hh:mm a'}}
+                    </div>
                 </div>
                 <div class="description sub-text mb-3">{{assessment.description}}</div>
                 <div
-                    class="d-flex align-items-center {{app.isTutor ? 'justify-content-between' : 'justify-content-end'}}">
-                    <div *ngIf="app.isTutor"
-                         class="font-bold font-lg rounded-5 bg-app-primary text-light px-2">{{assessment.submissions?.length}}
-                        /{{classRoom?.classStudents?.length}}</div>
-                    <ng-button *ngIf="!app.isTutor" styleClass="btn-app-dark" size="sm"
-                               [routerLink]="['/student/my-classes/assessment', assessment.id]">Start
-                    </ng-button>
-                    <ng-button *ngIf="app.isTutor" styleClass="btn-app-dark" size="sm"
-                               (onClick)="showAssessmentDialog(assessment)">
-                        <i class="bi bi-pen me-3"></i>Edit Questions
-                    </ng-button>
+                    class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <div *ngIf="app.isTutor">
+                            <span class="font-bold">Submitted: </span>
+                            <span
+                                 class="font-bold font-lg rounded-5 bg-app-primary text-light px-2">
+                                {{assessment.submissions?.length}}/{{classRoom?.classStudents?.length}}
+                            </span>
+                        </div>
+                        <div *ngIf="!app.isTutor && isAfter(assessment.endTime!)" class="font-bold">
+                            Marks: <span
+                            class="me-4 font-lg font-bold {{assessment!.passMarks ? getMarks(assessment) >= assessment!.passMarks! ? 'passed' : 'failed' : ''}}">
+                            {{getMarks(assessment)}}/{{assessment?.quizzes?.length ?? 0}}
+                            {{assessment!.passMarks ? getMarks(assessment) >= assessment!.passMarks! ? ' (Passed)' : ' (Failed)' : ''}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-end gap-3">
+                        <ng-container *ngIf="app.isTutor" class="d-flex justify-content-end gap-3">
+                            <div class="font-bold" *ngIf="isBetween(assessment.startTime!, assessment.endTime!)">Assessment is in progress now</div>
+                            <div *ngIf="isAfter(assessment.endTime!)" class="font-bold">Assessment has been ended</div>
+                            <ng-button *ngIf="isBefore(assessment.startTime!)"
+                                       styleClass="btn-app-dark" size="sm" (onClick)="showAssessmentDialog(assessment)">
+                                <i class="bi bi-pen me-3"></i>Edit Questions
+                            </ng-button>
+                            <ng-button *ngIf="isAfter(assessment.startTime!)" styleClass="btn-app-primary" size="sm"
+                                       [routerLink]="['/tutor/my-classes/submissions', assessment.id]">
+                                <i class="bi bi-list-check me-3"></i>View Submissions
+                            </ng-button>
+                        </ng-container>
+
+                        <ng-container *ngIf="!app.isTutor">
+                            <div class="font-bold" *ngIf="isBefore(assessment.startTime!)">Assessment not started yet</div>
+                            <ng-button
+                                *ngIf="isBetween(assessment.startTime!, assessment.endTime!)"
+                                styleClass="btn-app-dark" size="sm"
+                                [routerLink]="['/student/my-classes/assessment', assessment.id]">
+                                {{assessment.submission ? 'Update' : 'Start'}}
+                            </ng-button>
+                            <ng-container *ngIf="isAfter(assessment.endTime!)">
+                                <div class="font-bold">Assessment has been ended</div>
+                                <ng-button styleClass="btn-app-dark" size="sm"
+                                           [routerLink]="['/student/my-classes/assessment', assessment.id]">View
+                                </ng-button>
+                            </ng-container>
+                        </ng-container>
+                    </div>
                 </div>
             </div>
 

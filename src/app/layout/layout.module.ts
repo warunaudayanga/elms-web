@@ -18,6 +18,9 @@ import { StudentFooterComponent } from "./student-layout/student-footer/student-
 import { TutorHeaderComponent } from "./tutor-layout/tutor-header/tutor-header.component";
 import { TutorSideMenuComponent } from "./tutor-layout/tutor-side-menu/tutor-side-menu.component";
 import { TutorFooterComponent } from "./tutor-layout/tutor-footer/tutor-footer.component";
+import { PopUpMenuComponent } from "./shared/pop-up-menu/pop-up-menu.component";
+import { NotificationsComponent } from "./shared/notifications/notifications.component";
+import { MomentModule } from "ngx-moment";
 
 @NgModule({
     declarations: [
@@ -38,7 +41,9 @@ import { TutorFooterComponent } from "./tutor-layout/tutor-footer/tutor-footer.c
         StudentHeaderComponent,
         StudentSideMenuComponent,
         StudentFooterComponent,
+        PopUpMenuComponent,
+        NotificationsComponent,
     ],
-    imports: [CommonModule, SharedModule, RouterModule],
+    imports: [CommonModule, SharedModule, RouterModule, MomentModule],
 })
 export class LayoutModule {}

@@ -1,7 +1,8 @@
 <div class="quiz bordered rounded p-4 mb-4">
     <button type="button" class="btn-remove-quiz btn-close btn" (click)="onRemove.emit($event)"></button>
     <div class="font-bold font-lg mb-2">Question {{index !== undefined ? index + 1 : ''}}</div>
-    <ng-input required class="flex-grow-1" noValidation ngTextarea size="sm" [(ngModel)]="quizDraft.question" (ngModelChange)="quizChange()"></ng-input>
+    <ng-input required class="flex-grow-1" noValidation ngTextarea size="sm" [(ngModel)]="quizDraft.question"
+              (ngModelChange)="quizChange()"></ng-input>
     <div class="">
         <div class="font-bold mt-3 mb-2">Answer</div>
         <div class="answers">
@@ -9,34 +10,51 @@
                 <div class="form-check">
                     <input class="form-check-input" type="radio" [name]="quizDraft.id" [id]="quizDraft.id + '_choose'"
                            [checked]="quizDraft.choice && !quizDraft.multiple" (click)="answerTypeChange(true, false)">
-                    <label class="form-check-label" [for]="quizDraft.id + '_choose'">Single Choice</label>
+                    <label class="form-check-label" [for]="quizDraft.id + '_choose'">Choice</label>
                 </div>
-                <div class="form-check ms-3">
-                    <input class="form-check-input" type="radio" [name]="quizDraft.id" [id]="quizDraft.id + '_multi'"
-                           [checked]="quizDraft.choice && quizDraft.multiple" (click)="answerTypeChange(true, true)">
-                    <label class="form-check-label" [for]="quizDraft.id + '_multi'">Multiple Choice</label>
-                </div>
-                <div class="form-check">
-                    <input #write class="form-check-input" type="radio" [name]="quizDraft.id" [id]="quizDraft.id + '_write'"
-                           [checked]="!quizDraft.choice" (click)="answerTypeChange(false)">
-                    <label class="form-check-label" [for]="quizDraft.id + '_write'">Written Answer</label>
-                </div>
+<!--                <div class="form-check ms-3">-->
+<!--                    <input class="form-check-input" type="radio" [name]="quizDraft.id" [id]="quizDraft.id + '_multi'"-->
+<!--                           [checked]="quizDraft.choice && quizDraft.multiple" (click)="answerTypeChange(true, true)">-->
+<!--                    <label class="form-check-label" [for]="quizDraft.id + '_multi'">Multiple Choice</label>-->
+<!--                </div>-->
+<!--                <div class="form-check">-->
+<!--                    <input #write class="form-check-input" type="radio" [name]="quizDraft.id"-->
+<!--                           [id]="quizDraft.id + '_write'"-->
+<!--                           [checked]="!quizDraft.choice" (click)="answerTypeChange(false)">-->
+<!--                    <label class="form-check-label" [for]="quizDraft.id + '_write'">Written Answer</label>-->
+<!--                </div>-->
             </div>
             <div class="flex-grow-1">
-                <div class="choices" *ngIf="!write.checked">
-                    <div class="mb-3 d-flex align-items-center gap-3"
-                         *ngFor="let option of quizDraft.options; let i = index">
-                        <div class="choice-label">Choice {{i + 1}}</div>
-                        <ng-input class="choice-answer flex-grow-1" noValidation size="sm"
-                                  [(ngModel)]="option.value" (ngModelChange)="quizChange()"></ng-input>
-                        <button type="button" class="btn-close btn" (click)="removeChoice(option)"></button>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <ng-button class="flex-grow-1" size="sm" styleClass="btn-app-primary" (onClick)="addChoice()">
-                            <i class="bi bi-plus"></i> Add Choice
-                        </ng-button>
-                        <div class="btn-space"></div>
-                    </div>
+                <div class="choices">
+                    <table>
+                        <tr>
+                            <th colspan="2">Choice</th>
+                            <th class="ps-3">Answer{{quizDraft.multiple ? 's' : ''}}</th>
+                        </tr>
+                        <tr *ngFor="let option of quizDraft.options; let i = index">
+                            <td class="choice-label">Choice {{i + 1}}</td>
+                            <td>
+                                <ng-input class="choice-answer flex-grow-1" noValidation size="sm"
+                                          [(ngModel)]="option.value" (ngModelChange)="quizChange()"></ng-input>
+                            </td>
+                            <td class="text-center ps-3">
+                                <input class="form-check-input" [type]="quizDraft.multiple ? 'checkbox' : 'radio'"
+                                       [name]="quizDraft.id + 'answer'" [id]="quizDraft.id + '_answer_' + (i + 1)"
+                                       [checked]="quizDraft.answer?.includes(option.id)" (click)="answerChange(option.id)">
+                            </td>
+                            <td class="ps-3">
+                                <button *ngIf="(quizDraft.options?.length ?? 0) > 2" type="button" class="btn-close btn" (click)="removeChoice(option)"></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <ng-button class="flex-grow-1" size="sm" styleClass="btn-app-primary"
+                                           (onClick)="addChoice()">
+                                    <i class="bi bi-plus"></i> Add Choice
+                                </ng-button>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>

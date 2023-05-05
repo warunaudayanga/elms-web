@@ -2,10 +2,9 @@
 import { Injectable } from "@angular/core";
 import { io, Socket } from "socket.io-client";
 import { filter, fromEvent, map, Observable, Subscription } from "rxjs";
-import { MultiEventResponse, WSErrorResponse, WSMessage, WSMessageResponse } from "../interfaces/socket.interfaces";
+import { MultiEventResponse, WSErrorResponse, WSMessage, WSMessageResponse, ErrorResponse } from "../interfaces";
 import { v4 as uuid } from "uuid";
 import { AppEvent } from "../enums/app-event.enum";
-import { ErrorResponse } from "../interfaces";
 import { AppService } from "../../app.service";
 import { SocketEvent } from "../enums/socket-event";
 import configuration from "../config/configuration";

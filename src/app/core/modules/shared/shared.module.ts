@@ -56,6 +56,8 @@ import { QzListComponent } from "../../../system/shared/components/assessment/qz
         ClassCardComponent,
         MyClassCardComponent,
         ChatRoomComponent,
+        QzComponent,
+        QzListComponent,
     ],
 })
 export class SharedModule {}

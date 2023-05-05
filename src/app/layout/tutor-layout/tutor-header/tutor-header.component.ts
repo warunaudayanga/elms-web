@@ -1,4 +1,7 @@
 import { Component } from "@angular/core";
+import { Store } from "@ngxs/store";
+import { MenuItem } from "../../../core/interfaces";
+import { Logout } from "../../../core/store";
 
 @Component({
     selector: "app-tutor-header",
@@ -6,5 +9,15 @@ import { Component } from "@angular/core";
     styleUrls: ["../../shared/header.component.scss"],
 })
 export class TutorHeaderComponent {
-    constructor() {}
+    constructor(private readonly store: Store) {}
+
+    menuItems: MenuItem[] = [
+        {
+            label: "Logout",
+            icon: "bi bi-power",
+            action: (): void => {
+                this.store.dispatch(new Logout());
+            },
+        },
+    ];
 }

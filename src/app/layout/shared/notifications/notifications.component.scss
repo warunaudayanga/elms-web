@@ -1,0 +1,72 @@
+@import "src/style/scss";
+
+.notifications {
+    position: relative;
+    height: 100%;
+
+    .button {
+        height: 25px;
+        width: 25px;
+        cursor: pointer;
+
+        .icon {
+            font-size: 25px;
+            height: 25px;
+            width: 25px;
+            color: $app-text-color;
+        }
+
+        .count {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background-color: $app-primary-color;
+            color: $app-text-invert-color;
+            border-radius: 50%;
+            height: 20px;
+            width: 20px;
+            font-size: 13px;
+            line-height: 12px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .notification-list {
+        position: absolute;
+        right: 0;
+        background-color: $app-surface-color;
+        border-radius: $app-card-radius;
+        width: 350px;
+        padding-right: 5px !important;
+
+        .notifications-wrapper {
+            max-height: 500px;
+            overflow-y: auto;
+
+            .notification-wrapper {
+                cursor: pointer;
+                color: $app-text-color;
+
+                &:not(:last-child) .notification {
+                    border-bottom: 1px solid $app-border-color;
+                }
+
+                &:hover {
+                    background-color: $app-background-color;
+                }
+
+                .notification {
+
+                    &.unread .content {
+                        color: $app-primary-color;
+                        font-weight: $font-bold;
+                    }
+                }
+            }
+        }
+    }
+
+}

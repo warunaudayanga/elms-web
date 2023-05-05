@@ -4,13 +4,20 @@
     position: relative;
 }
 
-.choices {
+th {
+    text-align: center;
+}
+
+th, td {
+    padding-bottom: $spacer-2;
+}
+
+.choice-answer {
     max-width: 400px;
 }
 
 .choice-label {
-    width: 70px;
-    flex: 0 0 70px;
+    width: 80px;
 }
 
 .btn-space {
@@ -26,6 +33,7 @@
 .btn-close:focus {
     box-shadow: none !important;
 }
+
 .form-check, .form-check-input, .form-check-label {
     cursor: pointer;
 }

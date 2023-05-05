@@ -1,20 +1,30 @@
 import { ConfigService } from "../services/config.service";
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export default () => ({
-    host: ConfigService?.env?.host || "",
-    apiUrl: `${ConfigService?.env?.host || ""}/api`,
-    socketUrl: `${ConfigService?.env?.host || ""}/socket`,
-    stripe: {
-        publishableKey: ConfigService?.env?.stripe?.publishableKey || "",
-    },
-    zoom: {
-        authorizeUrl: ConfigService?.env?.zoom?.authorizeUrl || "",
-        clientId: ConfigService?.env?.zoom?.clientId || "",
-        lib: {
-            dir: ConfigService?.env?.zoom?.lib?.dir || "",
-            url: ConfigService?.env?.zoom?.lib?.url || "",
+const configurations = (env: any) => {
+    return {
+        host: env?.host || "",
+        apiUrl: `${env?.host || ""}/api`,
+        socketUrl: `${env?.host || ""}/socket`,
+        stripe: {
+            publishableKey: env?.stripe?.publishableKey || "",
         },
-        responseType: ConfigService?.env?.zoom?.responseType || "",
-    },
-});
+        zoom: {
+            authorizeUrl: env?.zoom?.authorizeUrl || "",
+            clientId: env?.zoom?.clientId || "",
+            lib: {
+                dir: env?.zoom?.lib?.dir || "",
+                url: env?.zoom?.lib?.url || "",
+            },
+            responseType: env?.zoom?.responseType || "",
+        },
+    };
+};
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export default () => configurations(ConfigService.env);
+
+// noinspection JSUnusedGlobalSymbols
+export const asyncConfiguration = async (): Promise<any> => {
+    return configurations(await ConfigService.asyncEnv);
+};
