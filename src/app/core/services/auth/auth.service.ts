@@ -9,6 +9,7 @@ import { SetLoggedUser } from "../../store";
 import { AuthError } from "../../../system/auth/enums";
 import { Endpoint } from "../../enums";
 import configuration from "../../config/configuration";
+import { ResetPasswordDto } from "../../../system/auth/dto/reset-password.dto";
 
 @Injectable({
     providedIn: "root",
@@ -60,5 +61,13 @@ export class AuthService {
 
     verifyAccount(token: string): Observable<SuccessResponse> {
         return this.http.post<SuccessResponse>(`${this.url}/verify-account`, { token });
+    }
+
+    requestPasswordReset(email: string): Observable<SuccessResponse> {
+        return this.http.post<SuccessResponse>(`${this.url}/request-password-reset`, { email });
+    }
+
+    resetPassword(resetPasswordDto: ResetPasswordDto): Observable<SuccessResponse> {
+        return this.http.post<SuccessResponse>(`${this.url}/reset-password`, resetPasswordDto);
     }
 }
