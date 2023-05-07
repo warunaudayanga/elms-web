@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { SaveQuizAnswers, SaveAssessmentDrafts, ClearAssessmentDraft, ClearQuizAnswers } from "./quiz.action";
+import { SaveQuizAnswers, SaveAssessmentDrafts, ClearAssessmentDraft, ClearQuizAnswers, InitQuizState } from "./quiz.action";
 import { QuizAnswerList, AssessmentDraft } from "../../../system/shared/interfaces/quiz.interfaces";
 import { deepCopyObject } from "../../utils";
 
@@ -42,6 +42,12 @@ export class QuizState {
     @Selector()
     static getAssessmentDrafts(state: QuizStateModel): AssessmentDraft[] {
         return deepCopyObject(state.assessmentDrafts);
+    }
+
+    // noinspection JSUnusedLocalSymbols
+    @Action(InitQuizState)
+    initState({ setState }: StateContext<QuizStateModel>, action: InitQuizState): void {
+        setState({ quizAnswerLists: [], assessmentDrafts: [] });
     }
 
     @Action(SaveQuizAnswers)
