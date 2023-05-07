@@ -10,6 +10,7 @@ import { AuthService } from "../../services";
 import { StateClear } from "ngxs-reset-plugin";
 import { HttpError, SuccessResponse } from "../../interfaces";
 import { AuthError } from "../../../system/auth/enums";
+import { InitQuizState } from "../quiz/quiz.action";
 
 interface AuthStateModel {
     loggedIn: boolean;
@@ -56,6 +57,7 @@ export class AuthState {
                     loggedIn: true,
                     user,
                 });
+                this.store.dispatch(new InitQuizState());
                 this.ngZone.run(() => {
                     switch (user.role) {
                         case Role.SUPER_ADMIN:

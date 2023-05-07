@@ -23,3 +23,9 @@ export class ClearQuizAnswers {
 
     constructor(public payload: number) {}
 }
+
+export class InitQuizState {
+    static readonly type = "[Quiz] InitQuizState";
+
+    constructor() {}
+}
