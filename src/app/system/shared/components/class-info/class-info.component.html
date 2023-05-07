@@ -5,14 +5,15 @@
     </div>
 
     <div *ngIf="isPending" class="rounded p-3 pending mb-3">
-        This class has not been activated yet. Please contact a administrator if the activation process is taking too long!.
+        This class has not been activated yet. Please contact a administrator if the activation process is taking too
+        long!.
     </div>
 
     <app-chat-room *ngIf="classRoom?.status === Status.ACTIVE && classRoom?.chatRoom" [chatRoom]="classRoom!.chatRoom!"
                    [name]="classRoom!.name"></app-chat-room>
 
     <ng-section class="mb-layout"
-                styleClass="app-card rounded p-layout {{classRoom?.changeRequest ? 'pending' : ''}}">
+                styleClass="app-card rounded p-layout">
         <div class="d-flex justify-content-between">
             <div class="font-bold font-2xl d-flex gap-3">
                 <div
@@ -29,17 +30,28 @@
                 </button>
             </div>
         </div>
-        <div class="font-lg">{{classRoom?.description}}</div>
+        <div *ngIf="classRoom?.changeRequest && classRoom?.name !== classRoom?.changeRequest?.name"
+             class="font-bold font-2xl d-flex">
+            <div class="text-app-primary rounded pending py-1 px-3">
+                {{classRoom?.grade?.name}} {{classRoom?.subject?.name}} {{classRoom?.name}}
+            </div>
+        </div>
+        <ng-container *ngIf="classRoom?.description">
+            <div class="font-lg mt-3">{{classRoom?.description}}</div>
+            <div
+                *ngIf="classRoom?.changeRequest?.description && classRoom?.description !== classRoom?.changeRequest?.description"
+                class="font-lg rounded pending py-2 px-3">{{classRoom?.changeRequest?.description}}</div>
+        </ng-container>
     </ng-section>
 
-    <ng-section class="mb-layout"
-                styleClass="app-card rounded p-layout {{classRoom?.changeRequest ? 'pending' : ''}}">
+    <ng-section class="mb-layout" styleClass="app-card rounded p-layout">
         <div class="d-flex justify-content-between mb-2">
             <div class="heading">Class info</div>
             <div class="d-flex align-items-start justify-content-end gap-3">
                 <button *ngIf="isActive && app.isTutor" class="btn btn-app-primary"
                         [disabled]="classRoom?.schedule?.status === Status.PENDING || classRoom?.schedule?.changeRequest"
                         (click)="showScheduleDialog()">
+                    <i class="bi bi-calendar-fill me-2"></i>
                     {{classRoom?.schedule ? classRoom?.schedule?.status === Status.PENDING ? 'Schedule Set Requested' : classRoom?.schedule?.changeRequest ? 'Schedule Change Requested' : 'Request Schedule Change' : 'Set Schedule'}}
                 </button>
             </div>
@@ -48,18 +60,31 @@
             Class fees for this month is not paid for this class. You won't be able to join the class until you pay the
             fees.
         </div>
-        <div class="d-flex justify-content-between align-items-end">
-            <div *ngIf="classRoom?.schedule">
-                <div class="rounded p-3"
-                     [class.pending]="classRoom?.schedule?.status === Status.PENDING || classRoom?.schedule?.changeRequest">
-                    <div class="font-3xl">{{classRoom?.schedule?.day | toTitleCase}}</div>
-                    <div *ngIf="classRoom?.schedule" class="price">{{classRoom?.schedule?.startTime | time:'hh:mm a'}}
-                        - {{classRoom?.schedule?.endTime | time:'hh:mm a'}}</div>
-                </div>
-                <div class="font-4xl mt-3 font-bold">LKR {{classRoom?.payment | number:'1.2-2'}}</div>
-            </div>
+        <div *ngIf="classRoom?.schedule" class="d-flex align-items-end justify-content-between">
             <div>
-                <ng-button *ngIf="isActive && classRoom?.schedule?.meetingId && (app.isTutor || classRoom?.isPaid)" size="sm"
+                <div class="d-flex gap-3 align-items-center">
+                    <div class="rounded">
+                        <div class="font-3xl">{{classRoom?.schedule?.day | toTitleCase}}</div>
+                        <div *ngIf="classRoom?.schedule">{{classRoom?.schedule?.startTime | time:'hh:mm a'}}
+                            - {{classRoom?.schedule?.endTime | time:'hh:mm a'}}</div>
+                    </div>
+                    <div *ngIf="classRoom?.schedule?.changeRequest" class="rounded px-3 py-2 pending">
+                        <div class="font-3xl">{{classRoom?.schedule?.changeRequest?.day | toTitleCase}}</div>
+                        <div>{{classRoom?.schedule?.changeRequest?.startTime | time:'hh:mm a'}}
+                            - {{classRoom?.schedule?.changeRequest?.endTime | time:'hh:mm a'}}</div>
+                    </div>
+                </div>
+                <div class="d-flex gap-3 mt-3 align-items-center">
+                    <div class="font-4xl font-bold">LKR {{classRoom?.payment | number:'1.2-2'}}</div>
+                    <div
+                        *ngIf="classRoom?.changeRequest && Number(classRoom?.payment) !== Number(classRoom?.changeRequest?.payment)"
+                        class="font-4xl font-bold pending rounded px-3 py-1">
+                        LKR {{classRoom?.changeRequest?.payment | number:'1.2-2'}}</div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end">
+                <ng-button *ngIf="isActive && classRoom?.schedule?.meetingId && (app.isTutor || classRoom?.isPaid)"
+                           size="sm"
                            styleClass="btn-app-zoom"
                            [spin]="meetingLoading" (onClick)="joinMeeting()">
                     <i class="bi bi-camera-video-fill me-3"></i>{{app.isTutor ? 'Start' : 'Join'}} Meeting
@@ -72,7 +97,8 @@
         </div>
     </ng-section>
 
-    <ng-section *ngIf="isActive" class="mb-layout" styleClass="app-card rounded p-layout">
+    <ng-section *ngIf="isActive && (app.isTutor || classRoom?.assessments)" class="mb-layout"
+                styleClass="app-card rounded p-layout">
         <div class="d-flex justify-content-between mb-layout">
             <div class="heading">Assessments</div>
             <div class="d-flex align-items-start justify-content-end gap-3">
@@ -87,14 +113,60 @@
             <div class="bordered rounded p-3 mt-layout" *ngFor="let assessment of classRoom?.assessments">
                 <div class="d-flex align-items-center justify-content-between mb-3">
                     <div class="font-xl font-bold">{{assessment.name}}</div>
+                    <div class="font-bold">
+                        {{assessment?.startTime | date:'MMM dd, YYYY / hh:mm a'}}
+                        - {{assessment?.endTime | date:'MMM dd, YYYY / hh:mm a'}}
+                    </div>
                 </div>
                 <div class="description sub-text mb-3">{{assessment.description}}</div>
-                <div class="d-flex align-items-center {{app.isTutor ? 'justify-content-between' : 'justify-content-end'}}">
-                    <div *ngIf="app.isTutor" class="font-bold font-lg rounded-5 bg-app-primary text-light px-2">{{assessment.submissions?.length}}/{{classRoom?.classStudents?.length}}</div>
-                    <ng-button *ngIf="!app.isTutor" styleClass="btn-app-dark" size="sm" [routerLink]="['/student/my-classes/assessment', assessment.id]">Start</ng-button>
-                    <ng-button *ngIf="app.isTutor" styleClass="btn-app-dark" size="sm" (onClick)="showAssessmentDialog(assessment)">
-                        <i class="bi bi-pen me-3"></i>Edit Questions
-                    </ng-button>
+                <div
+                    class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <div *ngIf="app.isTutor">
+                            <span class="font-bold">Submitted: </span>
+                            <span
+                                 class="font-bold font-lg rounded-5 bg-app-primary text-light px-2">
+                                {{assessment.submissions?.length}}/{{classRoom?.classStudents?.length}}
+                            </span>
+                        </div>
+                        <div *ngIf="!app.isTutor && isAfter(assessment.endTime!)" class="font-bold">
+                            Marks: <span
+                            class="me-4 font-lg font-bold {{assessment!.passMarks ? getMarks(assessment) >= assessment!.passMarks! ? 'passed' : 'failed' : ''}}">
+                            {{getMarks(assessment)}}/{{assessment?.quizzes?.length ?? 0}}
+                            {{assessment!.passMarks ? getMarks(assessment) >= assessment!.passMarks! ? ' (Passed)' : ' (Failed)' : ''}}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-end gap-3">
+                        <ng-container *ngIf="app.isTutor" class="d-flex justify-content-end gap-3">
+                            <div class="font-bold" *ngIf="isBetween(assessment.startTime!, assessment.endTime!)">Assessment is in progress now</div>
+                            <div *ngIf="isAfter(assessment.endTime!)" class="font-bold">Assessment has been ended</div>
+                            <ng-button *ngIf="isBefore(assessment.startTime!)"
+                                       styleClass="btn-app-dark" size="sm" (onClick)="showAssessmentDialog(assessment)">
+                                <i class="bi bi-pen me-3"></i>Edit Questions
+                            </ng-button>
+                            <ng-button *ngIf="isAfter(assessment.startTime!)" styleClass="btn-app-primary" size="sm"
+                                       [routerLink]="['/tutor/my-classes/submissions', assessment.id]">
+                                <i class="bi bi-list-check me-3"></i>View Submissions
+                            </ng-button>
+                        </ng-container>
+
+                        <ng-container *ngIf="!app.isTutor">
+                            <div class="font-bold" *ngIf="isBefore(assessment.startTime!)">Assessment not started yet</div>
+                            <ng-button
+                                *ngIf="isBetween(assessment.startTime!, assessment.endTime!)"
+                                styleClass="btn-app-dark" size="sm"
+                                [routerLink]="['/student/my-classes/assessment', assessment.id]">
+                                {{assessment.submission ? 'Update' : 'Start'}}
+                            </ng-button>
+                            <ng-container *ngIf="isAfter(assessment.endTime!)">
+                                <div class="font-bold">Assessment has been ended</div>
+                                <ng-button styleClass="btn-app-dark" size="sm"
+                                           [routerLink]="['/student/my-classes/assessment', assessment.id]">View
+                                </ng-button>
+                            </ng-container>
+                        </ng-container>
+                    </div>
                 </div>
             </div>
 

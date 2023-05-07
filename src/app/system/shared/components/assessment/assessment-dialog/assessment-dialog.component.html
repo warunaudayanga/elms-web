@@ -13,12 +13,25 @@
                     </div>
                     <ng-input class="description" label="Description" ngTextarea size="sm"
                               formControlName="description" (valueChange)="saveDraft()"></ng-input>
+                    <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+                        <ng-date ngDateTimePicker class="date" label="Start" size="sm" formControlName="startTime"
+                                  (valueChange)="saveDraft()" [defaultTime]="defaultStart"></ng-date>
+                        <ng-date ngDateTimePicker class="date" label="End" size="sm" formControlName="endTime"
+                                    (valueChange)="saveDraft()" [defaultTime]="defaultEnd"></ng-date>
+                    </div>
                 </div>
 
-                <quiz-editor *ngFor="let quizDraft of questions; let i = index" [(quizDraft)]="questions[i]" [index]="i"
-                             (onRemove)="removeQuiz(quizDraft)" (quizDraftChange)="quizChange()"></quiz-editor>
+                <div *ngIf="this.quizDrafts">
+                    <ng-spinner></ng-spinner>
+                </div>
 
-                <ng-button size="sm" styleClass="btn-app-primary" (onClick)="addQuiz()">
+                <ng-container *ngIf="questions">
+                    <quiz-editor *ngFor="let quizDraft of questions; let i = index" [(quizDraft)]="questions[i]"
+                                 [index]="i"
+                                 (onRemove)="removeQuiz(quizDraft)" (quizDraftChange)="quizChange()"></quiz-editor>
+                </ng-container>
+
+                <ng-button *ngIf="questions !== undefined" size="sm" styleClass="btn-app-primary" (onClick)="addQuiz()">
                     <i class="bi bi-plus"></i> Add Question
                 </ng-button>
 

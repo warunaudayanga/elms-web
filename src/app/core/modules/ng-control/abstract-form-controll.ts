@@ -1,13 +1,6 @@
 // noinspection JSUnusedLocalSymbols,JSUnusedGlobalSymbols
 
-import {
-    AbstractControl,
-    ControlContainer,
-    ControlValueAccessor,
-    ValidationErrors,
-    Validator,
-    ValidatorFn,
-} from "@angular/forms";
+import { AbstractControl, ControlContainer, ControlValueAccessor, ValidationErrors, Validator, ValidatorFn } from "@angular/forms";
 import { toLowerCaseBreak } from "../../utils";
 import { EventEmitter } from "@angular/core";
 
@@ -77,6 +70,7 @@ export abstract class NgFormControl<T> implements ControlValueAccessor, Validato
     }
 
     changeValue(value: T | null): void {
+        this.value = value;
         this.control?.markAsTouched();
         this.control?.markAsDirty();
         this.onChanged?.(value);

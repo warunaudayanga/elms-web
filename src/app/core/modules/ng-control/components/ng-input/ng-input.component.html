@@ -6,7 +6,7 @@
     <i class="icon" *ngIf="icon" [class]="icon"></i>
     <span *ngIf="!icon && rightText" class="input-group-text">{{rightText}}</span>
     <input
-        *ngIf="ngDatepicker === undefined && ngTimepicker === undefined && ngTextarea === undefined"
+        *ngIf="ngDatepicker === undefined && ngTimepicker === undefined && ngTextarea === undefined && ngDateTimePicker === undefined"
         #input
         [type]="getType()"
         maxlength="255"
@@ -25,21 +25,6 @@
         [min]="min"
         (ngModelChange)="changeValue($event)">
 
-    <input
-        *ngIf="ngDatepicker !== undefined"
-        bsDatepicker
-        type="text"
-        class="form-control ng-form-control {{getInputClasses()}}"
-        spellcheck="false"
-        [class.is-invalid]="this.isInvalid()"
-        [class.has-icon]="icon"
-        [name]="formControlName"
-        [attr.name]="formControlName"
-        [readonly]="readonly"
-        [ngModel]="value"
-        [disabled]="disabled"
-        (ngModelChange)="changeValue($event)">
-
     <!--suppress JSUnusedGlobalSymbols -->
     <textarea
         *ngIf="ngTextarea !== undefined"
@@ -56,6 +41,22 @@
         (ngModelChange)="changeValue($event); autoResizeTextArea()">
     </textarea>
 
+    <input
+        *ngIf="ngDatepicker !== undefined"
+        bsDatepicker
+        type="text"
+        class="form-control ng-form-control text-center {{getInputClasses()}}"
+        spellcheck="false"
+        [class.is-invalid]="this.isInvalid()"
+        [class.has-icon]="icon"
+        [name]="formControlName"
+        [attr.name]="formControlName"
+        [readonly]="readonly"
+        [ngModel]="value"
+        [disabled]="disabled"
+        [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+        (ngModelChange)="changeValue($event)">
+
     <!--suppress JSUnusedGlobalSymbols -->
     <timepicker
         *ngIf="ngTimepicker !== undefined"
@@ -69,6 +70,37 @@
         [ngModel]="value"
         [disabled]="disabled"
         (ngModelChange)="changeValue($event)"></timepicker>
+
+    <div *ngIf="ngDateTimePicker !== undefined" class="form-control ng-form-control datetime-picker">
+        <div class="date-picker">
+            <input
+                bsDatepicker
+                type="text"
+                class="form-control ng-form-control text-center {{getInputClasses()}}"
+                spellcheck="false"
+                [class.is-invalid]="this.isInvalid()"
+                [class.has-icon]="icon"
+                [name]="formControlName"
+                [attr.name]="formControlName"
+                [readonly]="readonly"
+                [ngModel]="value"
+                [disabled]="disabled"
+                [bsConfig]="{ dateInputFormat: 'YYYY-MM-DD' }"
+                (ngModelChange)="changeValue($event)">
+        </div>
+        <div>
+            <!--suppress JSUnusedGlobalSymbols -->
+            <timepicker
+                [mousewheel]="true"
+                [arrowkeys]="true"
+                [class.is-invalid]="this.isInvalid()"
+                [class.has-icon]="icon"
+                [attr.name]="formControlName"
+                [ngModel]="value"
+                [disabled]="disabled"
+                (ngModelChange)="changeValue($event)"></timepicker>
+        </div>
+    </div>
 
 </div>
 <div *ngIf="description" class="form-text">{{description}}</div>

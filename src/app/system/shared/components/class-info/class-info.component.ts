@@ -6,7 +6,7 @@ import { StudentService } from "../../../../core/services/elms/student.service";
 import { HttpError } from "../../../../core/interfaces";
 import { ClassRoom, ClassSchedule, Role, Status } from "../../../../core/entity";
 import moment from "moment";
-import { nextOccurringDateTime } from "../../../../core/utils";
+import { isBefore, isAfter, nextOccurringDateTime, isBetween } from "../../../../core/utils";
 import { ZoomService } from "../../../../core/services/elms/zoom.service";
 import { Store } from "@ngxs/store";
 import { ZoomErrors } from "../../../student/enums/zoom.error.responses.enum";
@@ -55,6 +55,14 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
     protected readonly Status = Status;
 
     protected readonly Array = Array;
+
+    protected readonly Number = Number;
+
+    protected readonly isBefore = isBefore;
+
+    protected readonly isAfter = isAfter;
+
+    protected readonly isBetween = isBetween;
 
     constructor(
         public app: AppService,
@@ -140,6 +148,16 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
                 this.interval = setInterval(() => {
                     this.setNextOccurrence();
                 }, 1000);
+                if (classRoom.schedule?.needZooAuthentication) {
+                    const confirmation = this.dialogService.confirm(
+                        "Zoom need to be authorized in order to manage some features of your classrooms. Do you want to authorize now?",
+                    );
+                    confirmation.subscribe(res => {
+                        if (res) {
+                            this.zoomService.authorizeView();
+                        }
+                    });
+                }
             },
             error: (err: HttpError<ZoomErrors>) => {
                 this.loading = false;
@@ -170,7 +188,11 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
         const joinUrl = this.classRoom?.schedule?.joinUrl;
         if (meetingId && joinUrl) {
             this.meetingLoading = true;
-            await this.zoomService.joinMeeting(user!.name, meetingId, joinUrl);
+            if (this.app.isTutor) {
+                await this.zoomService.startMeeting(this.classRoomId!, user!.name, meetingId, joinUrl);
+            } else {
+                await this.zoomService.joinMeeting(user!.name, meetingId, joinUrl);
+            }
             this.meetingLoading = false;
         }
     }
@@ -212,21 +234,18 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
     }
 
     showScheduleDialog(): void {
-        const res = this.dialogService.open<ClassSchedule, { classRoomId: number; schedule?: ClassSchedule }>(
-            ScheduleDialogComponent,
-            {
+        const res = this.dialogService.open<ClassSchedule, { classRoomId: number; schedule?: ClassSchedule }>(ScheduleDialogComponent, {
+            data: {
                 data: {
-                    data: {
-                        classRoomId: this.classRoomId!,
-                        schedule: this.classRoom!.schedule,
-                    },
+                    classRoomId: this.classRoomId!,
+                    schedule: this.classRoom!.schedule,
                 },
-                width: "400px",
-                disableClose: true,
-                panelClass: ["dialog-container", "primary"],
-                maxWidth: "400px",
             },
-        );
+            width: "400px",
+            disableClose: true,
+            panelClass: ["dialog-container", "primary"],
+            maxWidth: "400px",
+        });
         res.subscribe(schedule => {
             if (schedule) {
                 this.classRoom!.schedule = schedule;
@@ -236,22 +255,19 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
     }
 
     showAssessmentDialog(assessment?: Assessment): void {
-        const res = this.dialogService.open<Assessment, { classRoomId: number; assessment?: Assessment }>(
-            AssessmentDialogComponent,
-            {
+        const res = this.dialogService.open<Assessment, { classRoomId: number; assessment?: Assessment }>(AssessmentDialogComponent, {
+            data: {
                 data: {
-                    data: {
-                        classRoomId: this.classRoomId!,
-                        assessment,
-                    },
+                    classRoomId: this.classRoomId!,
+                    assessment,
                 },
-                width: "85vw",
-                minWidth: "85vw",
-                maxWidth: "500px",
-                disableClose: true,
-                panelClass: ["dialog-container", "primary"],
             },
-        );
+            width: "85vw",
+            minWidth: "85vw",
+            maxWidth: "500px",
+            disableClose: true,
+            panelClass: ["dialog-container", "primary"],
+        });
         res.subscribe(assessment => {
             if (assessment) {
                 if (this.classRoom?.assessments) {
@@ -266,5 +282,13 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.socketSub?.unsubscribe();
+    }
+
+    getMarks(assessment: Assessment): number {
+        return (
+            assessment.submission?.answers?.filter(ans =>
+                assessment?.quizzes?.find(q => q.id === ans.id)?.answer?.every(qAns => ans.answer?.includes(qAns)),
+            ).length ?? 0
+        );
     }
 }

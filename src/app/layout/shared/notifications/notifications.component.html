@@ -1,0 +1,21 @@
+<div class="notifications">
+    <div class="button" (click)="toggle()">
+        <div *ngIf="unreadCount" class="count">{{unreadCount}}</div>
+        <i class="icon bi bi-bell-fill"></i>
+    </div>
+    <div *ngIf="opened" class="notification-list mt-2 px-0 py-2 shadow-lg">
+        <div class="notifications-wrapper">
+            <div *ngFor="let notification of notifications" class="notification-wrapper px-3" (click)="notificationClick($event)">
+                <div class="notification d-flex py-1" [class.unread]="notification.status === NotificationStatus.UNREAD">
+                    <div>
+                        <div class="content">{{notification.content}}</div>
+                        <div class="time sub-text small">{{notification.createdAt | amTimeAgo}}</div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="remove bi bi-trash-fill" (click)="remove(notification.id)"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

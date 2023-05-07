@@ -32,11 +32,7 @@ export const getRandomColor = ((): (() => string) => {
         let index;
         do {
             index = Math.floor(Math.random() * maxColors);
-        } while (
-            Math.abs(index - prevIndex) <= 1 ||
-            Math.abs(index - prevIndex) >= maxColors - 1 ||
-            usedColors.has(colors[index])
-        );
+        } while (Math.abs(index - prevIndex) <= 1 || Math.abs(index - prevIndex) >= maxColors - 1 || usedColors.has(colors[index]));
         const color = colors[index];
         usedColors.add(color);
         currentIndex = index;

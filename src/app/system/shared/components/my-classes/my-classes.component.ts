@@ -18,6 +18,7 @@ import { DialogService } from "../../../../core/modules/dialog";
 import { AppEvent } from "../../../../core/enums/app-event.enum";
 import { SocketService } from "../../../../core/services/socket.service";
 import { replaceItem } from "../../../../core/utils/array.utils";
+import { ZoomService } from "../../../../core/services/elms/zoom.service";
 
 @Component({
     selector: "app-my-classes",
@@ -56,22 +57,19 @@ export class MyClassesComponent implements OnInit, OnDestroy {
     eventSub?: Subscription;
 
     constructor(
-        public app: AppService,
-        private socketService: SocketService,
-        private classRoomService: ClassRoomService,
-        private tutorService: TutorService,
-        private studentService: StudentService,
-        private gradeService: GradeService,
-        private subjectService: ClassSubjectService,
-        private userService: UserService,
-        private dialogService: DialogService,
+        public readonly app: AppService,
+        private readonly socketService: SocketService,
+        private readonly classRoomService: ClassRoomService,
+        private readonly tutorService: TutorService,
+        private readonly studentService: StudentService,
+        private readonly gradeService: GradeService,
+        private readonly subjectService: ClassSubjectService,
+        private readonly userService: UserService,
+        private readonly dialogService: DialogService,
+        private readonly zoomService: ZoomService,
     ) {
         this.eventSub = this.socketService
-            .onMessage<ClassRoom | ClassSchedule>([
-                AppEvent.CLASS_CREATED,
-                AppEvent.CLASS_UPDATED,
-                AppEvent.SCHEDULE_UPDATED,
-            ])
+            .onMessage<ClassRoom | ClassSchedule>([AppEvent.CLASS_CREATED, AppEvent.CLASS_UPDATED, AppEvent.SCHEDULE_UPDATED])
             ?.subscribe(res => {
                 switch (res.event) {
                     case AppEvent.CLASS_CREATED:
@@ -159,9 +157,19 @@ export class MyClassesComponent implements OnInit, OnDestroy {
         });
     }
 
-    // noinspection JSUnusedLocalSymbols
-    joinOrStartMeeting(classRoom: ClassRoom): void {
-        // TODO: Join or start meeting
+    async joinOrStartMeeting(classRoom: ClassRoom): Promise<void> {
+        if (classRoom.schedule?.meetingId && classRoom.schedule?.joinUrl) {
+            if (this.app.isTutor) {
+                await this.zoomService.startMeeting(
+                    classRoom.id,
+                    this.app.user!.name ?? "",
+                    classRoom.schedule?.meetingId,
+                    classRoom.schedule?.joinUrl,
+                );
+            } else {
+                await this.zoomService.joinMeeting(this.app.user!.name ?? "", classRoom.schedule?.meetingId, classRoom.schedule?.joinUrl);
+            }
+        }
     }
 
     paginate(e: PaginatorInterfaces): void {

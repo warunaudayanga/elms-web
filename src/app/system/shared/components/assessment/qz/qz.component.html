@@ -1,22 +1,31 @@
-<div class="quiz">
+<div class="quiz" [class.incorrect]="this.assess && !isCorrect()">
     <div class="quiz-heading">{{quiz.heading}}</div>
     <div class="quiz-title">{{quiz.question}}</div>
     <div class="quiz-body pt-2">
-        <div class="quiz-choices" *ngIf="quiz.options">
-            <div class="form-check" *ngFor="let option of quiz.options; let i = index">
-                <input [type]="quiz.multiple ? 'checkbox' : 'radio'" class="form-check-input"
+        <div *ngIf="assess && quiz.options?.length" class="marking">
+            <i class="marking correct-marking bi bi-check font-8xl"></i>
+            <i class="marking incorrect-marking bi bi-x font-8xl"></i>
+        </div>
+
+        <div class="quiz-choices" *ngIf="quiz.options?.length">
+            <div class="form-check" *ngFor="let option of quiz.options; let i = index"
+                 [class.answer]="assess && quiz.answer?.includes(option)">
+                <input [type]="quiz.multiple ? 'checkbox' : 'radio'"
+                       class="form-check-input"
                        #input
-                       [checked]="getChecked(option)"
+                       [checked]="checkedValues?.includes(option)"
                        [id]="quiz.id + '_' + i"
                        [value]="option"
                        (change)="quiz.multiple ? onCheckChange(option, input.checked) : onRadioChange(input.value)"
-                       [attr.name]="quiz.id">
+                       [attr.name]="quiz.id"
+                       [disabled]="assess">
                 <label class="form-check-label" [for]="quiz.id + '_' + i">{{option}}</label>
             </div>
         </div>
 
-        <div *ngIf="!quiz.options" class="quiz-input">
-            <ng-input noValidation ngTextarea size="sm" [(ngModel)]="answer[0]"></ng-input>
+        <div *ngIf="!quiz.options?.length" class="quiz-input">
+            <ng-input noValidation ngTextarea size="sm" [(ngModel)]="answer[0]"
+                      (valueChange)="onInputChange()" [disabled]="assess"></ng-input>
         </div>
     </div>
 </div>

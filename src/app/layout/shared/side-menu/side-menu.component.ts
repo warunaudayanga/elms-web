@@ -1,5 +1,5 @@
 import { AfterContentInit, Component, EventEmitter, Input, Output } from "@angular/core";
-import { MenuItem } from "../../../core/interfaces/menu.interface";
+import { MenuItem } from "../../../core/interfaces";
 import { NavigationEnd, Router } from "@angular/router";
 
 @Component({
@@ -14,7 +14,7 @@ export class SideMenuComponent implements AfterContentInit {
 
     @Output() activeIndexChange: EventEmitter<number> = new EventEmitter<number>();
 
-    url: string = "";
+    private url: string = "";
 
     constructor(private router: Router) {
         this.router.events.subscribe(event => {

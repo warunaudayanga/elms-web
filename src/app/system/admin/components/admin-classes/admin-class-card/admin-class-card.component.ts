@@ -82,4 +82,6 @@ export class AdminClassCardComponent {
             },
         });
     }
+
+    protected readonly Number = Number;
 }

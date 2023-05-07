@@ -1,20 +1,21 @@
 import { Injectable } from "@angular/core";
-import { environment } from "../../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable, take } from "rxjs";
 import { Area } from "../../entity";
 import { Endpoint } from "../../enums";
+import configuration from "../../config/configuration";
 
-const COMMON_URL = `${environment.apiUrl}/${Endpoint.COMMON}`;
-const AREA_URL = `${COMMON_URL}/area`;
+const AREA_URL = "area";
 
 @Injectable({
     providedIn: "root",
 })
 export class CommonService {
+    private url: string = `${configuration().apiUrl}/${Endpoint.COMMON}`;
+
     constructor(private http: HttpClient) {}
 
     getAreas(): Observable<Area[]> {
-        return this.http.get<Area[]>(`${AREA_URL}`).pipe(take(1));
+        return this.http.get<Area[]>(`${this.url}/${AREA_URL}`).pipe(take(1));
     }
 }

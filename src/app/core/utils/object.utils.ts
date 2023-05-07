@@ -35,10 +35,7 @@ export const groupBy = <K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K
     return map;
 };
 
-export const enumToKeyValue = <T extends { [key: string]: any }>(
-    enumType: T,
-    formatter?: (key: string) => string,
-): KeyValue[] => {
+export const enumToKeyValue = <T extends { [key: string]: any }>(enumType: T, formatter?: (key: string) => string): KeyValue[] => {
     return Object.keys(enumType)
         .filter(key => isNaN(Number(key)))
         .map(key => ({ key: formatter?.(key) || key, value: enumType[key] }));
@@ -48,9 +45,7 @@ export const deepCopyObject = <T>(obj: T): T => {
     if (Array.isArray(obj)) {
         return obj.map(deepCopyObject) as unknown as T;
     } else if (typeof obj === "object" && obj !== null) {
-        return Object.fromEntries(
-            Object.entries(obj).map(([key, value]) => [key, deepCopyObject(value)]),
-        ) as unknown as T;
+        return Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, deepCopyObject(value)])) as unknown as T;
     }
     return obj;
 };

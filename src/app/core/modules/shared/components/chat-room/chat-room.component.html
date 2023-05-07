@@ -23,12 +23,13 @@
             <i class="bi bi-send-fill"></i>
         </ng-button>
     </div>
+
+    <button *ngIf="opened"
+            class="chat-close d-flex align-items-center justify-content-center btn btn-app-dark"
+            (click)="opened = false">
+        <i class="bi bi-x font-xl"></i>
+    </button>
 </div>
-<button *ngIf="opened"
-        class="chat-close d-flex align-items-center justify-content-center btn btn-app-dark"
-        (click)="opened = false">
-    <i class="bi bi-x font-xl"></i>
-</button>
 <button *ngIf="!opened"
         class="chat-open d-flex align-items-center justify-content-center btn btn-app-primary shadow"
         (click)="openChat()">

@@ -1,0 +1,21 @@
+@import "src/style/scss";
+
+.header {
+    font-size: 25px;
+    font-weight: $font-bold;
+    background-color: $app-surface-color;
+}
+
+.class-card {
+    .username {
+        color: $app-sub-text-color
+    }
+}
+
+.passed {
+    color: $success
+}
+
+.failed {
+    color: $danger
+}

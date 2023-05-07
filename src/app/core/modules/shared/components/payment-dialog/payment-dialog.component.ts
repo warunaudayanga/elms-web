@@ -42,12 +42,10 @@ export class PaymentDialogComponent implements OnInit {
     ngOnInit(): void {
         if (this.config.data?.amount) {
             this.loading = true;
-            this.stripeHttpService
-                .createPaymentIntent(this.config.data.amount, this.config.data.metadata)
-                .subscribe(pi => {
-                    this.elementsOptions.clientSecret = pi.client_secret!;
-                    this.loading = false;
-                });
+            this.stripeHttpService.createPaymentIntent(this.config.data.amount, this.config.data.metadata).subscribe(pi => {
+                this.elementsOptions.clientSecret = pi.client_secret!;
+                this.loading = false;
+            });
         }
     }
 

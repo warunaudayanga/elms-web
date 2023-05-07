@@ -231,6 +231,19 @@ body {
     color: $app-sub-text-color;
 }
 
+/* Checks & Radios */
+
+.form-check-input:checked {
+    background-color: $app-primary-color;
+    border-color: $app-primary-color;
+}
+
+.form-check-input:focus {
+    outline: 0;
+    border-color: $app-accent-color;
+    @include ng-form-control-shadow($app-accent-color);
+}
+
 /* Buttons */
 
 @include app-button("dark", $app-text-color, $app-text-invert-color);
@@ -239,13 +252,13 @@ body {
 @include app-button("light", $app-light-color, $app-text-color);
 .btn-app-light {}
 
-@include app-button("primary", $app-primary-color, $app-hover-color);
+@include app-button("primary", $app-primary-color, $app-light-color);
 .btn-app-primary {}
 
 @include app-button("primary-invert", $app-text-invert-color, $app-primary-color);
 .btn-app-primary-invert {}
 
-@include app-button("secondary", $app-secondary-color, $app-hover-color);
+@include app-button("secondary", $app-secondary-color, $app-light-color);
 .btn-app-secondary {}
 
 @include app-button("secondary-invert", $app-text-invert-color, $app-primary-color);

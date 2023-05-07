@@ -1,0 +1,14 @@
+<div class="menu">
+    <div class="avatar" [style]="{ backgroundImage: 'url(' + (avatar ?? 'assets/images/png/avatar.png') + ')' }"
+         (click)="toggleMenu()"></div>
+    <div *ngIf="opened" class="menu-items mt-1 px-0 py-2 shadow-lg">
+        <ng-container *ngFor="let item of items">
+            <div *ngIf="!item.separator" class="menu-item py-1 px-3" (click)="item.action?.($event)"
+                 [routerLink]="item.routerLink">
+                <i class="me-2" [className]="item.icon"></i> {{item.label}}
+            </div>
+            <div *ngIf="item.separator" class="divider mx-3 my-2"></div>
+        </ng-container>
+
+    </div>
+</div>

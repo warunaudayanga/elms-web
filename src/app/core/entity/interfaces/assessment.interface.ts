@@ -9,6 +9,8 @@ export interface Assessment extends BaseEntity {
     quizzes?: Quiz[];
     answers?: QuizAnswer[];
     passMarks?: number;
+    startTime: string;
+    endTime: string;
     classRoomId: number;
     classRoom?: ClassRoom;
     submission?: AssessmentSubmission;

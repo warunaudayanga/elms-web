@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from "@angular/core";
 import { Quiz } from "../../../interfaces/quiz.interfaces";
 
 @Component({
@@ -7,19 +7,27 @@ import { Quiz } from "../../../interfaces/quiz.interfaces";
     templateUrl: "./qz.component.html",
     styleUrls: ["./qz.component.scss"],
 })
-export class QzComponent implements OnInit {
+export class QzComponent implements OnChanges {
     @Input() quiz!: Quiz;
 
     @Input() answer: string[] = [];
 
+    @Input() assess: boolean = false;
+
     @Output() answerChange: EventEmitter<string[]> = new EventEmitter<string[]>();
+
+    checkedValues?: string[];
 
     constructor() {}
 
-    ngOnInit(): void {
-        if (this.quiz.answer) {
-            this.answer = this.quiz.answer;
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes["quiz"]) {
+            this.quiz = changes["quiz"].currentValue;
         }
+        if (changes["answer"]) {
+            this.answer = changes["answer"].currentValue;
+        }
+        this.updateChecked();
     }
 
     onRadioChange(value: string): void {
@@ -40,10 +48,17 @@ export class QzComponent implements OnInit {
         this.answerChange.emit(this.answer);
     }
 
-    getChecked(option: string): boolean {
-        if (this.answer) {
-            return Boolean(this.quiz.multiple ? this.answer?.includes(option) : this.answer?.[0] === option);
-        }
-        return Boolean(this.quiz.multiple ? this.quiz.answer?.includes(option) : this.quiz.answer?.[0] === option);
+    onInputChange(): void {
+        this.answerChange.emit(this.answer);
+    }
+
+    updateChecked(): void {
+        this.checkedValues = this.answer;
+    }
+
+    isCorrect(): boolean {
+        return Boolean(
+            this.answer?.length && this.answer?.length === this.quiz.answer?.length && this.quiz.answer?.every(ans => this.answer?.includes(ans)),
+        );
     }
 }

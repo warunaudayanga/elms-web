@@ -7,8 +7,8 @@ import { Store } from "@ngxs/store";
 import { ActivatedRoute } from "@angular/router";
 import { ZoomService } from "../../../../services/elms/zoom.service";
 import { DialogService } from "../../../dialog";
-import { environment } from "../../../../../../environments/environment";
 import { DialogLevel } from "../../../dialog/enums";
+import configuration from "../../../../config/configuration";
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
@@ -49,8 +49,6 @@ export class ZoomAuthorizeComponent implements OnInit, OnDestroy {
                     this.app.error(err.error?.message ?? "Something went wrong!");
                 },
             });
-        } else if (!this.zoomAuthorized) {
-            this.app.error("Zoom is not authorized, Please authorize zoom");
         }
     }
 
@@ -63,7 +61,7 @@ export class ZoomAuthorizeComponent implements OnInit, OnDestroy {
         res.subscribe(doAuthorize => {
             if (doAuthorize) {
                 this.store.dispatch(new SetAuthorized(false));
-                const { authorizeUrl, responseType, clientId } = environment.zoom;
+                const { authorizeUrl, responseType, clientId } = configuration().zoom;
                 const redirectUri = `${window.location.origin}${window.location.pathname}`;
                 window.location.href = `${authorizeUrl}?response_type=${responseType}&client_id=${clientId}&redirect_uri=${redirectUri}`;
             }

@@ -2,30 +2,39 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable, Subject, take, tap } from "rxjs";
 import { LoginDto } from "../../../system/auth/dto";
-import { environment } from "../../../../environments/environment";
 import { User } from "../../entity";
 import { SuccessResponse } from "../../interfaces";
 import { Store } from "@ngxs/store";
 import { SetLoggedUser } from "../../store";
 import { AuthError } from "../../../system/auth/enums";
 import { Endpoint } from "../../enums";
-
-const AUTH_URL = `${environment.apiUrl}/${Endpoint.AUTH}`;
+import configuration from "../../config/configuration";
 
 @Injectable({
     providedIn: "root",
 })
 export class AuthService {
+    private url: string = `${configuration().apiUrl}/${Endpoint.AUTH}`;
+
     authenticationErrorListener: Subject<AuthError | undefined> = new Subject<AuthError | undefined>();
 
     constructor(private http: HttpClient, private store: Store) {}
 
     register(formData: FormData): Observable<User> {
-        return this.http.post<User>(`${AUTH_URL}/register`, formData).pipe(take(1));
+        return this.http.post<User>(`${this.url}/register`, formData).pipe(take(1));
     }
 
     login(loginDto: LoginDto): Observable<User> {
-        return this.http.post<User>(`${AUTH_URL}/login`, loginDto).pipe(
+        return this.http.post<User>(`${this.url}/login`, loginDto).pipe(
+            take(1),
+            tap(user => {
+                this.store.dispatch(new SetLoggedUser(user));
+            }),
+        );
+    }
+
+    me(): Observable<User> {
+        return this.http.get<User>(`${this.url}/me`).pipe(
             take(1),
             tap(user => {
                 this.store.dispatch(new SetLoggedUser(user));
@@ -34,7 +43,7 @@ export class AuthService {
     }
 
     logout(): Observable<SuccessResponse> {
-        return this.http.post<SuccessResponse>(`${AUTH_URL}/logout`, {}).pipe(take(1));
+        return this.http.post<SuccessResponse>(`${this.url}/logout`, {}).pipe(take(1));
     }
 
     setAuthenticationError(authError?: AuthError): void {
@@ -45,7 +54,11 @@ export class AuthService {
         return this.authenticationErrorListener.asObservable();
     }
 
-    resendVerification(username: string): Observable<Object> {
-        return this.http.post(`${AUTH_URL}/resend-verification`, { username });
+    resendVerification(email: string): Observable<SuccessResponse> {
+        return this.http.post<SuccessResponse>(`${this.url}/resend-verification`, { email });
+    }
+
+    verifyAccount(token: string): Observable<SuccessResponse> {
+        return this.http.post<SuccessResponse>(`${this.url}/verify-account`, { token });
     }
 }

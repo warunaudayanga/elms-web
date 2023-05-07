@@ -10,14 +10,6 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
 
 @NgModule({
     declarations: [AlertDialogComponent],
-    imports: [
-        CommonModule,
-        MatDialogModule,
-        MatDividerModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        MomentModule,
-        MatSlideToggleModule,
-    ],
+    imports: [CommonModule, MatDialogModule, MatDividerModule, ReactiveFormsModule, NgSelectModule, MomentModule, MatSlideToggleModule],
 })
 export class DialogModule {}

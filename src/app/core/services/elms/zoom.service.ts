@@ -1,13 +1,13 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { Injectable } from "@angular/core";
-import { environment } from "../../../../environments/environment";
 import { Endpoint } from "../../enums";
 import { HttpClient } from "@angular/common/http";
 import { Store } from "@ngxs/store";
 import { firstValueFrom, Observable, Subject, take } from "rxjs";
 import { ZoomMeetingRole } from "../../../system/student/enums/zoom-meeting-role.enum";
 import {
+    JoinZoomMeetingOptions,
     PaginatedZoomResponse,
     StartZoomMeetingOptions,
     ZakTokenResponse,
@@ -21,25 +21,21 @@ import { DialogLevel } from "../../modules/dialog/enums";
 import { DialogService } from "../../modules/dialog";
 import { ZoomErrors } from "../../../system/student/enums/zoom.error.responses.enum";
 import { HttpError } from "../../interfaces";
-
-const ZOOM_URL = `${environment.apiUrl}/${Endpoint.ZOOM}`;
+import configuration from "../../config/configuration";
 
 @Injectable({
     providedIn: "root",
 })
 export class ZoomService {
+    private url: string = `${configuration().apiUrl}/${Endpoint.ZOOM}`;
+
     static meetingStatus: boolean = false;
 
     meetingStatusListener: Subject<boolean> = new Subject<boolean>();
 
     startMeetingListener: Subject<StartZoomMeetingOptions> = new Subject<StartZoomMeetingOptions>();
 
-    constructor(
-        private http: HttpClient,
-        private app: AppService,
-        private store: Store,
-        private dialogService: DialogService,
-    ) {}
+    constructor(private http: HttpClient, private app: AppService, private store: Store, private dialogService: DialogService) {}
 
     promptAuthorization(): void {
         const res = this.dialogService.confirm(
@@ -91,14 +87,12 @@ export class ZoomService {
     }
 
     generateSignature(meetingNumber: number, role: ZoomMeetingRole): Observable<{ signature: string }> {
-        return this.http
-            .post<{ signature: string }>(`${ZOOM_URL}/generate-signature`, { meetingNumber, role })
-            .pipe(take(1));
+        return this.http.post<{ signature: string }>(`${this.url}/generate-signature`, { meetingNumber, role }).pipe(take(1));
     }
 
     authorize(): void {
         if (window.location.href.match(/\/(student|tutor)\/my-classes\//)) {
-            const { authorizeUrl, responseType, clientId } = environment.zoom;
+            const { authorizeUrl, responseType, clientId } = configuration().zoom;
             const redirectUri = `${window.location.origin}${window.location.pathname}`;
             window.location.href = `${authorizeUrl}?response_type=${responseType}&client_id=${clientId}&redirect_uri=${redirectUri}`;
         } else {
@@ -108,30 +102,30 @@ export class ZoomService {
 
     generateToken(code: string): Observable<boolean> {
         const redirectUri = `${window.location.origin}${window.location.pathname}`;
-        return this.http.post<boolean>(`${ZOOM_URL}/generate-token`, { code, redirectUri }).pipe(take(1));
+        return this.http.post<boolean>(`${this.url}/generate-token`, { code, redirectUri }).pipe(take(1));
     }
 
     getUser(): any {
-        return this.http.post(`${ZOOM_URL}/user`, {}).pipe(take(1));
+        return this.http.post(`${this.url}/user`, {}).pipe(take(1));
     }
 
     getUserZakToken(): Observable<ZakTokenResponse> {
-        return this.http.post<ZakTokenResponse>(`${ZOOM_URL}/get-zak-token`, {}).pipe(take(1));
+        return this.http.post<ZakTokenResponse>(`${this.url}/get-zak-token`, {}).pipe(take(1));
     }
 
     createMeeting(id: number): any {
-        return this.http.post(`${ZOOM_URL}/create-meeting`, { classId: id }).pipe(take(1));
+        return this.http.post(`${this.url}/create-meeting`, { classId: id }).pipe(take(1));
     }
 
     getMeeting(id: number): Observable<ZoomMeeting> {
-        return this.http.get<ZoomMeeting>(`${ZOOM_URL}/meeting/${id}`).pipe(take(1));
+        return this.http.get<ZoomMeeting>(`${this.url}/meeting/${id}`).pipe(take(1));
     }
 
     getMeetings(): Observable<PaginatedZoomResponse<ZoomMeeting>> {
-        return this.http.get<PaginatedZoomResponse<ZoomMeeting>>(`${ZOOM_URL}/meeting/`).pipe(take(1));
+        return this.http.get<PaginatedZoomResponse<ZoomMeeting>>(`${this.url}/meeting/`).pipe(take(1));
     }
 
-    async startMeeting(name: string, meetingId: number, joinUrl: string): Promise<void> {
+    async startMeeting(classRoomId: number, name: string, meetingId: number, joinUrl: string): Promise<void> {
         try {
             if (!ZoomService.meetingStatus) {
                 const signatureRes = await firstValueFrom(this.generateSignature(meetingId, ZoomMeetingRole.HOST));
@@ -142,6 +136,7 @@ export class ZoomService {
                     return;
                 }
                 const options: StartZoomMeetingOptions = {
+                    classRoomId,
                     leaveUrl: window.location.href,
                     signature: signatureRes.signature,
                     zak: zakTokenRes.token,
@@ -166,7 +161,7 @@ export class ZoomService {
                 this.app.error("No signature found");
                 return;
             }
-            const options: StartZoomMeetingOptions = {
+            const options: JoinZoomMeetingOptions = {
                 leaveUrl: window.location.href,
                 signature: signatureRes.signature,
                 meetingId,

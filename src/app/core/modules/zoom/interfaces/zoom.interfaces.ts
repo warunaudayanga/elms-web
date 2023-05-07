@@ -126,11 +126,15 @@ export interface ZakTokenResponse {
     token: string;
 }
 
-export interface StartZoomMeetingOptions {
+export interface JoinZoomMeetingOptions {
     leaveUrl: string;
     signature: string;
     meetingId: number;
     joinUrl: string;
     username: string;
     zak?: string;
+}
+
+export interface StartZoomMeetingOptions extends JoinZoomMeetingOptions {
+    classRoomId?: number;
 }

@@ -15,13 +15,7 @@ import { ClassInfoComponent } from "../shared/components/class-info/class-info.c
 import { NgxStripeModule } from "ngx-stripe";
 
 @NgModule({
-    declarations: [
-        StudentHomeComponent,
-        MyClassesComponent,
-        FindClassComponent,
-        EnrollClassDialogComponent,
-        ClassInfoComponent,
-    ],
+    declarations: [StudentHomeComponent, MyClassesComponent, FindClassComponent, EnrollClassDialogComponent, ClassInfoComponent],
     imports: [
         CommonModule,
         StudentRoutingModule,

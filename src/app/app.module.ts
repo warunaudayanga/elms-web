@@ -29,6 +29,8 @@ import { AssessmentDialogComponent } from "./system/shared/components/assessment
 import { MatDividerModule } from "@angular/material/divider";
 import { QuizEditorComponent } from "./system/shared/components/assessment/quiz-editor/quiz-editor.component";
 import { QuizState } from "./core/store/quiz/quiz.state";
+import { APP_BASE_HREF } from "@angular/common";
+import configuration from "./core/config/configuration";
 // import { NgxsLoggerPluginModule } from "@ngxs/logger-plugin";
 
 @NgModule({
@@ -45,7 +47,7 @@ import { QuizState } from "./core/store/quiz/quiz.state";
         NgxsReduxDevtoolsPluginModule.forRoot({ disabled: environment.production }),
         NgxsStoragePluginModule.forRoot(),
         NgxsResetPluginModule.forRoot(),
-        NgxStripeModule.forRoot(environment.stripe.publishableKey),
+        NgxStripeModule.forRoot(configuration().stripe.publishableKey),
         BsDatepickerModule.forRoot(),
         TimepickerModule.forRoot(),
         // NgxsLoggerPluginModule.forRoot(),
@@ -59,6 +61,7 @@ import { QuizState } from "./core/store/quiz/quiz.state";
         FormsModule,
     ],
     providers: [
+        { provide: APP_BASE_HREF, useValue: "/" },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ResponseInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorResponseInterceptor, multi: true },

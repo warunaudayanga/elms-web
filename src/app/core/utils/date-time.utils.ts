@@ -48,11 +48,7 @@ export const hhmmaToHHmmss = (hh: string, mm: string, a: "am" | "pm" | string): 
 
 export const time24To12 = (str: string): string => moment(`2000-01-01 ${str}`).format("hh:mm a");
 
-export const nextOccurringDateTime = (
-    dayOfWeek: Day,
-    startTime: string,
-    endTime: string,
-): { isOnline: boolean; nextOccurrence: moment.Moment } => {
+export const nextOccurringDateTime = (dayOfWeek: Day, startTime: string, endTime: string): { isOnline: boolean; nextOccurrence: moment.Moment } => {
     const now = moment();
     const nextDayOfWeek = moment().day(dayOfWeek);
     const nextStartTime = moment(nextDayOfWeek.format("YYYY-MM-DD") + " " + startTime);
@@ -86,4 +82,16 @@ export const dateToYmd = (date: Date): string => {
 
 export const isThisMonth = (date: string): boolean => {
     return moment(date, "YYYY-MM-DD").isSame(moment(), "month");
+};
+
+export const isBefore = (date: Date | string): boolean => {
+    return moment().isBefore(moment(date));
+};
+
+export const isAfter = (date: Date | string): boolean => {
+    return moment().isAfter(moment(date));
+};
+
+export const isBetween = (start: Date | string, end: Date | string): boolean => {
+    return moment().isBetween(moment(start), moment(end));
 };

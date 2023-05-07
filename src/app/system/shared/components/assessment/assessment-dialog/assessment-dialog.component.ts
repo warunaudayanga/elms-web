@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from "@angular/core";
+import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { DialogConfig } from "../../../../../core/modules/dialog/interfaces";
@@ -14,20 +14,29 @@ import { QuizState } from "../../../../../core/store/quiz/quiz.state";
 import { AssessmentDto } from "../../../dtos/assessment.dto";
 import { HttpError } from "../../../../../core/interfaces";
 import { draftToQuiz, quizToDraft } from "../../../utils/quiz.utils";
+import moment from "moment";
 
 @Component({
     selector: "app-assessment-dialog",
     templateUrl: "./assessment-dialog.component.html",
     styleUrls: ["./assessment-dialog.component.scss"],
 })
-export class AssessmentDialogComponent {
+export class AssessmentDialogComponent implements AfterViewInit {
     @ViewChild("content", { read: ElementRef }) contentRef!: ElementRef<HTMLDivElement>;
 
     assessmentForm: FormGroup;
 
-    questions: QuizDraft[] = [];
+    questions?: QuizDraft[];
+
+    quizDrafts?: QuizDraft[];
 
     loading: boolean = false;
+
+    defaultStart: Date = moment("00:00", "HH:mm").toDate();
+
+    defaultEnd: Date = moment("23:59", "HH:mm").toDate();
+
+    Array = Array;
 
     constructor(
         @Inject(MAT_DIALOG_DATA) public config: DialogConfig<{ classRoomId: number; assessment?: Assessment }>,
@@ -42,26 +51,39 @@ export class AssessmentDialogComponent {
             name: ["", Validators.required],
             description: [""],
             passMarks: [null],
+            startTime: [null, Validators.required],
+            endTime: [null, Validators.required],
         });
+        const assessmentDraft = this.store.selectSnapshot(QuizState.getAssessmentDraft)(this.config.data!.classRoomId);
         if (this.config.data?.assessment) {
             this.assessmentForm.patchValue({
                 name: this.config.data.assessment.name,
                 description: this.config.data.assessment.description,
                 passMarks: this.config.data.assessment.passMarks,
+                startTime: this.config.data.assessment.startTime ? new Date(this.config.data.assessment.startTime) : null,
+                endTime: this.config.data.assessment.endTime ? new Date(this.config.data.assessment.endTime) : null,
             });
-            this.questions = this.config.data.assessment.quizzes?.map(quizToDraft) ?? [];
+            this.quizDrafts = this.config?.data?.assessment?.quizzes?.map(quizToDraft);
+        } else if (assessmentDraft) {
+            this.assessmentForm.patchValue({
+                name: assessmentDraft.name,
+                description: assessmentDraft.description,
+                passMarks: assessmentDraft.passMarks,
+                startTime: assessmentDraft.startTime ? new Date(assessmentDraft.startTime) : null,
+                endTime: assessmentDraft.endTime ? new Date(assessmentDraft.endTime) : null,
+            });
+            this.quizDrafts = assessmentDraft.drafts;
         } else {
-            const assessmentDrafts = this.store.selectSnapshot(QuizState.getAssessmentDraft)(
-                this.config.data!.classRoomId,
-            );
-            if (assessmentDrafts) {
-                this.assessmentForm.patchValue({
-                    name: assessmentDrafts.name,
-                    description: assessmentDrafts.description,
-                    passMarks: assessmentDrafts.passMarks,
-                });
-                if (assessmentDrafts.drafts) this.questions = assessmentDrafts.drafts;
-            }
+            this.questions = [];
+        }
+    }
+
+    ngAfterViewInit(): void {
+        if (this.quizDrafts) {
+            setTimeout(() => {
+                this.questions = [...this.quizDrafts!];
+                this.quizDrafts = undefined;
+            }, 100);
         }
     }
 
@@ -77,9 +99,11 @@ export class AssessmentDialogComponent {
         const assessmentDto: AssessmentDto = {
             name: this.assessmentForm.value.name,
             description: this.assessmentForm.value.description,
-            quizzes: this.questions.map(draftToQuiz),
+            quizzes: this.questions?.map(draftToQuiz),
             // answers: this.assessmentForm.value.answers, // TODO;
             passMarks: Number(this.assessmentForm.value.passMarks),
+            startTime: this.assessmentForm.value.startTime.toISOString(),
+            endTime: this.assessmentForm.value.endTime.toISOString(),
         };
         (this.config.data?.assessment
             ? this.tutorService.updateAssessment(this.config.data.assessment.id, assessmentDto)
@@ -97,28 +121,27 @@ export class AssessmentDialogComponent {
         });
     }
 
-    protected readonly Array = Array;
-
     removeQuiz(quiz: QuizDraft): void {
-        this.dialogService
-            .confirm("Are you sure you want to remove this question?", { ok: "Remove" })
-            .subscribe(confirmation => {
-                if (confirmation) {
-                    this.questions = this.questions.filter(q => q !== quiz);
-                    this.saveDraft();
-                }
-            });
+        this.dialogService.confirm("Are you sure you want to remove this question?", { ok: "Remove" }).subscribe(confirmation => {
+            if (confirmation) {
+                this.questions = this.questions?.filter(q => q !== quiz);
+                this.saveDraft();
+            }
+        });
     }
 
     addQuiz(): void {
         this.questions = [
-            ...this.questions,
+            ...(this.questions ?? []),
             {
                 id: uuid(),
                 question: "",
                 choice: true,
                 multiple: false,
-                options: [{ value: "" }, { value: "" }],
+                options: [
+                    { id: uuid(), value: "" },
+                    { id: uuid(), value: "" },
+                ],
             },
         ];
         this.saveDraft();
@@ -130,15 +153,19 @@ export class AssessmentDialogComponent {
     }
 
     saveDraft(): void {
-        this.store.dispatch(
-            new SaveAssessmentDrafts({
-                classRoomId: this.config.data!.classRoomId,
-                name: this.assessmentForm.value.name,
-                description: this.assessmentForm.value.description,
-                passMarks: Number(this.assessmentForm.value.passMarks),
-                drafts: [...this.questions],
-            }),
-        );
+        if (!this.config.data?.assessment) {
+            this.store.dispatch(
+                new SaveAssessmentDrafts({
+                    classRoomId: this.config.data!.classRoomId,
+                    name: this.assessmentForm.value.name,
+                    description: this.assessmentForm.value.description,
+                    passMarks: Number(this.assessmentForm.value.passMarks),
+                    startTime: this.assessmentForm.value.startTime ? moment(this.assessmentForm.value.startTime).toISOString() : undefined,
+                    endTime: this.assessmentForm.value.endTime ? moment(this.assessmentForm.value.endTime).toISOString() : undefined,
+                    drafts: [...(this.questions ?? [])],
+                }),
+            );
+        }
     }
 
     scrollToBottom(): void {

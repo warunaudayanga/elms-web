@@ -24,12 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     authErrorSubscription: Subscription;
 
-    constructor(
-        private app: AppService,
-        private store: Store,
-        private fb: FormBuilder,
-        private authService: AuthService,
-    ) {
+    constructor(private app: AppService, private store: Store, private fb: FormBuilder, private authService: AuthService) {
         this.authErrorSubscription = this.authService.getAuthenticationErrorListener().subscribe(authError => {
             this.loginLoading = false;
             if (authError === AuthError.AUTH_403_PENDING) {
@@ -52,13 +47,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
         this.loginLoading = true;
         this.store.dispatch(new Login(this.loginForm!.value));
-    }
-
-    resendVerification(): void {
-        this.resendLoading = true;
-        this.authService.resendVerification(this.loginForm!.value.username).subscribe(() => {
-            this.resendLoading = false;
-        });
     }
 
     ngOnDestroy(): void {

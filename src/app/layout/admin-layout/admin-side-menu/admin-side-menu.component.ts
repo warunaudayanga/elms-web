@@ -1,7 +1,5 @@
 import { Component } from "@angular/core";
-import { MenuItem } from "../../../core/interfaces/menu.interface";
-import { Store } from "@ngxs/store";
-import { Logout } from "../../../core/store";
+import { MenuItem } from "../../../core/interfaces";
 
 @Component({
     selector: "app-admin-side-menu",
@@ -26,13 +24,14 @@ export class AdminSideMenuComponent {
             routerLink: "/admin/students",
         },
         {
-            label: "Logout",
-            icon: "bi bi-power",
-            action: (): void => {
-                this.store.dispatch(new Logout());
-            },
+            label: "Grades",
+            icon: "bi bi-123",
+            routerLink: "/admin/grades",
+        },
+        {
+            label: "Subjects",
+            icon: "bi bi-book-half",
+            routerLink: "/admin/subjects",
         },
     ];
-
-    constructor(private store: Store) {}
 }

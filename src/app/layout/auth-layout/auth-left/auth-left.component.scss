@@ -35,7 +35,13 @@
     }
 }
 
-
+.image {
+    background-image: url('../../../../assets/images/svg/garden-books.svg');
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: top;
+}
 
 ::ng-deep app-auth-left app-carousel .carousel {
     .controls .control {

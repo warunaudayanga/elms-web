@@ -54,11 +54,7 @@ export class AuthGuard implements CanActivate {
                 this.app.load("auth");
                 return false;
             }
-            if (
-                this.getResolvedUrl(route) !== "" &&
-                !this.getResolvedUrl(route).match(/auth/) &&
-                roles.includes(role)
-            ) {
+            if (this.getResolvedUrl(route) !== "" && !this.getResolvedUrl(route).match(/auth/) && roles.includes(role)) {
                 return true;
             }
             this.redirect(role);

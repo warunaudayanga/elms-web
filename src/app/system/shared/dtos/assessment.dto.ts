@@ -6,4 +6,6 @@ export interface AssessmentDto {
     quizzes?: Quiz[];
     answers?: QuizAnswer[];
     passMarks?: number;
+    startTime: string;
+    endTime: string;
 }

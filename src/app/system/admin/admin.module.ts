@@ -14,6 +14,10 @@ import { MatDividerModule } from "@angular/material/divider";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AdminStudentsComponent } from "./components/admin-students/admin-students.component";
 import { AdminStudentCardComponent } from "./components/admin-students/admin-student-card/admin-student-card.component";
+import { SubjectsComponent } from "./components/subjects/subjects.component";
+import { GradesComponent } from "./components/grades/grades.component";
+import { GradeDialogComponent } from "./components/grades/grade-dialog/grade-dialog.component";
+import { SubjectDialogComponent } from "./components/subjects/subject-dialog/subject-dialog.component";
 
 @NgModule({
     declarations: [
@@ -24,6 +28,10 @@ import { AdminStudentCardComponent } from "./components/admin-students/admin-stu
         TutorDialogComponent,
         AdminStudentsComponent,
         AdminStudentCardComponent,
+        SubjectsComponent,
+        GradesComponent,
+        GradeDialogComponent,
+        SubjectDialogComponent,
     ],
     imports: [
         CommonModule,
