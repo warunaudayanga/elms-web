@@ -18,8 +18,9 @@
                 <h2 class="heading">Payment Successful!</h2>
                 <div class="transaction-id">Transaction ID: {{paymentIntent?.id}}</div>
                 <div class="separator"></div>
-                <div
-                    class="amount">{{paymentIntent?.currency | uppercase}} {{(paymentIntent?.amount ?? 0) / 100 | number:'1.2-2'}}</div>
+                <div class="amount">LKR {{(config.data?.amount ?? 0) / 100 | number:'1.2-2'}}</div>
+<!--                <div-->
+<!--                    class="amount">{{paymentIntent?.currency | uppercase}} {{(paymentIntent?.amount ?? 0) / 100 | number:'1.2-2'}}</div>-->
             </div>
         </div>
     </mat-dialog-content>

@@ -6,8 +6,7 @@ import { StripeHttpService } from "../../../../services/elms/stripe.service";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { DialogConfig } from "../../../dialog/interfaces";
 import { AppService } from "../../../../../app.service";
-import { HttpError } from "../../../../interfaces";
-import { StripePayment } from "../../../../interfaces/stripe.interfaces";
+import { StripePayment } from "../../../../interfaces";
 
 @Component({
     selector: "app-payment-info-dialog",
@@ -54,45 +53,34 @@ export class PaymentDialogComponent implements OnInit {
     }
 
     pay(): void {
-        this.paying = true;
-        this.stripeService
-            .confirmPayment({
-                elements: this.paymentElement.elements!,
-                confirmParams: {
-                    // payment_method_data: {
-                    //     billing_details: {
-                    //         name: this.paymentElementForm.value.name!,
-                    //         email: this.paymentElementForm.value.email!,
-                    //         address: {
-                    //             line1: this.paymentElementForm.value.address || "",
-                    //             postal_code: this.paymentElementForm.value.zipcode || "",
-                    //             city: this.paymentElementForm.value.city || "",
-                    //         },
-                    //     },
-                    // },
-                },
-                redirect: "if_required",
-            })
-            .subscribe({
-                next: result => {
-                    this.paying = false;
-                    if (result.error) {
-                        this.app.error(result.error.message ?? "Something went wrong!");
-                    } else if (result.paymentIntent.status === "succeeded") {
-                        this.paymentSuccess = true;
-                        this.paymentIntent = result.paymentIntent;
-                    } else {
-                        this.app.error("Something went wrong!");
-                    }
-                },
-                error: (err: HttpError) => {
-                    this.paying = false;
-                    this.app.error(err.error?.message ?? "Something went wrong!");
-                },
-            });
+        this.paymentSuccess = true;
+        // this.paying = true;
+        // this.stripeService
+        //     .confirmPayment({
+        //         elements: this.paymentElement.elements!,
+        //         redirect: "if_required",
+        //     })
+        //     .subscribe({
+        //         next: result => {
+        //             this.paying = false;
+        //             if (result.error) {
+        //                 this.app.error(result.error.message ?? "Something went wrong!");
+        //             } else if (result.paymentIntent.status === "succeeded") {
+        //                 this.paymentSuccess = true;
+        //                 this.paymentIntent = result.paymentIntent;
+        //             } else {
+        //                 this.app.error("Something went wrong!");
+        //             }
+        //         },
+        //         error: (err: HttpError) => {
+        //             this.paying = false;
+        //             this.app.error(err.error?.message ?? "Something went wrong!");
+        //         },
+        //     });
     }
 
     ok(): void {
-        this.dialogRef.close(this.paymentIntent!.id);
+        // this.dialogRef.close(this.paymentIntent!.id);
+        this.dialogRef.close();
     }
 }
