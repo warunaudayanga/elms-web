@@ -1,7 +1,7 @@
 <ng-section class="h-100" styleClass="p-layout app-card pt-0" [loading]="loading" [error]="error">
 
     <div class="heading position-sticky top-0 bg-white py-3 d-flex justify-content-between align-items-start">
-        <div class="">Semester 1 Examination</div>
+        <div class="">{{assessment?.name}}</div>
         <ng-button size="sm" styleClass="btn-app-dark" [routerLink]="['/student/my-classes', assessment?.classRoomId!]">
             Back
         </ng-button>
