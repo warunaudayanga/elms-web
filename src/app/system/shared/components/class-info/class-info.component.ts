@@ -202,16 +202,20 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
             amount: this.classRoom!.payment * 100,
             metadata: {
                 type: PaymentType.CLASS_FEE,
+                studentId: this.app.user!.id,
+                amount: this.classRoom!.payment,
                 classRoomId: this.classRoom!.id,
                 fromDate: moment().startOf("month").format("YYYY-MM-DD"),
                 toDate: moment().endOf("month").format("YYYY-MM-DD"),
             },
         });
+        // noinspection JSUnusedLocalSymbols
         dialogRef.subscribe(transactionId => {
-            if (transactionId) {
-                console.log(transactionId);
-                this.classRoom!.isPaid = true; // TODO: use websocket to update this
-            }
+            // if (transactionId) {
+            //     console.log(transactionId);
+            //     this.classRoom!.isPaid = true; // TODO: use websocket to update this
+            // }
+            this.classRoom!.isPaid = true;
         });
     }
 

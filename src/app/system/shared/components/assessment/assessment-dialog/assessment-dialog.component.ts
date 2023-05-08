@@ -15,6 +15,7 @@ import { AssessmentDto } from "../../../dtos/assessment.dto";
 import { HttpError } from "../../../../../core/interfaces";
 import { draftToQuiz, quizToDraft } from "../../../utils/quiz.utils";
 import moment from "moment";
+import { Globals } from "../../../../../core/config/globals";
 
 @Component({
     selector: "app-assessment-dialog",
@@ -72,9 +73,10 @@ export class AssessmentDialogComponent implements AfterViewInit {
                 startTime: assessmentDraft.startTime ? new Date(assessmentDraft.startTime) : null,
                 endTime: assessmentDraft.endTime ? new Date(assessmentDraft.endTime) : null,
             });
-            this.quizDrafts = assessmentDraft.drafts;
+
+            this.quizDrafts = Globals.SAMPLE_QUIZ_DRAFT_LIST;
         } else {
-            this.questions = [];
+            this.quizDrafts = Globals.SAMPLE_QUIZ_DRAFT_LIST;
         }
     }
 
