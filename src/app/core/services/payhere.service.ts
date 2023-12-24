@@ -19,16 +19,19 @@ export class PayhereService {
         this.payhere = window.payhere;
 
         this.payhere.onCompleted = (orderId: string): void => {
+            console.log("Payment completed. OrderID: ", orderId);
             this.onCompletedSub.next(orderId);
         };
 
         // Payment window closed
         this.payhere.onDismissed = (): void => {
+            console.log("Payment dismissed.");
             this.onDismissedSub.next();
         };
 
         // Error occurred
         this.payhere.onError = (error: any): void => {
+            console.log("Payment Error: ", error);
             this.onErrorSub.next(error);
         };
     }
@@ -39,7 +42,10 @@ export class PayhereService {
         const amount = payment.amount;
         const currency = payment.currency;
         const merchantSecret = "MzcyMDUxNzMzMjE0MTUxMjg3NzkxMDIzMjUzOTg2NTg5ODcwMTI3";
-        const hashInput = `${merchantId}${orderId}${amount}${currency}${merchantSecret.toUpperCase()}`;
+        const hashSecret = MD5(merchantSecret).toString().toUpperCase();
+        console.log("hashSecret: ", hashSecret);
+        const hashInput = `${merchantId}${orderId}${amount}${currency}${hashSecret}`;
+        console.log("hashInput: ", hashInput);
         return MD5(hashInput).toString().toUpperCase();
     }
 
