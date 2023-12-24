@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    host: "https://learn-online.live",
+    host: "https://elms-95g1.onrender.com",
     zoom: {
         lib: {
             url: "https://source.zoom.us/2.11.0/lib",
