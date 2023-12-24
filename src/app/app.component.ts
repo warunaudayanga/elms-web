@@ -77,7 +77,7 @@ export class AppComponent {
 
         payment.hash = this.payhereService.generateHash(payment);
 
-        // console.log(this.payhereService.startPayment(payment));
+        console.log(this.payhereService.startPayment(payment));
     }
 
     onResize(): void {

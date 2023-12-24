@@ -38,7 +38,7 @@ export class PayhereService {
         const orderId = payment.order_id;
         const amount = payment.amount;
         const currency = payment.currency;
-        const merchantSecret = "NDg5NzYxNDgwMjEyNzgzMzg3MDIxMjE0MzU1NTgxNTE5NjExNDI0";
+        const merchantSecret = "MzcyMDUxNzMzMjE0MTUxMjg3NzkxMDIzMjUzOTg2NTg5ODcwMTI3";
         const hashInput = `${merchantId}${orderId}${amount}${currency}${merchantSecret.toUpperCase()}`;
         return MD5(hashInput).toString().toUpperCase();
     }
