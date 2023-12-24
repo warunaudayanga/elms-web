@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <script src="https://www.payhere.lk/lib/payhere.js"></script>
     <script src="https://source.zoom.us/2.11.0/lib/vendor/react.min.js" async></script>
     <script src="https://source.zoom.us/2.11.0/lib/vendor/react-dom.min.js" async></script>
     <script src="https://source.zoom.us/2.11.0/lib/vendor/redux.min.js" async></script>
@@ -18,6 +19,27 @@
     <script src="https://source.zoom.us/2.11.0/lib/vendor/lodash.min.js" async></script>
     <script src="https://source.zoom.us/zoom-meeting-2.11.0.min.js" async></script>
 
+
+    <script>
+
+        // Payment completed. It can be a successful failure.
+        payhere.onCompleted = function onCompleted(orderId) {
+            console.log("Payment completed. OrderID:" + orderId);
+            // Note: validate the payment and show success or failure page to the customer
+        };
+
+        // Payment window closed
+        payhere.onDismissed = function onDismissed() {
+            // Note: Prompt user to pay again or show an error page
+            console.log("Payment dismissed");
+        };
+
+        // Error occurred
+        payhere.onError = function onError(error) {
+            // Note: show an error page
+            console.log("Error:"  + error);
+        };
+    </script>
 </head>
 <body>
 <app-root></app-root>

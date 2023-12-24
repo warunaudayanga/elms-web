@@ -215,7 +215,7 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
             //     console.log(transactionId);
             //     this.classRoom!.isPaid = true; // TODO: use websocket to update this
             // }
-            this.classRoom!.isPaid = true;
+            // this.classRoom!.isPaid = true;
         });
     }
 

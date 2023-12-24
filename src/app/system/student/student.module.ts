@@ -12,7 +12,6 @@ import { DialogModule } from "../../core/modules/dialog";
 import { EnrollClassDialogComponent } from "./components/find-class/enroll-class-dialog/enroll-class-dialog.component";
 import { PipeModule } from "../../core/modules/pipe/pipe.module";
 import { ClassInfoComponent } from "../shared/components/class-info/class-info.component";
-import { NgxStripeModule } from "ngx-stripe";
 
 @NgModule({
     declarations: [StudentHomeComponent, MyClassesComponent, FindClassComponent, EnrollClassDialogComponent, ClassInfoComponent],
@@ -25,7 +24,6 @@ import { NgxStripeModule } from "ngx-stripe";
         FormsModule,
         DialogModule,
         PipeModule,
-        NgxStripeModule,
         ReactiveFormsModule,
     ],
 })

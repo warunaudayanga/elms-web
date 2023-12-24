@@ -1,16 +1,13 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-// noinspection SpellCheckingInspection
 export const environment = {
     production: false,
+    host: "http://localhost:8080",
+    zoom: {
+        lib: {
+            url: "https://source.zoom.us/2.11.0/lib",
+            dir: "/av",
+        },
+        authorizeUrl: "https://zoom.us/oauth/authorize",
+        responseType: "code",
+        clientId: "rk9bktfPRMeKKBxTLn3Law",
+    },
 };
-
-/*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/plugins/zone-error';  // Included with Angular CLI.

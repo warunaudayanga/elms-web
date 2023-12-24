@@ -10,5 +10,4 @@ export interface Payment extends Omit<BaseEntity, "createdBy" | "updatedBy" | "d
     toDate: string;
     status: PaymentStatus;
     classStudent?: ClassStudent;
-    stripeData: object;
 }

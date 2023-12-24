@@ -5,23 +5,23 @@
             <div *ngIf="loading" class="h-100 d-flex align-items-center justify-content-center">
                 <ng-spinner></ng-spinner>
             </div>
-            <div *ngIf="!loading && !paymentSuccess"
-                 class="payment h-100 d-flex flex-column align-items-center justify-content-center">
-                <div class="amount">LKR {{(config.data?.amount ?? 0) / 100 | number:'1.2-2'}}</div>
-                <ng-container *ngIf="elementsOptions?.clientSecret as clientSecret">
-                    <ngx-stripe-payment [clientSecret]="clientSecret">
-                    </ngx-stripe-payment>
-                </ng-container>
-            </div>
-            <div *ngIf="!loading && paymentSuccess" class="rounded payment-success">
-                <i class="bi bi-check-circle-fill"></i>
-                <h2 class="heading">Payment Successful!</h2>
-                <div class="transaction-id">Transaction ID: {{paymentIntent?.id}}</div>
-                <div class="separator"></div>
-                <div class="amount">LKR {{(config.data?.amount ?? 0) / 100 | number:'1.2-2'}}</div>
-<!--                <div-->
-<!--                    class="amount">{{paymentIntent?.currency | uppercase}} {{(paymentIntent?.amount ?? 0) / 100 | number:'1.2-2'}}</div>-->
-            </div>
+<!--            <div *ngIf="!loading && !paymentSuccess"-->
+<!--                 class="payment h-100 d-flex flex-column align-items-center justify-content-center">-->
+<!--                <div class="amount">LKR {{(config.data?.amount ?? 0) / 100 | number:'1.2-2'}}</div>-->
+<!--                <ng-container *ngIf="elementsOptions?.clientSecret as clientSecret">-->
+<!--&lt;!&ndash;                    <ngx-stripe-payment [clientSecret]="clientSecret">&ndash;&gt;-->
+<!--&lt;!&ndash;                    </ngx-stripe-payment>&ndash;&gt;-->
+<!--                </ng-container>-->
+<!--            </div>-->
+<!--            <div *ngIf="!loading && paymentSuccess" class="rounded payment-success">-->
+<!--                <i class="bi bi-check-circle-fill"></i>-->
+<!--                <h2 class="heading">Payment Successful!</h2>-->
+<!--                <div class="transaction-id">Transaction ID: {{paymentIntent?.id}}</div>-->
+<!--                <div class="separator"></div>-->
+<!--                <div class="amount">LKR {{(config.data?.amount ?? 0) / 100 | number:'1.2-2'}}</div>-->
+<!--&lt;!&ndash;                <div&ndash;&gt;-->
+<!--&lt;!&ndash;                    class="amount">{{paymentIntent?.currency | uppercase}} {{(paymentIntent?.amount ?? 0) / 100 | number:'1.2-2'}}</div>&ndash;&gt;-->
+<!--            </div>-->
         </div>
     </mat-dialog-content>
     <mat-divider></mat-divider>

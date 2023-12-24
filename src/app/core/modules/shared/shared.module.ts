@@ -13,7 +13,6 @@ import { PaymentDialogComponent } from "./components/payment-dialog/payment-dial
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatDividerModule } from "@angular/material/divider";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgxStripeModule } from "ngx-stripe";
 import { ChatRoomComponent } from "./components/chat-room/chat-room.component";
 import { MatButtonModule } from "@angular/material/button";
 import { MomentModule } from "ngx-moment";
@@ -43,7 +42,6 @@ import { QzListComponent } from "../../../system/shared/components/assessment/qz
         MatDialogModule,
         MatDividerModule,
         ReactiveFormsModule,
-        NgxStripeModule,
         MatButtonModule,
         MomentModule,
         FormsModule,

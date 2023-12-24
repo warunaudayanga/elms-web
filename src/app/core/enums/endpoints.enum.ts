@@ -3,7 +3,6 @@
 export enum Endpoint {
     AUTH = "auth",
     ZOOM = "zoom",
-    STRIPE = "stripe",
     USER = "user",
     COMMON = "common",
     GRADE = "grade",

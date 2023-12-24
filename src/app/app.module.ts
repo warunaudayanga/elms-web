@@ -21,7 +21,6 @@ import { ZoomState } from "./core/store/zoom/zoom.state";
 import { ZoomModule } from "./core/modules/zoom/zoom.module";
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
 import { TimepickerModule } from "ngx-bootstrap/timepicker";
-import { NgxStripeModule } from "ngx-stripe";
 import { NgControlModule } from "./core/modules/ng-control";
 import { PipeModule } from "./core/modules/pipe/pipe.module";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -47,7 +46,6 @@ import configuration from "./core/config/configuration";
         NgxsReduxDevtoolsPluginModule.forRoot({ disabled: environment.production }),
         NgxsStoragePluginModule.forRoot(),
         NgxsResetPluginModule.forRoot(),
-        NgxStripeModule.forRoot(configuration().stripe.publishableKey),
         BsDatepickerModule.forRoot(),
         TimepickerModule.forRoot(),
         // NgxsLoggerPluginModule.forRoot(),

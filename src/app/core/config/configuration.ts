@@ -6,9 +6,6 @@ const configurations = (env: any) => {
         host: env?.host || "",
         apiUrl: `${env?.host || ""}/api`,
         socketUrl: `${env?.host || ""}/socket`,
-        stripe: {
-            publishableKey: env?.stripe?.publishableKey || "",
-        },
         zoom: {
             authorizeUrl: env?.zoom?.authorizeUrl || "",
             clientId: env?.zoom?.clientId || "",

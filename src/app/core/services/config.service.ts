@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { firstValueFrom } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { Configuration } from "../interfaces";
+import { environment } from "../../../environments/environment";
 
 @Injectable({
     providedIn: "root",
@@ -18,7 +19,10 @@ export class ConfigService {
             ConfigService.asyncEnv = firstValueFrom(this.http.get("env.json"));
             // eslint-disable-next-line require-atomic-updates
             ConfigService.env = await ConfigService.asyncEnv;
-        } catch (err) {}
+        } catch (err) {
+            ConfigService.env = environment;
+            ConfigService.asyncEnv = Promise.resolve(ConfigService.env);
+        }
     }
 
     get config(): Configuration {
@@ -40,9 +44,6 @@ export class ConfigService {
             host: env?.host || "",
             apiUrl: `${env?.host || ""}/api`,
             socketUrl: `${env?.host || ""}/socket`,
-            stripe: {
-                publishableKey: env?.stripe?.publishableKey || "",
-            },
             zoom: {
                 authorizeUrl: env?.zoom?.authorizeUrl || "",
                 clientId: env?.zoom?.clientId || "",

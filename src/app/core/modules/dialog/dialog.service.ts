@@ -5,7 +5,6 @@ import { AlertOptions, DialogButtons, DialogConfig } from "./interfaces";
 import { DialogLevel } from "./enums";
 import { AlertDialogComponent } from "./components";
 import { ComponentType } from "@angular/cdk/portal";
-import { StripePayment } from "../../interfaces/stripe.interfaces";
 import { PaymentDialogComponent } from "../shared/components/payment-dialog/payment-dialog.component";
 
 @Injectable({
@@ -32,9 +31,11 @@ export class DialogService {
         return this.alert({ title: "Confirm", message, level, confirm: true, buttons });
     }
 
-    public payment<R, D = any>(stripePayment: StripePayment<D>): Observable<R | undefined> {
+    // TODO:
+    // public payment<R, D = any>(stripePayment: StripePayment<D>): Observable<R | undefined> {
+    public payment<R, D = any>(payment: any): Observable<R | undefined> {
         const dialogRef = this.dialog.open(PaymentDialogComponent, {
-            data: { data: stripePayment },
+            data: { data: payment },
             width: "400px",
             disableClose: true,
             panelClass: ["dialog-container", "primary"],
