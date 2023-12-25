@@ -56,7 +56,7 @@
                 </button>
             </div>
         </div>
-        <div *ngIf="!app.isTutor && !classRoom?.isPaid" class="alert alert-warning">
+        <div *ngIf="!app.isTutor && classRoom?.isPaid === undefined" class="alert alert-warning">
             Class fees for this month is not paid for this class. You won't be able to join the class until you pay the
             fees.
         </div>
@@ -89,9 +89,9 @@
                            [spin]="meetingLoading" (onClick)="joinMeeting()">
                     <i class="bi bi-camera-video-fill me-3"></i>{{app.isTutor ? 'Start' : 'Join'}} Meeting
                 </ng-button>
-                <ng-button *ngIf="isActive && !app.isTutor && !classRoom?.isPaid" styleClass="btn-app-primary" size="sm"
-                           (click)="pay()">
-                    <i class="bi bi-credit-card-fill me-3"></i>Pay
+                <ng-button *ngIf="isActive && !app.isTutor && !classRoom?.isPaid" [disabled]="classRoom?.isPaid === false" styleClass="btn-app-primary" size="sm"
+                           (onClick)="pay()">
+                    <i class="bi bi-credit-card-fill me-3"></i>{{classRoom?.isPaid === false ? 'Payment Processing' : 'Pay'}}
                 </ng-button>
             </div>
         </div>

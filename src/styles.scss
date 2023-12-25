@@ -109,6 +109,10 @@ body {
     scroll-behavior: smooth !important;
 }
 
+[disabled]{
+    pointer-events: none;
+}
+
 /* Text Wrap */
 .nowrap {
     white-space: nowrap;

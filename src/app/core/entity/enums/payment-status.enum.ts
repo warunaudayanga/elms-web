@@ -1,7 +1,8 @@
 // noinspection JSUnusedGlobalSymbols
 
 export enum PaymentStatus {
-    PENDING = "PENDING",
-    PAID = "PAID",
-    FAILED = "FAILED",
+    PAID = "paid",
+    PENDING = "pending",
+    CANCELED = "canceled",
+    FAILED = "failed",
 }

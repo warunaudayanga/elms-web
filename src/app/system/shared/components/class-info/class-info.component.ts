@@ -4,9 +4,9 @@ import { AppService } from "../../../../app.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { StudentService } from "../../../../core/services/elms/student.service";
 import { HttpError } from "../../../../core/interfaces";
-import { ClassRoom, ClassSchedule, Role, Status } from "../../../../core/entity";
+import { ClassRoom, ClassSchedule, PaymentStatus, Role, Status } from "../../../../core/entity";
 import moment from "moment";
-import { isBefore, isAfter, nextOccurringDateTime, isBetween } from "../../../../core/utils";
+import { isAfter, isBefore, isBetween, isThisMonth, nextOccurringDateTime } from "../../../../core/utils";
 import { ZoomService } from "../../../../core/services/elms/zoom.service";
 import { Store } from "@ngxs/store";
 import { ZoomErrors } from "../../../student/enums/zoom.error.responses.enum";
@@ -14,7 +14,7 @@ import { AuthState } from "../../../../core/store";
 import { ScheduleDialogComponent } from "./schedule-dialog/schedule-dialog.component";
 import { TutorService } from "../../../../core/services/elms/tutor.service";
 import { DialogService } from "../../../../core/modules/dialog";
-import { ClassFeeMeta } from "../../../student/interfaces/student.interfaces";
+import { ClassFeeMeta, PaymentMeta } from "../../../student/interfaces/student.interfaces";
 import { PaymentType } from "../../../../core/enums/payment-type.enum";
 import { SocketService } from "../../../../core/services/socket.service";
 import { AppEvent } from "../../../../core/enums/app-event.enum";
@@ -25,6 +25,9 @@ import { replaceItem } from "../../../../core/utils/array.utils";
 import { AssessmentService } from "../../../../core/services/elms/assessment.service";
 import { AssessmentSubmissionService } from "../../../../core/services/elms/assessment-submission.service";
 import { AssessmentDialogComponent } from "../assessment/assessment-dialog/assessment-dialog.component";
+import { PaymentService } from "../../../../core/services/payment/payment.service";
+import { PaymentData } from "../../../../core/interfaces/payment.interfaces";
+import { PaymentOccurredMessage } from "../../../../core/entity/interfaces/class-payment.interface";
 
 @Component({
     selector: "app-class-info",
@@ -65,17 +68,18 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
     protected readonly isBetween = isBetween;
 
     constructor(
-        public app: AppService,
-        private store: Store,
-        private router: Router,
-        private route: ActivatedRoute,
-        private socketService: SocketService,
-        private tutorService: TutorService,
-        private studentService: StudentService,
-        private assessmentService: AssessmentService,
-        private assessmentSubmissionService: AssessmentSubmissionService,
-        private zoomService: ZoomService,
-        private dialogService: DialogService,
+        public readonly app: AppService,
+        private readonly store: Store,
+        private readonly router: Router,
+        private readonly route: ActivatedRoute,
+        private readonly socketService: SocketService,
+        private readonly tutorService: TutorService,
+        private readonly studentService: StudentService,
+        private readonly assessmentService: AssessmentService,
+        private readonly assessmentSubmissionService: AssessmentSubmissionService,
+        private readonly zoomService: ZoomService,
+        private readonly dialogService: DialogService,
+        private readonly paymentService: PaymentService,
     ) {
         this.role = this.store.selectSnapshot(AuthState.role)!;
         this.socketSub = this.socketService
@@ -139,11 +143,23 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
         if (!this.classRoomId) {
             return;
         }
+
         this.loading = true;
         this.service.getClass(this.classRoomId).subscribe({
             next: classRoom => {
                 this.loading = false;
                 this.classRoom = classRoom;
+
+                const payment = classRoom.classStudents
+                    ?.find(cs => cs.studentId === this.app.user!.id)
+                    ?.classPayments?.find(cp => cp.payment && isThisMonth(cp.payment!.fromDate))?.payment;
+                this.classRoom.isPaid = payment ? payment.status === PaymentStatus.PAID : undefined;
+
+                console.log(payment);
+                if (!this.classRoom.isPaid) {
+                    this.listenToPayment();
+                }
+
                 this.setNextOccurrence();
                 this.interval = setInterval(() => {
                     this.setNextOccurrence();
@@ -163,6 +179,15 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
                 this.loading = false;
                 this.app.error(err.error?.message ?? "Something went wrong!");
             },
+        });
+    }
+
+    listenToPayment(): void {
+        const paymentSub = this.socketService.onMessage(AppEvent.PAYMENT_OCCURRED)?.subscribe((res: PaymentOccurredMessage<ClassFeeMeta>) => {
+            if (res.meta.classRoomId === this.classRoom!.id && res.meta.studentId === this.app.user!.id) {
+                this.classRoom!.isPaid = res.status === PaymentStatus.PAID;
+                paymentSub?.unsubscribe();
+            }
         });
     }
 
@@ -197,26 +222,28 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
         }
     }
 
-    pay(): void {
-        const dialogRef = this.dialogService.payment<number, ClassFeeMeta>({
-            amount: this.classRoom!.payment * 100,
-            metadata: {
-                type: PaymentType.CLASS_FEE,
-                studentId: this.app.user!.id,
+    async pay(): Promise<void> {
+        try {
+            const className = `${this.classRoom!.grade!.name} ${this.classRoom!.subject!.name} ${this.classRoom!.name ? this.classRoom!.name : ""}`;
+            const paymentMeta: PaymentData<ClassFeeMeta> = {
+                item: className,
                 amount: this.classRoom!.payment,
-                classRoomId: this.classRoom!.id,
-                fromDate: moment().startOf("month").format("YYYY-MM-DD"),
-                toDate: moment().endOf("month").format("YYYY-MM-DD"),
-            },
-        });
-        // noinspection JSUnusedLocalSymbols
-        dialogRef.subscribe(transactionId => {
-            // if (transactionId) {
-            //     console.log(transactionId);
-            //     this.classRoom!.isPaid = true; // TODO: use websocket to update this
-            // }
-            // this.classRoom!.isPaid = true;
-        });
+                user: this.app.user!,
+                metadata: {
+                    type: PaymentType.CLASS_FEE,
+                    amount: this.classRoom!.payment,
+                    studentId: this.app.user!.id,
+                    classRoomId: this.classRoom!.id,
+                    classStudentId: this.classRoom!.classStudents!.find(cs => cs.studentId === this.app.user!.id)!.id,
+                    fromDate: moment().startOf("month").format("YYYY-MM-DD"),
+                    toDate: moment().endOf("month").format("YYYY-MM-DD"),
+                },
+            };
+
+            await this.paymentService.pay(paymentMeta);
+        } catch (err: any) {
+            this.app.error(err.error?.message ?? "Something went wrong!");
+        }
     }
 
     showUpdateClassDialog(): void {
@@ -284,15 +311,15 @@ export class ClassInfoComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy(): void {
-        this.socketSub?.unsubscribe();
-    }
-
     getMarks(assessment: Assessment): number {
         return (
             assessment.submission?.answers?.filter(ans =>
                 assessment?.quizzes?.find(q => q.id === ans.id)?.answer?.every(qAns => ans.answer?.includes(qAns)),
             ).length ?? 0
         );
+    }
+
+    ngOnDestroy(): void {
+        this.socketSub?.unsubscribe();
     }
 }

@@ -17,4 +17,5 @@ export enum AppEvent {
     NOTIFICATION_CREATED = "notification.created",
     NOTIFICATION_READ = "notification.read",
     NOTIFICATION_DELETE = "notification.delete",
+    PAYMENT_OCCURRED = "payment.occurred",
 }

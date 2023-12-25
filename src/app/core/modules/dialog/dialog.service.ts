@@ -5,7 +5,6 @@ import { AlertOptions, DialogButtons, DialogConfig } from "./interfaces";
 import { DialogLevel } from "./enums";
 import { AlertDialogComponent } from "./components";
 import { ComponentType } from "@angular/cdk/portal";
-import { PaymentDialogComponent } from "../shared/components/payment-dialog/payment-dialog.component";
 
 @Injectable({
     providedIn: "root",
@@ -29,19 +28,6 @@ export class DialogService {
 
     public confirm(message: string, buttons?: DialogButtons, level: DialogLevel = DialogLevel.WARNING): Observable<boolean> {
         return this.alert({ title: "Confirm", message, level, confirm: true, buttons });
-    }
-
-    // TODO:
-    // public payment<R, D = any>(stripePayment: StripePayment<D>): Observable<R | undefined> {
-    public payment<R, D = any>(payment: any): Observable<R | undefined> {
-        const dialogRef = this.dialog.open(PaymentDialogComponent, {
-            data: { data: payment },
-            width: "400px",
-            disableClose: true,
-            panelClass: ["dialog-container", "primary"],
-            maxWidth: "400px",
-        });
-        return dialogRef.afterClosed();
     }
 
     public open<R, D = any, T = any>(component: ComponentType<T>, config?: MatDialogConfig<DialogConfig<D>>): Observable<R | undefined> {

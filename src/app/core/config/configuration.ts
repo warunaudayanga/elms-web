@@ -6,6 +6,15 @@ const configurations = (env: any) => {
         host: env?.host || "",
         apiUrl: `${env?.host || ""}/api`,
         socketUrl: `${env?.host || ""}/socket`,
+        payhere: {
+            sandbox: env?.payhere?.sandbox || false,
+            currency: env?.payhere?.currency || "LKR",
+            merchantId: env?.payhere?.merchantId || "",
+            notifyUrl: env?.payhere?.notifyUrl || "",
+            returnUrl: env?.payhere?.returnUrl || "",
+            cancelUrl: env?.payhere?.cancelUrl || "",
+            country: env?.payhere?.country || "Sri Lanka",
+        },
         zoom: {
             authorizeUrl: env?.zoom?.authorizeUrl || "",
             clientId: env?.zoom?.clientId || "",

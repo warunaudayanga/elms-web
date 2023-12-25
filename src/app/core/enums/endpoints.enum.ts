@@ -14,4 +14,5 @@ export enum Endpoint {
     CLASSES = "classes",
     ASSESSMENT = "assessment",
     ASSESSMENT_SUBMISSION = "assessment-submission",
+    PAYMENT = "payment",
 }

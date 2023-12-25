@@ -9,7 +9,6 @@ import { ClassCardComponent } from "../../../system/shared/components/class-card
 import { NgControlModule } from "../ng-control";
 import { PipeModule } from "../pipe/pipe.module";
 import { MyClassCardComponent } from "../../../system/shared/components/my-class-card/my-class-card.component";
-import { PaymentDialogComponent } from "./components/payment-dialog/payment-dialog.component";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatDividerModule } from "@angular/material/divider";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -28,7 +27,6 @@ import { QzListComponent } from "../../../system/shared/components/assessment/qz
         SlideComponent,
         ClassCardComponent,
         MyClassCardComponent,
-        PaymentDialogComponent,
         ChatRoomComponent,
         AssessmentComponent,
         QzComponent,

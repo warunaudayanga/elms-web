@@ -6,11 +6,12 @@ import { ClassSubject } from "./subject.interface";
 import { ChatRoom } from "./chat-room.interface";
 import { ClassStudent } from "./class-student.interface";
 import { Assessment } from "./assessment.interface";
+import { ClassPayment } from "./class-payment.interface";
 
 export interface ClassRoom extends BaseEntity {
     name: string;
     description?: string;
-    payment: number;
+    payment: string;
     changeRequest?: null | Omit<Partial<ClassRoom>, "changeRequest" | keyof BaseEntity>;
     gradeId: number;
     subjectId: number;
@@ -21,6 +22,7 @@ export interface ClassRoom extends BaseEntity {
     tutor?: User;
     schedule?: ClassSchedule;
     classStudents?: ClassStudent[];
+    classPayments?: ClassPayment[];
     chatRoom?: ChatRoom;
     assessments?: Assessment[];
     isPaid?: boolean;

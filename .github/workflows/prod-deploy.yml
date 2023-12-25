@@ -1,54 +1,54 @@
-on:
- push:
-  branches:
-   - master
-
- workflow_dispatch:
-
-jobs:
-
- build:
-
-  runs-on: ubuntu-latest
-
-  steps:
-   - uses: actions/checkout@v3
-   - uses: actions/setup-node@v3
-     with:
-      node-version: '16'
-
-   - run: npm install --legacy-peer-deps
-   - run: npm run build
-
-   - name: Delete old directory
-     uses: garygrossgarten/github-action-ssh@release
-     with:
-      host: ${{ secrets.HOST }}
-      username: ${{ secrets.USERNAME }}
-      password: ${{ secrets.PASSWORD }}
-      command: rm -rf /var/www/env/prod/elms/elms-web
-
-   - name: Create directory
-     uses: garygrossgarten/github-action-ssh@release
-     with:
-      host: ${{ secrets.HOST }}
-      username: ${{ secrets.USERNAME }}
-      password: ${{ secrets.PASSWORD }}
-      command: mkdir -p /var/www/env/prod/elms/elms-web
-
-   - name: Copy source to production environment
-     uses: appleboy/scp-action@master
-     with:
-      host: ${{ secrets.HOST }}
-      username: ${{ secrets.USERNAME }}
-      password: ${{ secrets.PASSWORD }}
-      source: dist/*
-      target: /var/www/env/prod/elms/elms-web
-
-   - name: Copy env.json if exists
-     uses: garygrossgarten/github-action-ssh@release
-     with:
-      host: ${{ secrets.HOST }}
-      username: ${{ secrets.USERNAME }}
-      password: ${{ secrets.PASSWORD }}
-      command: cp /var/www/env/prod/elms/elms-env.json /var/www/env/prod/elms/elms-web/dist/env.json
+#on:
+# push:
+#  branches:
+#   - master
+#
+# workflow_dispatch:
+#
+#jobs:
+#
+# build:
+#
+#  runs-on: ubuntu-latest
+#
+#  steps:
+#   - uses: actions/checkout@v3
+#   - uses: actions/setup-node@v3
+#     with:
+#      node-version: '16'
+#
+#   - run: npm install --legacy-peer-deps
+#   - run: npm run build
+#
+#   - name: Delete old directory
+#     uses: garygrossgarten/github-action-ssh@release
+#     with:
+#      host: ${{ secrets.HOST }}
+#      username: ${{ secrets.USERNAME }}
+#      password: ${{ secrets.PASSWORD }}
+#      command: rm -rf /var/www/env/prod/elms/elms-web
+#
+#   - name: Create directory
+#     uses: garygrossgarten/github-action-ssh@release
+#     with:
+#      host: ${{ secrets.HOST }}
+#      username: ${{ secrets.USERNAME }}
+#      password: ${{ secrets.PASSWORD }}
+#      command: mkdir -p /var/www/env/prod/elms/elms-web
+#
+#   - name: Copy source to production environment
+#     uses: appleboy/scp-action@master
+#     with:
+#      host: ${{ secrets.HOST }}
+#      username: ${{ secrets.USERNAME }}
+#      password: ${{ secrets.PASSWORD }}
+#      source: dist/*
+#      target: /var/www/env/prod/elms/elms-web
+#
+#   - name: Copy env.json if exists
+#     uses: garygrossgarten/github-action-ssh@release
+#     with:
+#      host: ${{ secrets.HOST }}
+#      username: ${{ secrets.USERNAME }}
+#      password: ${{ secrets.PASSWORD }}
+#      command: cp /var/www/env/prod/elms/elms-env.json /var/www/env/prod/elms/elms-web/dist/env.json
