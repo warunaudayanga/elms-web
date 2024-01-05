@@ -1,5 +1,5 @@
 <div class="custom-dialog">
-    <div class="dialog-header" mat-dialog-title>Create Tutor</div>
+    <div class="dialog-header" mat-dialog-title>{{ tutor ? 'Update' : 'Create' }} Tutor</div>
     <mat-dialog-content>
         <form #form [formGroup]="tutorForm!" (ngSubmit)="saveTutor()">
             <ng-input label="Username" size="sm" formControlName="username"></ng-input>
@@ -18,7 +18,7 @@
     <mat-divider></mat-divider>
     <mat-dialog-actions>
         <ng-button class="ms-auto" styleClass="btn-secondary" label="Cancel" size="sm" (onClick)="close()"></ng-button>
-        <ng-button styleClass="btn-app-primary" label="Create" size="sm" [spin]="loading"
+        <ng-button styleClass="btn-app-primary" [label]="tutor ? 'Update' : 'Create'" size="sm" [spin]="loading"
                    loadingText="Please wait..."
                    (onClick)="form.requestSubmit()"></ng-button>
     </mat-dialog-actions>

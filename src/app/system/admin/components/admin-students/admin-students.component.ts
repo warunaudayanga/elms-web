@@ -99,4 +99,32 @@ export class AdminStudentsComponent implements OnInit {
             },
         });
     }
+
+    confirmDelete(id: number): void {
+        const confirmation = this.dialogService.confirm("Are you sure you want to delete this student?", {
+            ok: "Delete",
+        });
+        confirmation.subscribe(confirm => {
+            if (confirm) {
+                this.delete(id);
+            }
+        });
+    }
+
+    private delete(id: number): void {
+        this.loading = true;
+        this.error = false;
+        this.userService.delete(id).subscribe({
+            next: () => {
+                this.loading = false;
+                this.app.success("Student deleted successfully!");
+                this.getStudents();
+            },
+            error: err => {
+                this.loading = false;
+                this.error = true;
+                this.app.error(err.error?.message ?? "Something went wrong!");
+            },
+        });
+    }
 }

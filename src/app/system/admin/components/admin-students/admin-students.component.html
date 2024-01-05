@@ -14,8 +14,11 @@
 
         <!--suppress JSUnusedGlobalSymbols -->
         <ng-template let-student let-i="index" #item>
-            <app-admin-student-card [student]="student"
-                                  (onChangeStatus)="changeStatusPrompt($event)"></app-admin-student-card>
+            <app-admin-student-card
+                [student]="student"
+                (onChangeStatus)="changeStatusPrompt($event)"
+                (onDelete)="confirmDelete($event)"
+            ></app-admin-student-card>
         </ng-template>
 
     </ng-data-view>

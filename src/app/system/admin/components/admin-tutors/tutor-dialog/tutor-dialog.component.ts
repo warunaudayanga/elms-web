@@ -19,6 +19,8 @@ import { TutorDto } from "../../../dtos/tutor.dto";
 export class TutorDialogComponent implements OnInit {
     tutorForm: FormGroup;
 
+    tutor?: User;
+
     areas: Area[] = [];
 
     loading: boolean = false;
@@ -33,17 +35,18 @@ export class TutorDialogComponent implements OnInit {
         private readonly userService: UserService,
         private readonly commonService: CommonService,
     ) {
+        this.tutor = config.data;
         this.tutorForm = this.fb.group({
-            username: [config.data?.username ?? "", Validators.required],
-            password: [config.data ? "password" : "", Validators.required],
-            firstName: [config.data?.firstName ?? "", Validators.required],
-            lastName: [config.data?.lastName ?? "", Validators.required],
-            email: [config.data?.email ?? "", [Validators.required, Validators.email]],
-            dob: [config.data?.dob ? ymdToDate(config.data?.dob) : null, Validators.required],
-            phone: [config.data?.phone ?? "", Validators.required],
-            areaId: [config.data?.areaId ?? null, Validators.required],
-            address: [config.data?.address ?? "", Validators.required],
-            school: [config.data?.school ?? "", Validators.required],
+            username: [this.tutor?.username ?? "", Validators.required],
+            password: [this.tutor ? "password" : "", Validators.required],
+            firstName: [this.tutor?.firstName ?? "", Validators.required],
+            lastName: [this.tutor?.lastName ?? "", Validators.required],
+            email: [this.tutor?.email ?? "", [Validators.required, Validators.email]],
+            dob: [this.tutor?.dob ? ymdToDate(this.tutor?.dob) : null, Validators.required],
+            phone: [this.tutor?.phone ?? "", Validators.required],
+            areaId: [this.tutor?.areaId ?? null, Validators.required],
+            address: [this.tutor?.address ?? "", Validators.required],
+            school: [this.tutor?.school ?? "", Validators.required],
         });
     }
 
@@ -72,10 +75,10 @@ export class TutorDialogComponent implements OnInit {
         }
         this.loading = true;
         const tutorDto: TutorDto = this.tutorForm.value;
-        if (this.config.data) {
+        if (this.tutor) {
             tutorDto.password = undefined;
         }
-        this.userService.createTutor(tutorDto).subscribe({
+        (this.tutor ? this.userService.updateTutor(this.tutor.id, tutorDto) : this.userService.createTutor(tutorDto)).subscribe({
             next: tutor => {
                 this.loading = false;
                 this.app.success("Class created successfully.");

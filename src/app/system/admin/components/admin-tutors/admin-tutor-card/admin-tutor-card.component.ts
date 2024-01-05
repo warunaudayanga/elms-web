@@ -13,6 +13,8 @@ export class AdminTutorCardComponent {
 
     @Output() onEdit: EventEmitter<User> = new EventEmitter<User>();
 
+    @Output() onDelete: EventEmitter<number> = new EventEmitter<number>();
+
     @Output() onChangeStatus: EventEmitter<{ id: number; status: Status }> = new EventEmitter<{
         id: number;
         status: Status;

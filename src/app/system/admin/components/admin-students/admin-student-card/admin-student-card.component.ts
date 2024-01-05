@@ -11,6 +11,8 @@ export class AdminStudentCardComponent {
 
     @Output() onClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
+    @Output() onDelete: EventEmitter<number> = new EventEmitter<number>();
+
     @Output() onChangeStatus: EventEmitter<{ id: number; status: Status }> = new EventEmitter<{
         id: number;
         status: Status;

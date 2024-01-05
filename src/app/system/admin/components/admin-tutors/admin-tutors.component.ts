@@ -101,7 +101,7 @@ export class AdminTutorsComponent implements OnInit {
         });
     }
 
-    createTutorDialog(tutor?: User): void {
+    tutorDialog(tutor?: User): void {
         const res = this.dialogService.open<User, User>(TutorDialogComponent, {
             data: {
                 data: tutor,
@@ -111,10 +111,41 @@ export class AdminTutorsComponent implements OnInit {
             panelClass: ["dialog-container", "primary"],
             maxWidth: "400px",
         });
-        res.subscribe(user => {
-            if (user) {
-                this.tutors.push(user);
+        res.subscribe(tutor => {
+            if (tutor) {
+                if (this.tutors.find(t => t.id === tutor.id)) {
+                    this.tutors = this.tutors.map(t => (t.id === tutor.id ? tutor : t));
+                } else {
+                    this.getTutors();
+                }
             }
+        });
+    }
+
+    confirmDelete(id: number): void {
+        const confirmation = this.dialogService.confirm("Are you sure you want to delete this tutor?", {
+            ok: "Delete",
+        });
+        confirmation.subscribe(confirm => {
+            if (confirm) {
+                this.deleteTutor(id);
+            }
+        });
+    }
+
+    private deleteTutor(id: number): void {
+        this.loading = true;
+        this.error = false;
+        this.userService.deleteTutor(id).subscribe({
+            next: () => {
+                this.app.success("Tutor deleted successfully!");
+                this.getTutors();
+            },
+            error: err => {
+                this.loading = false;
+                this.error = true;
+                this.app.error(err.error?.message ?? "Something went wrong!");
+            },
         });
     }
 }

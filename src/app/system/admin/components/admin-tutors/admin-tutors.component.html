@@ -7,7 +7,7 @@
             <div class="header d-flex align-items-start justify-content-between pb-3">
                 <div class="">Tutors</div>
                 <div class="d-flex justify-content-end">
-                    <ng-button size="sm" styleClass="btn-app-primary" (onClick)="createTutorDialog()">
+                    <ng-button size="sm" styleClass="btn-app-primary" (onClick)="tutorDialog()">
                         <i class="bi bi-plus"></i> Create Tutor
                     </ng-button>
                 </div>
@@ -16,8 +16,12 @@
 
         <!--suppress JSUnusedGlobalSymbols -->
         <ng-template let-tutor let-i="index" #item>
-            <app-admin-tutor-card [tutor]="tutor"
-                                  (onChangeStatus)="changeStatusPrompt($event)" (onEdit)="createTutorDialog($event)"></app-admin-tutor-card>
+            <app-admin-tutor-card
+                [tutor]="tutor"
+                (onChangeStatus)="changeStatusPrompt($event)"
+                (onEdit)="tutorDialog($event)"
+                (onDelete)="confirmDelete($event)"
+            ></app-admin-tutor-card>
         </ng-template>
 
     </ng-data-view>

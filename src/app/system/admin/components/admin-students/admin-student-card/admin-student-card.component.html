@@ -21,5 +21,6 @@
                    styleClass="btn-app-primary" (onClick)="changeStatus(student.id, Status.ACTIVE)"></ng-button>
         <ng-button class="btn-status" *ngIf="student.status === Status.ACTIVE" size="sm" label="Deactivate"
                    styleClass="btn-app-dark" (onClick)="changeStatus(student.id, Status.INACTIVE)"></ng-button>
+        <ng-button size="sm" label="Delete" styleClass="btn-app-danger" (onClick)="onDelete.emit(student.id)"></ng-button>
     </div>
 </div>
