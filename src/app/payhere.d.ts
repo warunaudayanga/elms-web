@@ -1,4 +1,4 @@
-declare interface PayherePayment {
+declare interface PayHerePayment {
     sandbox: boolean;
     merchant_id: string;
     notify_url: string;
@@ -23,19 +23,19 @@ declare interface PayherePayment {
     custom_2?: string;
 }
 
-declare interface Payhere {
+declare interface PayHere {
     onCompleted: (orderId: string) => void;
     onDismissed: () => void;
     onError: (error: any) => void;
     orderKey: string | null;
-    startPayment: (payment: PayherePayment) => void;
+    startPayment: (payment: PayHerePayment) => void;
 }
 
 declare global {
     // noinspection JSUnusedGlobalSymbols
     interface Window {
-        payhere: Payhere;
+        payhere: PayHere;
     }
 }
 
-export { Payhere, PayherePayment };
+export { PayHere, PayHerePayment };

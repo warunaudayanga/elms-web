@@ -9,8 +9,7 @@ import { HashResponse } from "../../interfaces/payhere.interfaces";
 import { PayhereService } from "./payhere.service";
 import { v4 as uuid } from "uuid";
 import configuration from "../../config/configuration";
-import { PayherePayment } from "../../../payhere";
-import { PayherePaymentStatus } from "../../enums/payhere.enums";
+import { PayHerePayment } from "../../../payhere";
 import { PaymentData } from "../../interfaces/payment.interfaces";
 import { AppEvent } from "../../enums/app-event.enum";
 import { SocketService } from "../socket.service";
@@ -40,7 +39,7 @@ export class PaymentService extends EntityService<Payment> {
         try {
             const { hash } = await firstValueFrom(this.generateHash(order_id, amount, currency));
 
-            const payment: PayherePayment = {
+            const payment: PayHerePayment = {
                 sandbox: configuration().payhere.sandbox,
                 merchant_id: configuration().payhere.merchantId,
                 notify_url: configuration().payhere.notifyUrl,

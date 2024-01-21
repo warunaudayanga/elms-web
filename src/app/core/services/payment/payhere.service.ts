@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Payhere, PayherePayment } from "../../../payhere";
+import { PayHere, PayHerePayment } from "../../../payhere";
 import { ReplaySubject, Subject, takeUntil } from "rxjs";
 import { PayherePaymentStatus } from "../../enums/payhere.enums";
 import { PayherePaymentInfo } from "../../interfaces/payhere.interfaces";
@@ -8,7 +8,7 @@ import { PayherePaymentInfo } from "../../interfaces/payhere.interfaces";
     providedIn: "root",
 })
 export class PayhereService {
-    private payhere: Payhere;
+    private payhere: PayHere;
 
     private onCompletedSub: Subject<string> = new Subject<string>();
 
@@ -32,7 +32,7 @@ export class PayhereService {
         };
     }
 
-    pay(payment: PayherePayment): Promise<PayherePaymentInfo> {
+    pay(payment: PayHerePayment): Promise<PayherePaymentInfo> {
         const finished$: ReplaySubject<boolean> = new ReplaySubject(1);
         const finish = (): void => {
             finished$.next(true);
